@@ -1,0 +1,20 @@
+{
+  "ok": false,
+  "request_id": "fixture-invalid-request",
+  "contract_version": "1.0",
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "payload가 계약(SurveyDiagnosisRequestV1/PrescriptionRequestV1)과 일치하지 않습니다.",
+    "retryable": false,
+    "details": [
+      {
+        "loc": [
+          "answers",
+          "q19_anything"
+        ],
+        "msg": "Extra inputs are not permitted",
+        "type": "extra_forbidden"
+      }
+    ]
+  }
+}

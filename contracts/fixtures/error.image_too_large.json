@@ -1,0 +1,16 @@
+{
+  "ok": false,
+  "request_id": "fixture-image-too-large",
+  "contract_version": "1.0",
+  "error": {
+    "code": "IMAGE_TOO_LARGE",
+    "message": "product_image 이미지가 허용 용량을 초과했습니다.",
+    "retryable": false,
+    "details": [
+      {
+        "limit_bytes": 1250000,
+        "field": "product_image"
+      }
+    ]
+  }
+}

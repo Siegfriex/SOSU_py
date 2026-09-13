@@ -1,0 +1,15 @@
+{
+  "ok": false,
+  "request_id": "fixture-model-content-error",
+  "contract_version": "1.0",
+  "error": {
+    "code": "MODEL_CONTENT_ERROR",
+    "message": "모델이 사용 가능한 내용을 생성하지 못했습니다.",
+    "retryable": true,
+    "details": [
+      {
+        "finish_reason": "SAFETY"
+      }
+    ]
+  }
+}

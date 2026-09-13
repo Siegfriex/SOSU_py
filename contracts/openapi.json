@@ -1,0 +1,1250 @@
+{
+  "components": {
+    "schemas": {
+      "ApiError": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "details": {
+            "items": {},
+            "title": "Details",
+            "type": "array"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "retryable": {
+            "title": "Retryable",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "retryable"
+        ],
+        "title": "ApiError",
+        "type": "object"
+      },
+      "Body_diagnosis_api_v1_diagnosis_post": {
+        "properties": {
+          "payload": {
+            "description": "JSON string of SurveyDiagnosisRequestV1. Sent as a text form field, not a JSON body.",
+            "title": "Payload",
+            "type": "string"
+          },
+          "product_image": {
+            "anyOf": [
+              {
+                "contentMediaType": "application/octet-stream",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional product photo (0..1). image/jpeg, image/png, image/webp.",
+            "title": "Product Image"
+          }
+        },
+        "required": [
+          "payload"
+        ],
+        "title": "Body_diagnosis_api_v1_diagnosis_post",
+        "type": "object"
+      },
+      "Body_prescription_api_v1_prescription_post": {
+        "properties": {
+          "insight_images": {
+            "description": "Exactly 3 Instagram Insight screenshots (jpeg/png/webp).",
+            "items": {
+              "contentMediaType": "application/octet-stream",
+              "type": "string"
+            },
+            "title": "Insight Images",
+            "type": "array"
+          },
+          "payload": {
+            "description": "JSON string of PrescriptionRequestV1. Sent as a text form field, not a JSON body.",
+            "title": "Payload",
+            "type": "string"
+          }
+        },
+        "required": [
+          "payload",
+          "insight_images"
+        ],
+        "title": "Body_prescription_api_v1_prescription_post",
+        "type": "object"
+      },
+      "BrandAttribute": {
+        "description": "Q11 — attribute the brand wants to be perceived as (max 3).\n\nSame string vocabulary as DesiredEmotion but a distinct semantic namespace:\nQ10 is what the *customer feels*, Q11 is what the *brand is*. Never merge.",
+        "enum": [
+          "excitement",
+          "happiness",
+          "warmth",
+          "healing",
+          "fun",
+          "specialness",
+          "moved",
+          "comfort",
+          "other"
+        ],
+        "title": "BrandAttribute",
+        "type": "string"
+      },
+      "BrandSection": {
+        "properties": {
+          "keywords": {
+            "description": "브랜드를 요약하는 핵심 키워드 3~6개.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Keywords",
+            "type": "array"
+          },
+          "material": {
+            "description": "핵심 소재를 한 구절로.",
+            "title": "Material",
+            "type": "string"
+          },
+          "name": {
+            "description": "브랜드명. 미제공 시 제품/소재 기반의 서술적 명칭.",
+            "title": "Name",
+            "type": "string"
+          },
+          "product": {
+            "description": "대표 제품을 한 구절로.",
+            "title": "Product",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "material",
+          "product",
+          "keywords"
+        ],
+        "title": "BrandSection",
+        "type": "object"
+      },
+      "CreatorDisclosure": {
+        "description": "Q18 — whether the creator can appear (face) / narrate (voice). Single value.",
+        "enum": [
+          "yes",
+          "no",
+          "face_only",
+          "voice_only"
+        ],
+        "title": "CreatorDisclosure",
+        "type": "string"
+      },
+      "CurrentReelFormat": {
+        "description": "Q17 — formats currently being posted (max 3).",
+        "enum": [
+          "rarely_post",
+          "finished_product",
+          "process",
+          "photo_video_mix",
+          "trend_reels",
+          "vlog"
+        ],
+        "title": "CurrentReelFormat",
+        "type": "string"
+      },
+      "DesiredEmotion": {
+        "description": "Q10 — emotion the brand wants customers to feel (max 3).",
+        "enum": [
+          "excitement",
+          "happiness",
+          "warmth",
+          "healing",
+          "fun",
+          "specialness",
+          "moved",
+          "comfort",
+          "other"
+        ],
+        "title": "DesiredEmotion",
+        "type": "string"
+      },
+      "DiagnosisReportV1": {
+        "additionalProperties": false,
+        "properties": {
+          "brand": {
+            "$ref": "#/components/schemas/BrandSection"
+          },
+          "final_guidance": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Final Guidance",
+            "type": "array"
+          },
+          "fonts": {
+            "$ref": "#/components/schemas/FontSection"
+          },
+          "positioning": {
+            "$ref": "#/components/schemas/PositioningSection"
+          },
+          "priorities": {
+            "items": {
+              "$ref": "#/components/schemas/PriorityItem"
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "title": "Priorities",
+            "type": "array"
+          },
+          "reel_types": {
+            "items": {
+              "$ref": "#/components/schemas/ReelTypeItem"
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "title": "Reel Types",
+            "type": "array"
+          },
+          "schema_version": {
+            "const": "diagnosis.v1",
+            "default": "diagnosis.v1",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "strengths": {
+            "items": {
+              "$ref": "#/components/schemas/StrengthItem"
+            },
+            "minItems": 1,
+            "title": "Strengths",
+            "type": "array"
+          },
+          "structure": {
+            "$ref": "#/components/schemas/StructureSection"
+          },
+          "target": {
+            "$ref": "#/components/schemas/TargetSection"
+          },
+          "tone": {
+            "$ref": "#/components/schemas/ToneSection"
+          }
+        },
+        "required": [
+          "brand",
+          "positioning",
+          "strengths",
+          "target",
+          "tone",
+          "fonts",
+          "priorities",
+          "reel_types",
+          "structure",
+          "final_guidance"
+        ],
+        "title": "DiagnosisReportV1",
+        "type": "object"
+      },
+      "ErrorCode": {
+        "enum": [
+          "INVALID_REQUEST",
+          "INSUFFICIENT_INPUT",
+          "INVALID_IMAGE_TYPE",
+          "IMAGE_TOO_LARGE",
+          "INVALID_IMAGE_COUNT",
+          "INVALID_INSTAGRAM_URL",
+          "MODEL_TIMEOUT",
+          "MODEL_PROVIDER_ERROR",
+          "MODEL_SCHEMA_ERROR",
+          "MODEL_CONTENT_ERROR",
+          "REPAIR_FAILED",
+          "INTERNAL_ERROR"
+        ],
+        "title": "ErrorCode",
+        "type": "string"
+      },
+      "ErrorEnvelope": {
+        "properties": {
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "error": {
+            "$ref": "#/components/schemas/ApiError"
+          },
+          "ok": {
+            "const": false,
+            "default": false,
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "error"
+        ],
+        "title": "ErrorEnvelope",
+        "type": "object"
+      },
+      "FontSection": {
+        "properties": {
+          "reason": {
+            "description": "서체 선택 이유(톤/피해야 할 인상과 연결).",
+            "title": "Reason",
+            "type": "string"
+          },
+          "subtitle": {
+            "description": "본문/자막용 서체 방향.",
+            "title": "Subtitle",
+            "type": "string"
+          },
+          "title": {
+            "description": "제목용 서체 방향(예: 굵은 산세리프, 손글씨 계열).",
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "subtitle",
+          "reason"
+        ],
+        "title": "FontSection",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "gemini_configured": {
+            "title": "Gemini Configured",
+            "type": "boolean"
+          },
+          "service": {
+            "const": "sosu-ai",
+            "default": "sosu-ai",
+            "title": "Service",
+            "type": "string"
+          },
+          "status": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "gemini_configured"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "InstagramPainPoint": {
+        "description": "Q16 — current Instagram difficulty (max 3).",
+        "enum": [
+          "low_reach",
+          "low_follower_growth",
+          "ideation",
+          "shooting_difficulty",
+          "editing_difficulty",
+          "consistency_difficulty",
+          "low_conversion",
+          "other"
+        ],
+        "title": "InstagramPainPoint",
+        "type": "string"
+      },
+      "NextActionItem": {
+        "properties": {
+          "description": {
+            "description": "구체적인 실행 방법.",
+            "title": "Description",
+            "type": "string"
+          },
+          "order": {
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "title": "Order",
+            "type": "integer"
+          },
+          "title": {
+            "description": "다음 액션 제목.",
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "order",
+          "title",
+          "description"
+        ],
+        "title": "NextActionItem",
+        "type": "object"
+      },
+      "PositioningSection": {
+        "properties": {
+          "rationale": {
+            "description": "포지셔닝 근거. 설문 답변과 관찰 근거를 인용.",
+            "title": "Rationale",
+            "type": "string"
+          },
+          "summary": {
+            "description": "브랜드 포지셔닝 한 문장.",
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary",
+          "rationale"
+        ],
+        "title": "PositioningSection",
+        "type": "object"
+      },
+      "PrescriptionBody": {
+        "properties": {
+          "diagnosis": {
+            "description": "스크린샷에서 관찰된 지표 근거의 진단. 읽을 수 없는 값은 추정하지 않음.",
+            "title": "Diagnosis",
+            "type": "string"
+          },
+          "summary": {
+            "description": "처방 요약 한두 문장.",
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary",
+          "diagnosis"
+        ],
+        "title": "PrescriptionBody",
+        "type": "object"
+      },
+      "PrescriptionReportV1": {
+        "additionalProperties": false,
+        "properties": {
+          "next_actions": {
+            "items": {
+              "$ref": "#/components/schemas/NextActionItem"
+            },
+            "maxItems": 4,
+            "minItems": 4,
+            "title": "Next Actions",
+            "type": "array"
+          },
+          "prescription": {
+            "$ref": "#/components/schemas/PrescriptionBody"
+          },
+          "schema_version": {
+            "const": "prescription.v1",
+            "default": "prescription.v1",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "tone": {
+            "$ref": "#/components/schemas/PrescriptionToneSection"
+          }
+        },
+        "required": [
+          "prescription",
+          "next_actions",
+          "tone"
+        ],
+        "title": "PrescriptionReportV1",
+        "type": "object"
+      },
+      "PrescriptionRequestV1": {
+        "additionalProperties": false,
+        "properties": {
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "instagram_url": {
+            "description": "Individual Instagram Reel URL (https://www.instagram.com/reel/<shortcode>/). Contextual identifier only — never crawled in v1. /p/ post URLs are rejected.",
+            "maxLength": 512,
+            "title": "Instagram Url",
+            "type": "string"
+          },
+          "locale": {
+            "default": "ko-KR",
+            "maxLength": 16,
+            "title": "Locale",
+            "type": "string"
+          }
+        },
+        "required": [
+          "instagram_url"
+        ],
+        "title": "PrescriptionRequestV1",
+        "type": "object"
+      },
+      "PrescriptionToneSection": {
+        "properties": {
+          "description": {
+            "description": "다음 릴스에서 유지/변경할 톤 설명.",
+            "title": "Description",
+            "type": "string"
+          },
+          "keywords": {
+            "description": "권장 톤 키워드 3~5개.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Keywords",
+            "type": "array"
+          }
+        },
+        "required": [
+          "keywords",
+          "description"
+        ],
+        "title": "PrescriptionToneSection",
+        "type": "object"
+      },
+      "PriorityItem": {
+        "properties": {
+          "description": {
+            "description": "왜 지금 이것부터인지와 실행 방법.",
+            "title": "Description",
+            "type": "string"
+          },
+          "rank": {
+            "enum": [
+              1,
+              2,
+              3
+            ],
+            "title": "Rank",
+            "type": "integer"
+          },
+          "title": {
+            "description": "우선순위 항목 제목.",
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "rank",
+          "title",
+          "description"
+        ],
+        "title": "PriorityItem",
+        "type": "object"
+      },
+      "ProductAppeal": {
+        "description": "Q6 — what makes the product appealing (max 3).",
+        "enum": [
+          "design",
+          "color",
+          "detail",
+          "texture",
+          "material",
+          "process",
+          "story",
+          "rarity",
+          "other"
+        ],
+        "title": "ProductAppeal",
+        "type": "string"
+      },
+      "PurchaseMotive": {
+        "description": "Q9 — why customers buy (max 3).",
+        "enum": [
+          "aesthetic",
+          "specialness",
+          "self_reward",
+          "gift",
+          "memories",
+          "space_decor",
+          "self_expression"
+        ],
+        "title": "PurchaseMotive",
+        "type": "string"
+      },
+      "ReelTypeItem": {
+        "properties": {
+          "name": {
+            "description": "추천 릴스 유형 이름.",
+            "title": "Name",
+            "type": "string"
+          },
+          "reason": {
+            "description": "이 브랜드에 이 유형이 맞는 이유. 제작자 노출 제약을 준수.",
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "reason"
+        ],
+        "title": "ReelTypeItem",
+        "type": "object"
+      },
+      "StrengthItem": {
+        "properties": {
+          "description": {
+            "description": "강점 설명과 릴스에서 보여주는 방법.",
+            "title": "Description",
+            "type": "string"
+          },
+          "title": {
+            "description": "강점 제목(짧게).",
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "description"
+        ],
+        "title": "StrengthItem",
+        "type": "object"
+      },
+      "StructureSection": {
+        "properties": {
+          "body_10_20": {
+            "description": "10~20초 전개.",
+            "title": "Body 10 20",
+            "type": "string"
+          },
+          "body_3_10": {
+            "description": "3~10초 전개.",
+            "title": "Body 3 10",
+            "type": "string"
+          },
+          "close_20_27": {
+            "description": "20~27초 마무리.",
+            "title": "Close 20 27",
+            "type": "string"
+          },
+          "cta_27_30": {
+            "description": "27~30초 CTA.",
+            "title": "Cta 27 30",
+            "type": "string"
+          },
+          "hook_0_3": {
+            "description": "0~3초 훅.",
+            "title": "Hook 0 3",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hook_0_3",
+          "body_3_10",
+          "body_10_20",
+          "close_20_27",
+          "cta_27_30"
+        ],
+        "title": "StructureSection",
+        "type": "object"
+      },
+      "SuccessEnvelope_DiagnosisReportV1_": {
+        "properties": {
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DiagnosisReportV1"
+          },
+          "ok": {
+            "const": true,
+            "default": true,
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "title": "SuccessEnvelope[DiagnosisReportV1]",
+        "type": "object"
+      },
+      "SuccessEnvelope_PrescriptionReportV1_": {
+        "properties": {
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PrescriptionReportV1"
+          },
+          "ok": {
+            "const": true,
+            "default": true,
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "title": "SuccessEnvelope[PrescriptionReportV1]",
+        "type": "object"
+      },
+      "SurveyAnswersV1": {
+        "additionalProperties": false,
+        "description": "Survey answers. Every field is optional (partial completion allowed).\n\n`extra=\"forbid\"` guarantees that unknown fields — in particular `q19_*` — are rejected.",
+        "properties": {
+          "q10_desired_emotions": {
+            "items": {
+              "$ref": "#/components/schemas/DesiredEmotion"
+            },
+            "maxItems": 3,
+            "title": "Q10 Desired Emotions",
+            "type": "array"
+          },
+          "q11_brand_attributes": {
+            "items": {
+              "$ref": "#/components/schemas/BrandAttribute"
+            },
+            "maxItems": 3,
+            "title": "Q11 Brand Attributes",
+            "type": "array"
+          },
+          "q12_avoidance": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q12 Avoidance"
+          },
+          "q13_motif": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q13 Motif"
+          },
+          "q14_primary_message": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q14 Primary Message"
+          },
+          "q15_interesting_process": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q15 Interesting Process"
+          },
+          "q16_pain_points": {
+            "items": {
+              "$ref": "#/components/schemas/InstagramPainPoint"
+            },
+            "maxItems": 3,
+            "title": "Q16 Pain Points",
+            "type": "array"
+          },
+          "q17_current_formats": {
+            "items": {
+              "$ref": "#/components/schemas/CurrentReelFormat"
+            },
+            "maxItems": 3,
+            "title": "Q17 Current Formats",
+            "type": "array"
+          },
+          "q18_disclosure": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CreatorDisclosure"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "q1_brand_name": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q1 Brand Name"
+          },
+          "q20_must_show": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q20 Must Show"
+          },
+          "q2_product_category": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q2 Product Category"
+          },
+          "q3_hero_product": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q3 Hero Product"
+          },
+          "q4_materials": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q4 Materials"
+          },
+          "q5_material_reason": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q5 Material Reason"
+          },
+          "q6_product_appeals": {
+            "items": {
+              "$ref": "#/components/schemas/ProductAppeal"
+            },
+            "maxItems": 3,
+            "title": "Q6 Product Appeals",
+            "type": "array"
+          },
+          "q7_differentiation": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q7 Differentiation"
+          },
+          "q8_target_customer": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Q8 Target Customer"
+          },
+          "q9_purchase_motives": {
+            "items": {
+              "$ref": "#/components/schemas/PurchaseMotive"
+            },
+            "maxItems": 3,
+            "title": "Q9 Purchase Motives",
+            "type": "array"
+          }
+        },
+        "title": "SurveyAnswersV1",
+        "type": "object"
+      },
+      "SurveyDiagnosisRequestV1": {
+        "additionalProperties": false,
+        "properties": {
+          "answers": {
+            "$ref": "#/components/schemas/SurveyAnswersV1"
+          },
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "locale": {
+            "default": "ko-KR",
+            "maxLength": 16,
+            "title": "Locale",
+            "type": "string"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "SurveyDiagnosisRequestV1",
+        "type": "object"
+      },
+      "TargetSection": {
+        "properties": {
+          "description": {
+            "description": "타깃의 구매 동기와 감정적 니즈 설명.",
+            "title": "Description",
+            "type": "string"
+          },
+          "summary": {
+            "description": "핵심 타깃 한 문장.",
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary",
+          "description"
+        ],
+        "title": "TargetSection",
+        "type": "object"
+      },
+      "ToneSection": {
+        "properties": {
+          "description": {
+            "description": "영상 분위기/색감/속도감 등 톤 설명.",
+            "title": "Description",
+            "type": "string"
+          },
+          "keywords": {
+            "description": "톤앤매너 키워드 3~5개.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Keywords",
+            "type": "array"
+          }
+        },
+        "required": [
+          "keywords",
+          "description"
+        ],
+        "title": "ToneSection",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Instagram Reels 진단/처방 AI 서비스. Public contract of record: contracts/openapi.json + contracts/fixtures/*.",
+    "title": "SOSU AI Service",
+    "version": "1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/diagnosis": {
+      "post": {
+        "operationId": "diagnosis_api_v1_diagnosis_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_diagnosis_api_v1_diagnosis_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope_DiagnosisReportV1_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "IMAGE_TOO_LARGE"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "INVALID_IMAGE_TYPE"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "INVALID_REQUEST | INSUFFICIENT_INPUT | INVALID_IMAGE_COUNT | INVALID_INSTAGRAM_URL"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "INTERNAL_ERROR"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "MODEL_PROVIDER_ERROR | MODEL_SCHEMA_ERROR | MODEL_CONTENT_ERROR | REPAIR_FAILED"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "MODEL_TIMEOUT"
+          }
+        },
+        "summary": "문진표 → 릴스 진단서",
+        "tags": [
+          "diagnosis"
+        ],
+        "x-multipart-fields": {
+          "payload": "SurveyDiagnosisRequestV1 (JSON string)",
+          "product_image": "optional file, 0..1, image/jpeg|png|webp, <= 1.25 MB"
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/api/v1/prescription": {
+      "post": {
+        "operationId": "prescription_api_v1_prescription_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_prescription_api_v1_prescription_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope_PrescriptionReportV1_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "IMAGE_TOO_LARGE"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "INVALID_IMAGE_TYPE"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "INVALID_REQUEST | INSUFFICIENT_INPUT | INVALID_IMAGE_COUNT | INVALID_INSTAGRAM_URL"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "INTERNAL_ERROR"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "MODEL_PROVIDER_ERROR | MODEL_SCHEMA_ERROR | MODEL_CONTENT_ERROR | REPAIR_FAILED"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "MODEL_TIMEOUT"
+          }
+        },
+        "summary": "릴스 URL + Insight 스크린샷 3장 → 릴스 처방전",
+        "tags": [
+          "prescription"
+        ],
+        "x-multipart-fields": {
+          "insight_images": "exactly 3 files, image/jpeg|png|webp, each <= 900 KB, combined <= 2.7 MB",
+          "payload": "PrescriptionRequestV1 (JSON string)"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Health / readiness.",
+      "name": "system"
+    },
+    {
+      "description": "Workflow A — 문진표 → DiagnosisReportV1.",
+      "name": "diagnosis"
+    },
+    {
+      "description": "Workflow B — Insight 스크린샷 → PrescriptionReportV1.",
+      "name": "prescription"
+    }
+  ],
+  "x-payload-models": {
+    "/api/v1/diagnosis": "#/components/schemas/SurveyDiagnosisRequestV1",
+    "/api/v1/prescription": "#/components/schemas/PrescriptionRequestV1"
+  }
+}

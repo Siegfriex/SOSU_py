@@ -1,0 +1,18 @@
+{
+  "ok": false,
+  "request_id": "fixture-invalid-instagram-url",
+  "contract_version": "1.0",
+  "error": {
+    "code": "INVALID_INSTAGRAM_URL",
+    "message": "Instagram Reel URL 형식이 아닙니다.",
+    "retryable": false,
+    "details": [
+      {
+        "loc": [
+          "payload",
+          "instagram_url"
+        ]
+      }
+    ]
+  }
+}

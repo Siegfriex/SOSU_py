@@ -1,0 +1,13 @@
+{
+  "ok": false,
+  "request_id": "fixture-repair-failed",
+  "contract_version": "1.0",
+  "error": {
+    "code": "REPAIR_FAILED",
+    "message": "생성 결과가 검증을 통과하지 못했고 1회 보정 후에도 실패했습니다.",
+    "retryable": true,
+    "details": [
+      "reel_types[1].reason violates creator constraint: voice not allowed"
+    ]
+  }
+}

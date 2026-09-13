@@ -1,0 +1,16 @@
+{
+  "ok": false,
+  "request_id": "fixture-invalid-image-count",
+  "contract_version": "1.0",
+  "error": {
+    "code": "INVALID_IMAGE_COUNT",
+    "message": "Insight 스크린샷은 정확히 3장이어야 합니다.",
+    "retryable": false,
+    "details": [
+      {
+        "expected": 3,
+        "actual": 2
+      }
+    ]
+  }
+}

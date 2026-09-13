@@ -1,0 +1,43 @@
+{
+  "contract_version": "1.0",
+  "locale": "ko-KR",
+  "answers": {
+    "q1_brand_name": "모노유리",
+    "q2_product_category": "유리 비즈로 만드는 키링과 작은 오브제",
+    "q3_hero_product": "빛을 받으면 색이 달라 보이는 유리 키링",
+    "q4_materials": "체코 유리비즈, 스테인리스",
+    "q5_material_reason": "빛에 따라 표정이 달라져서",
+    "q6_product_appeals": [
+      "design",
+      "detail",
+      "rarity"
+    ],
+    "q7_differentiation": "같은 색 조합으로 대량 제작하지 않고 매번 조금씩 다르게 만듭니다.",
+    "q8_target_customer": "흔한 캐릭터 제품보다 조금 독특한 소품을 좋아하는 20~30대",
+    "q9_purchase_motives": [
+      "aesthetic",
+      "self_expression"
+    ],
+    "q10_desired_emotions": [
+      "excitement",
+      "specialness"
+    ],
+    "q11_brand_attributes": [
+      "warmth",
+      "specialness"
+    ],
+    "q12_avoidance": "너무 유아적이거나 값싸 보이는 느낌",
+    "q13_motif": "별빛, 물결",
+    "q14_primary_message": "빛을 받았을 때 유리가 반짝이는 것",
+    "q15_interesting_process": "색 조합을 고르고 하나씩 연결하는 과정",
+    "q16_pain_points": [
+      "low_reach",
+      "ideation"
+    ],
+    "q17_current_formats": [
+      "finished_product"
+    ],
+    "q18_disclosure": "face_only",
+    "q20_must_show": "포장하기 전에 햇빛에 비춰보는 장면"
+  }
+}

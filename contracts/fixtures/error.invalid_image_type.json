@@ -1,0 +1,20 @@
+{
+  "ok": false,
+  "request_id": "fixture-invalid-image-type",
+  "contract_version": "1.0",
+  "error": {
+    "code": "INVALID_IMAGE_TYPE",
+    "message": "지원하지 않는 이미지 형식입니다. image/jpeg, image/png, image/webp만 허용됩니다.",
+    "retryable": false,
+    "details": [
+      {
+        "content_type": "image/gif",
+        "accepted": [
+          "image/jpeg",
+          "image/png",
+          "image/webp"
+        ]
+      }
+    ]
+  }
+}

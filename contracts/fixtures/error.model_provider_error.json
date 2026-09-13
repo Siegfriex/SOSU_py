@@ -1,0 +1,11 @@
+{
+  "ok": false,
+  "request_id": "fixture-model-provider-error",
+  "contract_version": "1.0",
+  "error": {
+    "code": "MODEL_PROVIDER_ERROR",
+    "message": "모델 제공자 호출에 실패했습니다.",
+    "retryable": true,
+    "details": []
+  }
+}

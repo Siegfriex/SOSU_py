@@ -1,0 +1,296 @@
+{
+  "contract_version": "1.0",
+  "questions": {
+    "q6": {
+      "field": "q6_product_appeals",
+      "selection": "multiple",
+      "max_selection": 3,
+      "options": [
+        {
+          "label": "디자인",
+          "code": "design"
+        },
+        {
+          "label": "색감",
+          "code": "color"
+        },
+        {
+          "label": "디테일",
+          "code": "detail"
+        },
+        {
+          "label": "질감",
+          "code": "texture"
+        },
+        {
+          "label": "소재",
+          "code": "material"
+        },
+        {
+          "label": "제작 과정",
+          "code": "process"
+        },
+        {
+          "label": "스토리",
+          "code": "story"
+        },
+        {
+          "label": "희소성",
+          "code": "rarity"
+        },
+        {
+          "label": "기타",
+          "code": "other"
+        }
+      ]
+    },
+    "q9": {
+      "field": "q9_purchase_motives",
+      "selection": "multiple",
+      "max_selection": 3,
+      "options": [
+        {
+          "label": "예뻐서",
+          "code": "aesthetic"
+        },
+        {
+          "label": "특별해서",
+          "code": "specialness"
+        },
+        {
+          "label": "나를 위해",
+          "code": "self_reward"
+        },
+        {
+          "label": "선물하려고",
+          "code": "gift"
+        },
+        {
+          "label": "추억을 간직하려고",
+          "code": "memories"
+        },
+        {
+          "label": "공간을 꾸미려고",
+          "code": "space_decor"
+        },
+        {
+          "label": "나만의 것을 갖고 싶어서",
+          "code": "self_expression"
+        }
+      ]
+    },
+    "q10": {
+      "field": "q10_desired_emotions",
+      "selection": "multiple",
+      "max_selection": 3,
+      "options": [
+        {
+          "label": "설렘",
+          "code": "excitement"
+        },
+        {
+          "label": "행복",
+          "code": "happiness"
+        },
+        {
+          "label": "따뜻함",
+          "code": "warmth"
+        },
+        {
+          "label": "힐링",
+          "code": "healing"
+        },
+        {
+          "label": "재미",
+          "code": "fun"
+        },
+        {
+          "label": "특별함",
+          "code": "specialness"
+        },
+        {
+          "label": "감동",
+          "code": "moved"
+        },
+        {
+          "label": "위로",
+          "code": "comfort"
+        },
+        {
+          "label": "기타",
+          "code": "other"
+        }
+      ]
+    },
+    "q11": {
+      "field": "q11_brand_attributes",
+      "selection": "multiple",
+      "max_selection": 3,
+      "options": [
+        {
+          "label": "설렘",
+          "code": "excitement"
+        },
+        {
+          "label": "행복",
+          "code": "happiness"
+        },
+        {
+          "label": "따뜻함",
+          "code": "warmth"
+        },
+        {
+          "label": "힐링",
+          "code": "healing"
+        },
+        {
+          "label": "재미",
+          "code": "fun"
+        },
+        {
+          "label": "특별함",
+          "code": "specialness"
+        },
+        {
+          "label": "감동",
+          "code": "moved"
+        },
+        {
+          "label": "위로",
+          "code": "comfort"
+        },
+        {
+          "label": "기타",
+          "code": "other"
+        }
+      ]
+    },
+    "q16": {
+      "field": "q16_pain_points",
+      "selection": "multiple",
+      "max_selection": 3,
+      "options": [
+        {
+          "label": "조회수가 안 나와요",
+          "code": "low_reach"
+        },
+        {
+          "label": "팔로워가 안 늘어요",
+          "code": "low_follower_growth"
+        },
+        {
+          "label": "어떤 콘텐츠를 만들지 모르겠어요",
+          "code": "ideation"
+        },
+        {
+          "label": "촬영이 어려워요",
+          "code": "shooting_difficulty"
+        },
+        {
+          "label": "편집이 어려워요",
+          "code": "editing_difficulty"
+        },
+        {
+          "label": "꾸준히 올리기 어려워요",
+          "code": "consistency_difficulty"
+        },
+        {
+          "label": "구매로 연결되지 않아요",
+          "code": "low_conversion"
+        },
+        {
+          "label": "기타",
+          "code": "other"
+        }
+      ]
+    },
+    "q17": {
+      "field": "q17_current_formats",
+      "selection": "multiple",
+      "max_selection": 3,
+      "options": [
+        {
+          "label": "거의 안 올려요",
+          "code": "rarely_post"
+        },
+        {
+          "label": "완성품 위주",
+          "code": "finished_product"
+        },
+        {
+          "label": "제작 과정 위주",
+          "code": "process"
+        },
+        {
+          "label": "사진/영상 혼합",
+          "code": "photo_video_mix"
+        },
+        {
+          "label": "트렌드 릴스",
+          "code": "trend_reels"
+        },
+        {
+          "label": "브이로그",
+          "code": "vlog"
+        }
+      ]
+    },
+    "q18": {
+      "field": "q18_disclosure",
+      "selection": "single",
+      "max_selection": null,
+      "options": [
+        {
+          "label": "네",
+          "code": "yes"
+        },
+        {
+          "label": "아니요",
+          "code": "no"
+        },
+        {
+          "label": "얼굴만",
+          "code": "face_only"
+        },
+        {
+          "label": "목소리만",
+          "code": "voice_only"
+        }
+      ]
+    }
+  },
+  "ssot_code_aliases": {
+    "q6": {
+      "making_process": "process"
+    },
+    "q9": {
+      "special": "specialness",
+      "memory": "memories",
+      "space_styling": "space_decor",
+      "unique_ownership": "self_expression"
+    },
+    "q10": {
+      "being_moved": "moved"
+    },
+    "q11": {
+      "being_moved": "moved"
+    },
+    "q16": {
+      "low_views": "low_reach",
+      "slow_follower_growth": "low_follower_growth",
+      "content_ideation": "ideation",
+      "filming": "shooting_difficulty",
+      "editing": "editing_difficulty",
+      "posting_consistency": "consistency_difficulty",
+      "low_purchase_conversion": "low_conversion"
+    },
+    "q17": {
+      "rarely_posts": "rarely_post",
+      "making_process": "process"
+    },
+    "q18": {
+      "face_and_voice": "yes",
+      "neither": "no"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "ok": false,
+  "request_id": "fixture-model-timeout",
+  "contract_version": "1.0",
+  "error": {
+    "code": "MODEL_TIMEOUT",
+    "message": "모델 응답이 제한 시간 내에 도착하지 않았습니다.",
+    "retryable": true,
+    "details": []
+  }
+}

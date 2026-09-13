@@ -1,0 +1,18 @@
+{
+  "ok": false,
+  "request_id": "fixture-model-schema-error",
+  "contract_version": "1.0",
+  "error": {
+    "code": "MODEL_SCHEMA_ERROR",
+    "message": "모델 출력이 예상 스키마와 일치하지 않습니다.",
+    "retryable": true,
+    "details": [
+      {
+        "loc": [
+          "priorities"
+        ],
+        "msg": "List should have at least 3 items"
+      }
+    ]
+  }
+}

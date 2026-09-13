@@ -1,0 +1,15 @@
+{
+  "ok": false,
+  "request_id": "fixture-insufficient-input",
+  "contract_version": "1.0",
+  "error": {
+    "code": "INSUFFICIENT_INPUT",
+    "message": "문진 답변이 하나도 없고 제품 이미지도 없습니다. 답변 또는 이미지 중 하나는 필요합니다.",
+    "retryable": false,
+    "details": [
+      {
+        "reason": "no_answers_and_no_image"
+      }
+    ]
+  }
+}
