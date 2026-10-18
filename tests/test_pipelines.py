@@ -75,7 +75,7 @@ async def test_diagnosis_with_image_makes_two_calls_and_isolates_observation():
     assert synth.spec.model == "diagnosis-model"
     assert synth.spec.thinking == "medium"
     assert synth.spec.max_output_tokens == 8192
-    assert synth.spec.prompt_version == "diagnosis-v1"
+    assert synth.spec.prompt_version == "diagnosis-v2"
     assert BRAND in synth.user_text
     assert DISTINCT_TEXT in synth.user_text  # verbatim, never summarized
     assert "빛 반사" in synth.user_text  # visual observation was injected
@@ -99,7 +99,7 @@ async def test_diagnosis_repair_path_uses_repair_spec():
     bad["structure"]["body_3_10"] = "제작자가 목소리로 소재를 설명"
     gw = FakeGateway([sample_diagnosis_draft(**bad), sample_diagnosis_draft()])
     await DiagnosisService(gw, settings=SETTINGS).run(_request(), None, request_id="r3")
-    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v1", "repair-v1"]
+    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v2", "repair-v1"]
     repair = gw.calls[1].spec
     assert repair.model == "diagnosis-model"
     assert repair.thinking == "low"
@@ -131,7 +131,7 @@ async def test_prescription_pipeline():
     assert synth.image_count == 0
     assert synth.spec.model == "prescription-model"
     assert synth.spec.max_output_tokens == 4096
-    assert synth.spec.prompt_version == "prescription-v1"
+    assert synth.spec.prompt_version == "prescription-v2"
     assert req.instagram_url in synth.user_text
     assert "미관측" in synth.user_text
     assert "하단 잘림" in synth.user_text  # unreadable regions are forwarded, not filled

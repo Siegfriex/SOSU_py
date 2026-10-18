@@ -17,6 +17,7 @@ from app.gemini.prompts import visual_observation as visual_prompt
 from app.gemini.prompts._common import constraint_sentences
 from app.gemini.schemas import DiagnosisDraftV1, to_public_diagnosis
 from app.images.types import NormalizedImage
+from app.knowledge.provider import GuidebookKnowledgeProvider, get_knowledge_provider
 from app.services.deadline import with_deadline
 from app.services.repair import run_with_repair
 
@@ -24,9 +25,22 @@ log = logging.getLogger("sosu.diagnosis")
 
 
 class DiagnosisService:
-    def __init__(self, gateway: GeminiGateway, *, settings: Settings | None = None) -> None:
+    def __init__(
+        self,
+        gateway: GeminiGateway,
+        *,
+        settings: Settings | None = None,
+        knowledge: GuidebookKnowledgeProvider | None = None,
+    ) -> None:
         self._gateway = gateway
         self._settings = settings
+        self._knowledge = knowledge
+
+    @property
+    def knowledge(self) -> GuidebookKnowledgeProvider:
+        if self._knowledge is None:
+            self._knowledge = get_knowledge_provider()
+        return self._knowledge
 
     @property
     def settings(self) -> Settings:
@@ -108,7 +122,14 @@ class DiagnosisService:
 
     async def _synthesize(self, pack: EvidencePackV1, *, request_id: str) -> DiagnosisDraftV1:
         s = self.settings
-        system, user = diagnosis_prompt.build_diagnosis_prompt(pack)
+        selection = self.knowledge.select_for_diagnosis(pack.declared, pack.visual)
+        system, user = diagnosis_prompt.build_diagnosis_prompt(pack, knowledge=selection.render())
+        log.info(
+            "diagnosis request_id=%s knowledge_version=%s rules=%d",
+            request_id,
+            selection.version,
+            len(selection.rules),
+        )
         result = await self._gateway.generate_structured(
             spec=GenerationSpec(
                 model=s.gemini_model_diagnosis,

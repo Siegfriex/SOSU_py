@@ -10,8 +10,9 @@ from app.gemini.prompts._common import (
     output_language,
     policy_table,
 )
+from app.knowledge.provider import NO_KNOWLEDGE_VERSION, render_knowledge_block
 
-PROMPT_VERSION = "diagnosis-v1"
+PROMPT_VERSION = "diagnosis-v2"
 
 _SYSTEM = """당신은 소규모 수공예 브랜드를 위한 Instagram Reels 진단 전문가입니다.
 사용자가 문진표에 직접 선언한 근거(DECLARED), 제품 사진의 독립 관측 결과(OBSERVED), 제작자 제약(CONSTRAINTS)을 결합해 실행 가능한 릴스 진단서를 JSON으로 작성합니다.
@@ -32,6 +33,7 @@ _SYSTEM = """당신은 소규모 수공예 브랜드를 위한 Instagram Reels �
 12. 타깃(target)에서 연령·성별·소득 같은 인구통계를 근거 없이 과잉 추정하지 않습니다. q8/q9/q10에 있는 표현 범위 안에서 서술합니다.
 13. 서체(fonts)는 방향만 제시합니다. 특정 폰트의 라이선스·가격·사용 가능 여부 같은 사실을 창작하지 않습니다.
 14. 최종 가이드(final_guidance)는 1인 수공예 제작자가 CONSTRAINTS 안에서 실제로 실행할 수 있는 것만 담습니다. 장비·인력·예산이 필요한 비현실적 제안을 하지 않습니다.
+15. GUIDEBOOK KNOWLEDGE는 '어떻게 만들지'에 대한 SOSU 가이드북 전문 지식입니다. 사용자 근거(DECLARED/OBSERVED)와 섞지 말고, 릴스 유형·구조·훅·자막·CTA를 정할 때 적용합니다. 가이드북 원칙을 외부에서 검증된 플랫폼 사실이나 알고리즘 규칙처럼 단정하지 않습니다. 가이드북과 CONSTRAINTS가 충돌하면 CONSTRAINTS가 우선합니다.
 
 분량 가이드(문자 수 제한이 아니라 서술 밀도의 기준):
 - positioning.rationale / target.description / tone.description: 2~4문장
@@ -56,11 +58,16 @@ _USER = """# DECLARED EVIDENCE (사용자 문진 원문, 정규화만 적용됨)
 - q1..q20은 DECLARED의 필드, visual은 OBSERVED를 뜻합니다.
 - primary는 결론의 주 근거, supporting은 보조 근거, constraint는 위반 금지 조건입니다.
 
+{knowledge}
+
 # TASK
 DECLARED와 OBSERVED를 비교하여 이 브랜드가 지금 만들어야 할 릴스 방향을 진단하세요.
 - 현재 포맷(q17)과 pain point(q16)를 추천 유형의 gap 분석에 사용하세요.
 - 30초 구조는 q14/q15/q20의 장면을 구체적으로 배치하고 CONSTRAINTS를 준수하세요.
 - 서체(fonts)는 실제 폰트 라이선스나 제품명을 단정하지 말고 '방향'으로 서술하세요.
+- reel_types·structure·priorities·final_guidance를 정할 때 GUIDEBOOK KNOWLEDGE의 규칙(훅, 릴스 유형 조합, 스토리보드, 촬영·조명·구도, 편집 속도, 영상 길이, 음악, 자막/캡션, CTA)을 적용하세요. 출력 JSON에 rule_id를 넣지는 마세요.
+- CONSTRAINTS상 목소리 사용 불가이면 나레이션·TTS 등 음성 기반 제안 대신 자막·화면 텍스트·BGM으로 대체하세요(CONSTRAINTS 우선).
+- 문장 톤은 EDITORIAL STYLE을 따르되, 사실은 DECLARED/OBSERVED 범위 안에서만 씁니다.
 
 # OUTPUT CONTRACT
 - brand: name, material, product, keywords(3~6개)
@@ -77,7 +84,12 @@ DECLARED와 OBSERVED를 비교하여 이 브랜드가 지금 만들어야 할 �
 출력 언어: {language}."""
 
 
-def build_diagnosis_prompt(pack: EvidencePackV1) -> tuple[str, str]:
+def build_diagnosis_prompt(
+    pack: EvidencePackV1, *, knowledge: str | None = None
+) -> tuple[str, str]:
+    """`knowledge` is a rendered GUIDEBOOK KNOWLEDGE block (separate from the EvidencePack)."""
+    if knowledge is None:
+        knowledge = render_knowledge_block([], None, version=NO_KNOWLEDGE_VERSION, task="diagnosis")
     declared = pack.declared.model_dump(
         mode="json", exclude={"creator_constraint", "answered_question_ids"}, exclude_none=True
     )
@@ -92,6 +104,7 @@ def build_diagnosis_prompt(pack: EvidencePackV1) -> tuple[str, str]:
         observed=observed,
         constraints=constraint_sentences(pack.declared.creator_constraint),
         policy=policy_table(pack.policy),
+        knowledge=knowledge,
         language=output_language(pack.locale),
     )
     return _SYSTEM, user

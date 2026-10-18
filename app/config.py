@@ -49,6 +49,12 @@ class Settings(BaseSettings):
     sosu_api_host: str = "127.0.0.1"
     sosu_api_port: int = 8000
 
+    # Guidebook KnowledgePack JSON. Empty → <repo>/knowledge/guidebook/knowledgepack.v1.json.
+    # Missing/invalid file is not fatal: prompts carry a "knowledge_version none" block.
+    sosu_knowledge_path: str = ""
+    # External research (Phase 2). False → NullResearchProvider ("unavailable"), never fabricated.
+    sosu_research_enabled: bool = False
+
     run_live_gemini_tests: bool = False
 
     @property

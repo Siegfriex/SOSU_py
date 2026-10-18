@@ -26,6 +26,29 @@ Verify:
 `gemini_configured` stays `false` while the key is the placeholder; no live Gemini call is made in
 that state (requests to `/diagnosis` and `/prescription` fail with a typed `MODEL_*` error).
 
+### Dev fake server (no Gemini, TEST DATA)
+
+```bash
+.venv/bin/python scripts/serve_fake.py --port 8000   # binds 127.0.0.1 only
+```
+
+Runs the real `create_app()` (validation, normalizer, prompts incl. guidebook knowledge, validator,
+repair) with only the `GeminiGateway` replaced by `scripts/fake_gateway.py` (chosen by schema type,
+unlimited repeats). Adds dev CORS origins (:5197/:5199/:5173) and an `X-SOSU-Fake: 1` header.
+Dev-only control routes (absent from the production app):
+`GET|POST /__fake__/scenario` (`{"scenario","times","delay_s"}`), `POST /__fake__/reset`,
+`GET /__fake__/last-request[?all=1]`; per-request header `X-SOSU-Fake-Scenario: <name>|slow:<s>`.
+Scenarios: `success, timeout, provider_error, schema_error, repairable, repair_failed,
+fatal_content, slow`. Refuses to start when `SOSU_ENV=production`.
+
+### Knowledge / research settings
+
+- `SOSU_KNOWLEDGE_PATH` — guidebook KnowledgePack JSON (default
+  `knowledge/guidebook/knowledgepack.v1.json`). Missing/invalid → warning log,
+  `knowledge_version=none`, service keeps working. See `docs/KNOWLEDGE.md`.
+- `SOSU_RESEARCH_ENABLED` (default `false`) — external research boundary; Phase 1 always reports
+  "none available". See `docs/RESEARCH_BOUNDARY.md`.
+
 ## Endpoints
 
 | method | path | body |
@@ -71,11 +94,15 @@ app/
   domain/              normalizer, evidence models, inference policy, validator, errors
   images/              Pillow normalization + ingress limits
   gemini/              GeminiGateway protocol, google-genai client, versioned prompts
+  knowledge/           guidebook KnowledgePack models + provider (rule selection → prompt block)
+  research/            external research boundary (Null/Fixture providers; Phase 2 live search)
   services/            diagnosis / prescription orchestration (observe → synthesize → validate → repair×1)
   api/                 FastAPI router, deps, error envelope
   main.py              app factory
 contracts/             openapi.json + fixtures (backend test infrastructure)
 scripts/               export_openapi / check_openapi / make_fixtures / release_shared_contract
+                       serve_fake + fake_gateway (dev/test only; never imported by app/)
+knowledge/             guidebook KnowledgePack (built offline from the PDF)
 tests/
 SSOT/                  product/inference SSOT (owner-provided); CONTRACT V1 wins on conflicts
 ```

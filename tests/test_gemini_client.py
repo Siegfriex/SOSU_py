@@ -266,3 +266,16 @@ async def test_images_become_inline_parts():
     assert contents[0] == "user"
     assert contents[1].inline_data.mime_type == "image/jpeg"
     assert contents[1].inline_data.data == b"abc"
+
+
+@pytest.mark.parametrize("key", ["", "PASTE_YOUR_GEMINI_API_KEY_HERE"])
+async def test_unconfigured_key_fails_fast_without_calling_the_provider(key):
+    aio = _FakeAio(lambda n: _response(sample_visual().model_dump_json()))
+    client = SimpleNamespace(aio=SimpleNamespace(models=aio))
+    gw = GoogleGenAIGateway(Settings(gemini_api_key=key), client=client)  # type: ignore[arg-type]
+    with pytest.raises(SosuError) as exc:
+        await gw.generate_structured(
+            spec=SPEC, system_instruction="s", user_text="u", images=[], schema=VisualObservationV1
+        )
+    assert exc.value.code is ErrorCode.MODEL_PROVIDER_ERROR
+    assert aio.calls == []

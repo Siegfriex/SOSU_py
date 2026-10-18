@@ -1,0 +1,526 @@
+{
+ "source": {
+  "filename": "가이드북 2차.pdf",
+  "sha256": "5edea367d6d782d43b2fd4ad9c3eee491b44983a3fdf91cca21479071be6cb81",
+  "pages": 45
+ },
+ "pages": [
+  {
+   "page": 1,
+   "text_chars": 0,
+   "text_extracted": false,
+   "image_reviewed": true,
+   "rule_ids": [],
+   "notes": "표지(이미지 텍스트: 수공예 브랜드가 커지는 릴스 가이드) – 이미지 확인, 운영 원칙 없음"
+  },
+  {
+   "page": 2,
+   "text_chars": 0,
+   "text_extracted": false,
+   "image_reviewed": true,
+   "rule_ids": [],
+   "notes": "책등 이미지(제목 반복) – 이미지 확인, 운영 원칙 없음"
+  },
+  {
+   "page": 3,
+   "text_chars": 412,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-FUND-004",
+    "GB-FUND-005",
+    "GB-BRAND-001"
+   ],
+   "notes": "소개 – 작가 성과 수치(author_experience)"
+  },
+  {
+   "page": 4,
+   "text_chars": 220,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-BRAND-001"
+   ],
+   "notes": "작가의 말 – 목적/가치"
+  },
+  {
+   "page": 5,
+   "text_chars": 69,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "EP.1 만화 – 만화/챕터 구분 페이지 – 운영 원칙 없음(저문자 페이지)"
+  },
+  {
+   "page": 6,
+   "text_chars": 7,
+   "text_extracted": false,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "챕터 01 구분"
+  },
+  {
+   "page": 7,
+   "text_chars": 97,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-FUND-001"
+   ],
+   "notes": null
+  },
+  {
+   "page": 8,
+   "text_chars": 192,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-FUND-002",
+    "GB-FUND-003",
+    "GB-PERF-001"
+   ],
+   "notes": "100만/1만 조회수 비교 만화 – 이미지 확인; 수치는 예시 라벨"
+  },
+  {
+   "page": 9,
+   "text_chars": 42,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "EP.2 만화"
+  },
+  {
+   "page": 10,
+   "text_chars": 8,
+   "text_extracted": false,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "챕터 02 구분"
+  },
+  {
+   "page": 11,
+   "text_chars": 537,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-TYPE-001",
+    "GB-TYPE-002",
+    "GB-TYPE-003",
+    "GB-TYPE-009"
+   ],
+   "notes": "유형 A/B 일러스트 – 이미지 확인, 텍스트와 일치"
+  },
+  {
+   "page": 12,
+   "text_chars": 285,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-TYPE-004",
+    "GB-TYPE-005",
+    "GB-MUSIC-004"
+   ],
+   "notes": "유형 C/D 일러스트 – 이미지 확인, 텍스트와 일치"
+  },
+  {
+   "page": 13,
+   "text_chars": 384,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-TYPE-006",
+    "GB-TYPE-007",
+    "GB-TYPE-008",
+    "GB-PERF-002",
+    "GB-BRAND-005"
+   ],
+   "notes": "유형 E/F – 이미지 확인(텍스트 추출은 2단 섞임), 의역 일치"
+  },
+  {
+   "page": 14,
+   "text_chars": 587,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-COMBO-001",
+    "GB-COMBO-002",
+    "GB-COMBO-003",
+    "GB-COMBO-004",
+    "GB-COMBO-005",
+    "GB-COMBO-006",
+    "GB-COMBO-007",
+    "GB-PERF-002"
+   ],
+   "notes": "조합 라벨 불일치(조합1=B+C+F 중복, 조합2 본문 A+C+E) – 이미지 확인"
+  },
+  {
+   "page": 15,
+   "text_chars": 47,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "EP.3 만화"
+  },
+  {
+   "page": 16,
+   "text_chars": 7,
+   "text_extracted": false,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "챕터 03 구분"
+  },
+  {
+   "page": 17,
+   "text_chars": 356,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-IDEA-001",
+    "GB-IDEA-002",
+    "GB-IDEA-003",
+    "GB-IDEA-004",
+    "GB-IDEA-005",
+    "GB-BRAND-002",
+    "GB-BRAND-006"
+   ],
+   "notes": "하단 '제작 과정 알려주기' 블록 텍스트 추출 깨짐 – 이미지로 확인(저장과 노출 증가 주장)"
+  },
+  {
+   "page": 18,
+   "text_chars": 109,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-STORY-001",
+    "GB-STORY-002"
+   ],
+   "notes": "재료>제작>제품 / 제품>재료>제작>제품 스토리보드 도식 – 이미지 확인"
+  },
+  {
+   "page": 19,
+   "text_chars": 33,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "EP.4 만화"
+  },
+  {
+   "page": 20,
+   "text_chars": 4,
+   "text_extracted": false,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "챕터 04 구분"
+  },
+  {
+   "page": 21,
+   "text_chars": 249,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EQUIP-001",
+    "GB-EQUIP-002",
+    "GB-BRAND-004"
+   ],
+   "notes": null
+  },
+  {
+   "page": 22,
+   "text_chars": 178,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-EQUIP-003",
+    "GB-EQUIP-004"
+   ],
+   "notes": "아이폰 설정 스크린샷 – 이미지 확인, 4단계 설정"
+  },
+  {
+   "page": 23,
+   "text_chars": 332,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-LIGHT-001",
+    "GB-LIGHT-002",
+    "GB-LIGHT-003",
+    "GB-LIGHT-004"
+   ],
+   "notes": "조명 각도 다이어그램(정면/45도/80도) – 이미지 확인"
+  },
+  {
+   "page": 24,
+   "text_chars": 60,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-COMP-001"
+   ],
+   "notes": "9분할 격자 중앙 배치 예시 4컷(손에 든 제품 등) – 이미지 확인"
+  },
+  {
+   "page": 25,
+   "text_chars": 224,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-ANGLE-001",
+    "GB-ANGLE-002"
+   ],
+   "notes": "각도 라벨 30~43도 vs 본문 30~45도 불일치(이미지 확인); 탑뷰 5방향(정면, 좌우 45도, 좌우 90도)"
+  },
+  {
+   "page": 26,
+   "text_chars": 36,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "EP.5 만화"
+  },
+  {
+   "page": 27,
+   "text_chars": 4,
+   "text_extracted": false,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "챕터 05 구분"
+  },
+  {
+   "page": 28,
+   "text_chars": 345,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EDIT-001",
+    "GB-EDIT-002",
+    "GB-EDIT-003",
+    "GB-EDIT-004",
+    "GB-EDIT-005",
+    "GB-PERF-003"
+   ],
+   "notes": null
+  },
+  {
+   "page": 29,
+   "text_chars": 315,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-COMP-002",
+    "GB-LEN-001",
+    "GB-LEN-002",
+    "GB-LEN-003",
+    "GB-PERF-004"
+   ],
+   "notes": "'원주율'은 '완주율' 오기; 80% 완주 수치는 작가 주장"
+  },
+  {
+   "page": 30,
+   "text_chars": 163,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-MUSIC-001",
+    "GB-MUSIC-002"
+   ],
+   "notes": "인스타 앱 오디오 선택 화면 3단계 – 이미지 확인"
+  },
+  {
+   "page": 31,
+   "text_chars": 486,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-HOOK-001",
+    "GB-HOOK-002",
+    "GB-HOOK-003",
+    "GB-HOOK-004",
+    "GB-PERF-005",
+    "GB-BRAND-002"
+   ],
+   "notes": "후킹 리스트 – 이미지로 재확인(텍스트 레이아웃 깨짐); '과정/제작 공개형' 제목 중복"
+  },
+  {
+   "page": 32,
+   "text_chars": 309,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EDIT-007",
+    "GB-MUSIC-005",
+    "GB-BRAND-004",
+    "GB-BRAND-005"
+   ],
+   "notes": null
+  },
+  {
+   "page": 33,
+   "text_chars": 196,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EDIT-006",
+    "GB-EDIT-008"
+   ],
+   "notes": "9:16 해상도 1080x1950 표기(p29의 1080x1920과 불일치)"
+  },
+  {
+   "page": 34,
+   "text_chars": 190,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-COMP-003",
+    "GB-EDIT-008"
+   ],
+   "notes": "'제목과 자막 위치는 5-2 참고'라 되어 있으나 해당 내용은 5-3"
+  },
+  {
+   "page": 35,
+   "text_chars": 69,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EDIT-008",
+    "GB-MUSIC-005",
+    "GB-BRAND-005"
+   ],
+   "notes": null
+  },
+  {
+   "page": 36,
+   "text_chars": 119,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EDIT-008",
+    "GB-MUSIC-005",
+    "GB-PERF-006"
+   ],
+   "notes": null
+  },
+  {
+   "page": 37,
+   "text_chars": 120,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EDIT-008",
+    "GB-EDIT-009"
+   ],
+   "notes": null
+  },
+  {
+   "page": 38,
+   "text_chars": 80,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-EDIT-008",
+    "GB-MUSIC-003"
+   ],
+   "notes": null
+  },
+  {
+   "page": 39,
+   "text_chars": 45,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "EP.6 만화"
+  },
+  {
+   "page": 40,
+   "text_chars": 4,
+   "text_extracted": false,
+   "image_reviewed": false,
+   "rule_ids": [],
+   "notes": "챕터 06 구분"
+  },
+  {
+   "page": 41,
+   "text_chars": 255,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-HOOK-005",
+    "GB-CAP-001",
+    "GB-CAP-002",
+    "GB-CAP-003",
+    "GB-CTA-009"
+   ],
+   "notes": "인쇄 쪽번호 25(PDF 쪽과 불일치)"
+  },
+  {
+   "page": 42,
+   "text_chars": 622,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-CAP-006",
+    "GB-CTA-001",
+    "GB-CTA-002",
+    "GB-CTA-003",
+    "GB-CTA-004",
+    "GB-CTA-010",
+    "GB-PERF-007"
+   ],
+   "notes": "O/X 예시 캡션 + 고정댓글 예시(튜토리얼 소개 약속) – 이미지 확인; 인쇄 쪽번호 25"
+  },
+  {
+   "page": 43,
+   "text_chars": 405,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-CTA-005",
+    "GB-CTA-006",
+    "GB-CTA-007",
+    "GB-CTA-008",
+    "GB-PERF-007"
+   ],
+   "notes": "머리글 '편집'으로 인쇄(캡션 장 내용); 인쇄 쪽번호 28"
+  },
+  {
+   "page": 44,
+   "text_chars": 402,
+   "text_extracted": true,
+   "image_reviewed": true,
+   "rule_ids": [
+    "GB-CAP-004",
+    "GB-CAP-005",
+    "GB-CTA-009",
+    "GB-BRAND-002",
+    "GB-BRAND-003"
+   ],
+   "notes": "O=영상 과정+캡션 의미, X=고객 에피소드 대사 반복 – 이미지 확인; 인쇄 쪽번호 25"
+  },
+  {
+   "page": 45,
+   "text_chars": 49,
+   "text_extracted": true,
+   "image_reviewed": false,
+   "rule_ids": [
+    "GB-PERF-008"
+   ],
+   "notes": "EP.7 만화 – 꾸준함 메시지만"
+  }
+ ],
+ "issues": [
+  "p14 조합 라벨: 조합 1과 조합 3이 모두 'B+C+F'로 인쇄됨. 조합 1 설명(가장 빠른 제작·전환 약함)과 조합 2 본문('A+C+E 조합은…')을 보면 조합 1은 A+C+E일 가능성이 있음 → GB-COMBO-002/003/004의 caution에 기록, 라벨은 인쇄 그대로.",
+  "p14 'B+D+F가 국내에서 가장 많이 사용' → 통계 근거 없음, author_experience(GB-COMBO-006).",
+  "p25 각도: 그림 라벨 '30~43도' vs 본문 '30~45도' → 본문(30~45도) 채택, caution 기록(GB-ANGLE-001).",
+  "p33 9:16 해상도 '1080x1950' vs p29 '1080x1920' → 1080x1920(표준 9:16) 채택, caution 기록(GB-COMP-002, GB-EDIT-008).",
+  "p34 '제목과 자막 위치는 5-2 참고' → 실제 내용은 5-3(p29) (GB-COMP-003).",
+  "p43 머리글이 '편집'으로 인쇄되었으나 6장 캡션 내용(GB-CTA-005).",
+  "p41~p45 인쇄 쪽번호(25, 28 반복)가 PDF 쪽과 불일치 → 모든 source_pages는 1-based PDF 쪽 번호.",
+  "p29 '원주율' → '완주율' 오기로 해석(GB-LEN-003).",
+  "p29 '30초 이하 완주 80% 이상', p30/p38 '인앱 인기 음악이 알고리즘에 도움', p3 '29만 팔로워·1.7천만 조회수' → 근거 미제시 작가 주장(author_experience 또는 caution 표기).",
+  "p31 '과정/제작 공개형' 제목이 두 목록에 중복 사용 → 두 번째(숫자형) 목록은 별도 하위 유형으로 해석(GB-HOOK-003).",
+  "p44 O/X 해석: 텍스트 추출만으로는 고객 에피소드 캡션을 O로 오인할 수 있었음 → 이미지 확인 결과 X 예시, GB-BRAND-003 내용 정정(ID 유지).",
+  "반복: TTS 속도 1.2~1.5배(p36)와 컷 1.2~1.5배속(p28) / 인기 음악(p12, p30, p34, p38) / 훅=캡션 첫 줄(p31, p41) — 의도적 중복 규칙 존재(GB-HOOK-005 vs GB-CAP-001 등).",
+  "가이드에는 인사이트/성과 지표 해석 전용 장이 없음 → performance_interpretation 규칙은 p8, p13–14, p28–29, p31, p36, p42–43, p45의 암묵적 내용에서 도출(해석임을 caution에 표기).",
+  "서체(fonts) 관련 직접 지침 없음 → 텍스트 위치(p29)와 폰트 적용(p34)만 근거로 사용.",
+  "제작자 노출(q18)은 가이드가 직접 다루지 않음 → 유형 F + TTS(p13, p32, p35–36) 결합 해석(GB-BRAND-005)."
+ ]
+}

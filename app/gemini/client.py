@@ -85,6 +85,9 @@ class GoogleGenAIGateway:
         images: list[ImagePart],
         schema: type[T],
     ) -> StructuredResult[T]:
+        # Fail fast without any network call when no real key is configured (missing / placeholder).
+        if not self._settings.gemini_configured:
+            raise SosuError(ErrorCode.MODEL_PROVIDER_ERROR, "Gemini API key is not configured.")
         contents: list[Any] = [user_text]
         for image in images:
             contents.append(genai_types.Part.from_bytes(data=image.data, mime_type=image.mime_type))

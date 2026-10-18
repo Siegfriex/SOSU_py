@@ -14,6 +14,9 @@ from app.gemini.prompts import prescription as prescription_prompt
 from app.gemini.prompts import repair as repair_prompt
 from app.gemini.schemas import PrescriptionDraftV1, to_public_prescription
 from app.images.types import NormalizedImage
+from app.knowledge.provider import GuidebookKnowledgeProvider, get_knowledge_provider
+from app.research.models import ResearchQuery
+from app.research.provider import ResearchProvider, get_research_provider
 from app.services.deadline import with_deadline
 from app.services.repair import run_with_repair
 
@@ -26,9 +29,30 @@ _PRESCRIPTION_CONSTRAINTS = (
 
 
 class PrescriptionService:
-    def __init__(self, gateway: GeminiGateway, *, settings: Settings | None = None) -> None:
+    def __init__(
+        self,
+        gateway: GeminiGateway,
+        *,
+        settings: Settings | None = None,
+        knowledge: GuidebookKnowledgeProvider | None = None,
+        research: ResearchProvider | None = None,
+    ) -> None:
         self._gateway = gateway
         self._settings = settings
+        self._knowledge = knowledge
+        self._research = research
+
+    @property
+    def knowledge(self) -> GuidebookKnowledgeProvider:
+        if self._knowledge is None:
+            self._knowledge = get_knowledge_provider()
+        return self._knowledge
+
+    @property
+    def research(self) -> ResearchProvider:
+        if self._research is None:
+            self._research = get_research_provider()
+        return self._research
 
     @property
     def settings(self) -> Settings:
@@ -113,8 +137,29 @@ class PrescriptionService:
         request_id: str,
     ) -> PrescriptionDraftV1:
         s = self.settings
+        selection = self.knowledge.select_for_prescription(observation)
+        research = await self.research.research(
+            [
+                ResearchQuery(
+                    query="Instagram Reels 성과 지표 해석 최신 동향",
+                    task="prescription",
+                    locale=locale,
+                )
+            ]
+        )
         system, user = prescription_prompt.build_prescription_prompt(
-            observation, instagram_url=instagram_url, locale=locale
+            observation,
+            instagram_url=instagram_url,
+            locale=locale,
+            knowledge=selection.render(),
+            research=research,
+        )
+        log.info(
+            "prescription request_id=%s knowledge_version=%s rules=%d research=%s",
+            request_id,
+            selection.version,
+            len(selection.rules),
+            research.status,
         )
         result = await self._gateway.generate_structured(
             spec=GenerationSpec(
