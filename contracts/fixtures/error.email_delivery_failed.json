@@ -1,0 +1,11 @@
+{
+  "ok": false,
+  "request_id": "fixture-email-delivery-failed",
+  "contract_version": "1.0",
+  "error": {
+    "code": "EMAIL_DELIVERY_FAILED",
+    "message": "이메일 발송에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+    "retryable": true,
+    "details": []
+  }
+}

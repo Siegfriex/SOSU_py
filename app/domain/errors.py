@@ -19,6 +19,9 @@ _HTTP_STATUS: dict[ErrorCode, int] = {
     ErrorCode.MODEL_CONTENT_ERROR: 502,
     ErrorCode.REPAIR_FAILED: 502,
     ErrorCode.INTERNAL_ERROR: 500,
+    ErrorCode.SERVICE_UNAVAILABLE: 503,
+    ErrorCode.RATE_LIMITED: 429,
+    ErrorCode.EMAIL_DELIVERY_FAILED: 502,
 }
 
 _RETRYABLE: frozenset[ErrorCode] = frozenset(
@@ -28,6 +31,8 @@ _RETRYABLE: frozenset[ErrorCode] = frozenset(
         ErrorCode.MODEL_SCHEMA_ERROR,
         ErrorCode.MODEL_CONTENT_ERROR,
         ErrorCode.REPAIR_FAILED,
+        ErrorCode.RATE_LIMITED,
+        ErrorCode.EMAIL_DELIVERY_FAILED,
     }
 )
 

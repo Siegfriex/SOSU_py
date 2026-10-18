@@ -30,7 +30,13 @@ def test_openapi_file_matches_runtime() -> None:
 def test_openapi_paths_and_multipart_fields() -> None:
     spec = json.loads(render_openapi())
     paths = spec["paths"]
-    assert set(paths) == {"/api/v1/health", "/api/v1/diagnosis", "/api/v1/prescription"}
+    assert set(paths) == {
+        "/api/v1/health",
+        "/api/v1/diagnosis",
+        "/api/v1/prescription",
+        "/api/v1/features",
+        "/api/v1/report-email",
+    }
     assert "get" in paths["/api/v1/health"]
 
     def multipart_props(path: str) -> dict:

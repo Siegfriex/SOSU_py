@@ -71,6 +71,9 @@ DIAGNOSIS_ERROR_CODES: frozenset[ErrorCode] = frozenset(
         ErrorCode.MODEL_CONTENT_ERROR,
         ErrorCode.REPAIR_FAILED,
         ErrorCode.INTERNAL_ERROR,
+        ErrorCode.SERVICE_UNAVAILABLE,
+        ErrorCode.RATE_LIMITED,
+        ErrorCode.EMAIL_DELIVERY_FAILED,
     }
 )
 PRESCRIPTION_ERROR_CODES: frozenset[ErrorCode] = frozenset(
@@ -86,6 +89,9 @@ PRESCRIPTION_ERROR_CODES: frozenset[ErrorCode] = frozenset(
         ErrorCode.MODEL_CONTENT_ERROR,
         ErrorCode.REPAIR_FAILED,
         ErrorCode.INTERNAL_ERROR,
+        ErrorCode.SERVICE_UNAVAILABLE,
+        ErrorCode.RATE_LIMITED,
+        ErrorCode.EMAIL_DELIVERY_FAILED,
     }
 )
 
@@ -211,6 +217,9 @@ def _error_table() -> str:
         ErrorCode.MODEL_CONTENT_ERROR: "모델이 유효한 내용을 반환하지 못함(안전 차단, 토큰 초과 등). 공통 retry",
         ErrorCode.REPAIR_FAILED: "1회 수리 후에도 의미 검증 실패. 공통 retry",
         ErrorCode.INTERNAL_ERROR: "서버 내부 오류. 공통 오류 화면",
+        ErrorCode.SERVICE_UNAVAILABLE: "공개 배포에서 AI 생성/이메일이 운영자에 의해 닫혀 있음(fail-closed). retry 금지, 안내 화면. `GET /api/v1/features`로 사전 확인",
+        ErrorCode.RATE_LIMITED: "인스턴스별 백스톱 rate limit(HTTP 429). 잠시 후 retry",
+        ErrorCode.EMAIL_DELIVERY_FAILED: "`POST /api/v1/report-email` 발송 실패. retry 가능(같은 token+email은 idempotent)",
     }
     for code in ErrorCode:
         err = SosuError(code, "x")
@@ -244,6 +253,11 @@ def build_domain_contract() -> str:
 | `POST /api/v1/diagnosis` | **문진표 → 릴스 진단서.** 설문 답변(+선택 제품 이미지 1장)을 받아 `DiagnosisReportV1`을 동기 반환 | `multipart/form-data`: `payload`(JSON 문자열 `SurveyDiagnosisRequestV1`), `product_image`(파일, 0..1) | `SuccessEnvelope<DiagnosisReportV1>` |
 | `POST /api/v1/prescription` | **릴스 처방전.** Reel URL + Insight 스크린샷 정확히 3장을 받아 `PrescriptionReportV1`을 동기 반환 | `multipart/form-data`: `payload`(JSON 문자열 `PrescriptionRequestV1`), `insight_images`(파일 ×{INSIGHT_IMAGE_COUNT}) | `SuccessEnvelope<PrescriptionReportV1>` |
 
+| `GET /api/v1/features` | 기능 개방 상태(추론/이메일/이미지 저장/리서치) + knowledge_version + build SHA. 봉투 없음. 프론트는 시작 시 조회해 비활성 기능을 숨긴다 | — | `{{"contract_version":"1.0","inference":{{"enabled":bool,"reason":str or null}},"email":{{...}},"image_storage":{{"enabled":false,...}},"research":{{...}},"knowledge_version":str,"build":str or null}}` |
+| `POST /api/v1/report-email` | 서버 서명(`delivery_token`)이 검증된 리포트를 이메일로 발송(Resend). 공개 배포 기본 비활성 → `SERVICE_UNAVAILABLE` | JSON `ReportEmailRequestV1`: `kind`, `report`(성공 봉투의 `data` 그대로), `request_id`, `delivery_token`, `email` | `SuccessEnvelope<ReportEmailResultV1>` (`data.status`: `sent` or `duplicate`) |
+
+- 성공 봉투에는 선택 필드 `delivery_token`(`"<issued_at_unix>.<hmac hex>"`, 서명 비밀 미설정 시 `null`, 24h 유효)이 있다. 이메일 발송 시 그대로 되돌려 보낸다.
+- 공개 배포(Vercel/production)에서는 AI 추론이 운영자 개방 전까지 `503 SERVICE_UNAVAILABLE`로 닫혀 있다(fail-closed). 응답 헤더 `X-SOSU-Build`는 배포 커밋 SHA(12자).
 - 두 POST는 **동기 요청 1회**다. 진행률 이벤트(SSE/WebSocket/job polling)는 v1 계약에 없다. 프론트는 indeterminate 로딩을 쓴다.
 - 실행 시간 한도: 전체 deadline **{s.sosu_request_deadline_seconds:.0f}s** (단계별 observation {s.gemini_timeout_observe:.0f}s / synthesis {s.gemini_timeout_synthesis:.0f}s / repair {s.gemini_timeout_repair:.0f}s). 초과 시 `MODEL_TIMEOUT`. 클라이언트 AbortSignal은 {s.sosu_request_deadline_seconds:.0f}s보다 길게 잡는다.
 - 요청 헤더 `X-Request-ID`(선택, ≤64자 `[A-Za-z0-9._-]`)는 그대로 에코되고 봉투의 `request_id`가 된다. 없으면 서버가 생성한다.

@@ -45,7 +45,7 @@ class Settings(BaseSettings):
 
     sosu_env: Literal["development", "test", "production"] = "development"
     sosu_log_level: str = "INFO"
-    sosu_cors_origins: str = "http://localhost:5173"
+    sosu_cors_origins: str = "http://localhost:5173,https://sosu-rosy.vercel.app"
     sosu_api_host: str = "127.0.0.1"
     sosu_api_port: int = 8000
 
@@ -54,6 +54,26 @@ class Settings(BaseSettings):
     sosu_knowledge_path: str = ""
     # External research (Phase 2). False → NullResearchProvider ("unavailable"), never fabricated.
     sosu_research_enabled: bool = False
+
+    # ---- Phase 2 security / delivery (see docs/SECURITY.md, docs/EMAIL.md) ----
+    # Public paid inference FAILS CLOSED on Vercel / SOSU_ENV=production until the owner has an
+    # enforceable shared rate limit (Vercel WAF rule + spend cap) and sets this to true.
+    sosu_public_inference_enabled: bool = False
+    # Per-instance token buckets (NOT a shared limit — a backstop only). Requests per minute per IP.
+    sosu_ratelimit_ai_per_minute: int = 6
+    sosu_ratelimit_email_per_minute: int = 3
+    sosu_max_request_bytes: int = 4_000_000
+
+    # Report e-mail (Resend). Enabled only when all three are set (and, on Vercel/production,
+    # SOSU_PUBLIC_EMAIL_ENABLED=true).
+    resend_api_key: SecretStr = Field(default=SecretStr(""))
+    sosu_email_from: str = ""
+    sosu_delivery_signing_secret: SecretStr = Field(default=SecretStr(""))
+    sosu_public_email_enabled: bool = False
+    sosu_delivery_token_max_age_seconds: int = 86_400
+
+    # Image storage is intentionally NOT implemented (docs/IMAGE_STORAGE.md).
+    sosu_image_retention_days: int = 0
 
     run_live_gemini_tests: bool = False
 

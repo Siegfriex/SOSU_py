@@ -11,7 +11,7 @@ from pydantic import BaseModel, ValidationError
 
 from app.api.deps import get_diagnosis_service, get_prescription_service, get_settings_dep
 from app.api.errors import pydantic_error_details
-from app.config import Settings
+from app.config import Settings, get_settings
 from app.contracts.diagnosis import DiagnosisReportV1, SurveyDiagnosisRequestV1
 from app.contracts.envelope import ErrorCode, ErrorEnvelope, HealthResponse, SuccessEnvelope
 from app.contracts.prescription import PrescriptionReportV1, PrescriptionRequestV1
@@ -25,6 +25,7 @@ from app.images.types import (
     PRODUCT_IMAGE_MAX_BYTES,
     NormalizedImage,
 )
+from app.security.tokens import sign_report
 from app.services.diagnosis_service import DiagnosisService
 from app.services.prescription_service import PrescriptionService
 
@@ -41,12 +42,17 @@ _ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
             "INVALID_REQUEST | INSUFFICIENT_INPUT | INVALID_IMAGE_COUNT | INVALID_INSTAGRAM_URL"
         ),
     },
+    429: {"model": ErrorEnvelope, "description": "RATE_LIMITED (per-instance backstop)"},
     500: {"model": ErrorEnvelope, "description": "INTERNAL_ERROR"},
     502: {
         "model": ErrorEnvelope,
         "description": (
             "MODEL_PROVIDER_ERROR | MODEL_SCHEMA_ERROR | MODEL_CONTENT_ERROR | REPAIR_FAILED"
         ),
+    },
+    503: {
+        "model": ErrorEnvelope,
+        "description": "SERVICE_UNAVAILABLE (public inference fail-closed gate)",
     },
     504: {"model": ErrorEnvelope, "description": "MODEL_TIMEOUT"},
 }
@@ -151,7 +157,10 @@ async def diagnosis(
         normalized = image_normalize.normalize_product_image(raw)
 
     report = await service.run(req, normalized, request_id=request_id)
-    return SuccessEnvelope[DiagnosisReportV1](request_id=request_id, data=report)
+    token = sign_report(get_settings(), "diagnosis", request_id, report.model_dump(mode="json"))
+    return SuccessEnvelope[DiagnosisReportV1](
+        request_id=request_id, data=report, delivery_token=token
+    )
 
 
 @router.post(
@@ -203,4 +212,7 @@ async def prescription(
 
     normalized = [image_normalize.normalize_insight_screenshot(r) for r in raws]
     report = await service.run(req, normalized, request_id=request_id)
-    return SuccessEnvelope[PrescriptionReportV1](request_id=request_id, data=report)
+    token = sign_report(get_settings(), "prescription", request_id, report.model_dump(mode="json"))
+    return SuccessEnvelope[PrescriptionReportV1](
+        request_id=request_id, data=report, delivery_token=token
+    )

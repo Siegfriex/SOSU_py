@@ -314,6 +314,30 @@ ERROR_CASES: list[tuple[str, SosuError]] = [
         "error.internal_error.json",
         SosuError(ErrorCode.INTERNAL_ERROR, GENERIC_INTERNAL_MESSAGE, retryable=False),
     ),
+    (
+        "error.service_unavailable.json",
+        SosuError(
+            ErrorCode.SERVICE_UNAVAILABLE,
+            "현재 AI 생성 서비스가 일시 중단되어 있습니다. 잠시 후 다시 이용해 주세요.",
+            details=[{"reason": "public_inference_disabled"}],
+            retryable=False,
+        ),
+    ),
+    (
+        "error.rate_limited.json",
+        SosuError(
+            ErrorCode.RATE_LIMITED,
+            "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.",
+            details=[{"scope": "per_instance"}],
+        ),
+    ),
+    (
+        "error.email_delivery_failed.json",
+        SosuError(
+            ErrorCode.EMAIL_DELIVERY_FAILED,
+            "이메일 발송에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        ),
+    ),
 ]
 
 

@@ -101,6 +101,9 @@ The frontend renders Korean labels and must send the stable codes below (machine
 | `MODEL_CONTENT_ERROR` | 502 | true |
 | `REPAIR_FAILED` | 502 | true |
 | `INTERNAL_ERROR` | 500 | false |
+| `SERVICE_UNAVAILABLE` | 503 | false |
+| `RATE_LIMITED` | 429 | true |
+| `EMAIL_DELIVERY_FAILED` | 502 | true |
 
 `details` is a free-form list (validation locs, limits). `message` is safe to show; provider
 exception text is never forwarded.
@@ -108,6 +111,7 @@ exception text is never forwarded.
 ## Fixtures
 - `fixtures/diagnosis.request.json`
 - `fixtures/diagnosis.success.json`
+- `fixtures/error.email_delivery_failed.json`
 - `fixtures/error.image_too_large.json`
 - `fixtures/error.insufficient_input.json`
 - `fixtures/error.internal_error.json`
@@ -119,7 +123,9 @@ exception text is never forwarded.
 - `fixtures/error.model_provider_error.json`
 - `fixtures/error.model_schema_error.json`
 - `fixtures/error.model_timeout.json`
+- `fixtures/error.rate_limited.json`
 - `fixtures/error.repair_failed.json`
+- `fixtures/error.service_unavailable.json`
 - `fixtures/prescription.request.json`
 - `fixtures/prescription.success.json`
 - `fixtures/ui_option_catalog.json`

@@ -260,7 +260,10 @@
           "MODEL_SCHEMA_ERROR",
           "MODEL_CONTENT_ERROR",
           "REPAIR_FAILED",
-          "INTERNAL_ERROR"
+          "INTERNAL_ERROR",
+          "SERVICE_UNAVAILABLE",
+          "RATE_LIMITED",
+          "EMAIL_DELIVERY_FAILED"
         ],
         "title": "ErrorCode",
         "type": "string"
@@ -292,6 +295,77 @@
           "error"
         ],
         "title": "ErrorEnvelope",
+        "type": "object"
+      },
+      "FeatureFlag": {
+        "properties": {
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "title": "FeatureFlag",
+        "type": "object"
+      },
+      "FeaturesResponse": {
+        "description": "GET /api/v1/features — plain JSON (not enveloped), like /health.",
+        "properties": {
+          "build": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Build"
+          },
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "email": {
+            "$ref": "#/components/schemas/FeatureFlag"
+          },
+          "image_storage": {
+            "$ref": "#/components/schemas/FeatureFlag"
+          },
+          "inference": {
+            "$ref": "#/components/schemas/FeatureFlag"
+          },
+          "knowledge_version": {
+            "title": "Knowledge Version",
+            "type": "string"
+          },
+          "research": {
+            "$ref": "#/components/schemas/FeatureFlag"
+          }
+        },
+        "required": [
+          "inference",
+          "email",
+          "image_storage",
+          "research",
+          "knowledge_version"
+        ],
+        "title": "FeaturesResponse",
         "type": "object"
       },
       "FontSection": {
@@ -601,6 +675,69 @@
         "title": "ReelTypeItem",
         "type": "object"
       },
+      "ReportEmailRequestV1": {
+        "additionalProperties": false,
+        "description": "POST /api/v1/report-email JSON body. `report` is the success envelope's `data`, echoed.",
+        "properties": {
+          "delivery_token": {
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Delivery Token",
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "diagnosis",
+              "prescription"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "report": {
+            "additionalProperties": true,
+            "title": "Report",
+            "type": "object"
+          },
+          "request_id": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "report",
+          "request_id",
+          "delivery_token",
+          "email"
+        ],
+        "title": "ReportEmailRequestV1",
+        "type": "object"
+      },
+      "ReportEmailResultV1": {
+        "properties": {
+          "status": {
+            "enum": [
+              "sent",
+              "duplicate"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "ReportEmailResultV1",
+        "type": "object"
+      },
       "StrengthItem": {
         "properties": {
           "description": {
@@ -670,6 +807,18 @@
           "data": {
             "$ref": "#/components/schemas/DiagnosisReportV1"
           },
+          "delivery_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Opaque server-signed token '<issued_at_unix>.<hmac hex>' over this report. Echo it to POST /api/v1/report-email. null when report delivery is not configured.",
+            "title": "Delivery Token"
+          },
           "ok": {
             "const": true,
             "default": true,
@@ -699,6 +848,18 @@
           "data": {
             "$ref": "#/components/schemas/PrescriptionReportV1"
           },
+          "delivery_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Opaque server-signed token '<issued_at_unix>.<hmac hex>' over this report. Echo it to POST /api/v1/report-email. null when report delivery is not configured.",
+            "title": "Delivery Token"
+          },
           "ok": {
             "const": true,
             "default": true,
@@ -715,6 +876,47 @@
           "data"
         ],
         "title": "SuccessEnvelope[PrescriptionReportV1]",
+        "type": "object"
+      },
+      "SuccessEnvelope_ReportEmailResultV1_": {
+        "properties": {
+          "contract_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Contract Version",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ReportEmailResultV1"
+          },
+          "delivery_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Opaque server-signed token '<issued_at_unix>.<hmac hex>' over this report. Echo it to POST /api/v1/report-email. null when report delivery is not configured.",
+            "title": "Delivery Token"
+          },
+          "ok": {
+            "const": true,
+            "default": true,
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "title": "SuccessEnvelope[ReportEmailResultV1]",
         "type": "object"
       },
       "SurveyAnswersV1": {
@@ -1071,6 +1273,16 @@
             },
             "description": "INVALID_REQUEST | INSUFFICIENT_INPUT | INVALID_IMAGE_COUNT | INVALID_INSTAGRAM_URL"
           },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "RATE_LIMITED (per-instance backstop)"
+          },
           "500": {
             "content": {
               "application/json": {
@@ -1091,6 +1303,16 @@
             },
             "description": "MODEL_PROVIDER_ERROR | MODEL_SCHEMA_ERROR | MODEL_CONTENT_ERROR | REPAIR_FAILED"
           },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "SERVICE_UNAVAILABLE (public inference fail-closed gate)"
+          },
           "504": {
             "content": {
               "application/json": {
@@ -1110,6 +1332,27 @@
           "payload": "SurveyDiagnosisRequestV1 (JSON string)",
           "product_image": "optional file, 0..1, image/jpeg|png|webp, <= 1.25 MB"
         }
+      }
+    },
+    "/api/v1/features": {
+      "get": {
+        "operationId": "features_api_v1_features_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeaturesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Features",
+        "tags": [
+          "system"
+        ]
       }
     },
     "/api/v1/health": {
@@ -1187,6 +1430,16 @@
             },
             "description": "INVALID_REQUEST | INSUFFICIENT_INPUT | INVALID_IMAGE_COUNT | INVALID_INSTAGRAM_URL"
           },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "RATE_LIMITED (per-instance backstop)"
+          },
           "500": {
             "content": {
               "application/json": {
@@ -1206,6 +1459,16 @@
               }
             },
             "description": "MODEL_PROVIDER_ERROR | MODEL_SCHEMA_ERROR | MODEL_CONTENT_ERROR | REPAIR_FAILED"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "SERVICE_UNAVAILABLE (public inference fail-closed gate)"
           },
           "504": {
             "content": {
@@ -1227,6 +1490,87 @@
           "payload": "PrescriptionRequestV1 (JSON string)"
         }
       }
+    },
+    "/api/v1/report-email": {
+      "post": {
+        "operationId": "report_email_api_v1_report_email_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportEmailRequestV1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope_ReportEmailResultV1_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "IMAGE_TOO_LARGE (request body cap)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "INVALID_REQUEST"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "RATE_LIMITED (per-instance backstop)"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "EMAIL_DELIVERY_FAILED"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "SERVICE_UNAVAILABLE (email disabled)"
+          }
+        },
+        "summary": "검증된 리포트를 이메일로 발송",
+        "tags": [
+          "delivery"
+        ]
+      }
     }
   },
   "tags": [
@@ -1241,6 +1585,10 @@
     {
       "description": "Workflow B — Insight 스크린샷 → PrescriptionReportV1.",
       "name": "prescription"
+    },
+    {
+      "description": "Phase 2 — 서명된 리포트 이메일 발송 (fail-closed).",
+      "name": "delivery"
     }
   ],
   "x-payload-models": {

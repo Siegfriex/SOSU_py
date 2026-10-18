@@ -16,6 +16,7 @@ from fastapi.responses import JSONResponse
 from pydantic.json_schema import models_json_schema
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from app.api.delivery import router as delivery_router
 from app.api.errors import envelope_dict, internal_error, pydantic_error_details
 from app.api.v1 import router as v1_router
 from app.config import CONTRACT_VERSION, get_settings
@@ -24,6 +25,7 @@ from app.contracts.envelope import ErrorCode
 from app.contracts.prescription import PrescriptionRequestV1
 from app.domain.errors import SosuError
 from app.logging_setup import configure_logging
+from app.security.middleware import SecurityMiddleware
 
 logger = logging.getLogger("sosu.api")
 
@@ -37,6 +39,7 @@ OPENAPI_TAGS = [
         "name": "prescription",
         "description": "Workflow B — Insight 스크린샷 → PrescriptionReportV1.",
     },
+    {"name": "delivery", "description": "Phase 2 — 서명된 리포트 이메일 발송 (fail-closed)."},
 ]
 
 
@@ -97,12 +100,14 @@ def create_app() -> FastAPI:
         openapi_tags=OPENAPI_TAGS,
     )
 
+    # Inner to CORS so 413/429/503 rejections still carry CORS headers (browser can read them).
+    app.add_middleware(SecurityMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins_list,
         allow_methods=["GET", "POST"],
         allow_headers=["*"],
-        expose_headers=["X-Request-ID"],
+        expose_headers=["X-Request-ID", "X-SOSU-Build"],
     )
 
     @app.middleware("http")
@@ -152,6 +157,7 @@ def create_app() -> FastAPI:
         return JSONResponse(status_code=500, content=internal_error(rid).model_dump(mode="json"))
 
     app.include_router(v1_router)
+    app.include_router(delivery_router)
     app.openapi = lambda: _openapi_with_payload_models(app)  # type: ignore[method-assign]
     return app
 

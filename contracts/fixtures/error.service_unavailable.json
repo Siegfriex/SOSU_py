@@ -1,0 +1,15 @@
+{
+  "ok": false,
+  "request_id": "fixture-service-unavailable",
+  "contract_version": "1.0",
+  "error": {
+    "code": "SERVICE_UNAVAILABLE",
+    "message": "현재 AI 생성 서비스가 일시 중단되어 있습니다. 잠시 후 다시 이용해 주세요.",
+    "retryable": false,
+    "details": [
+      {
+        "reason": "public_inference_disabled"
+      }
+    ]
+  }
+}
