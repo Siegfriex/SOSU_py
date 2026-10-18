@@ -21,3 +21,6 @@ dist/
 
 # sprint scratch
 .sprint/
+
+# guidebook build marker (local)
+knowledge/guidebook/READY
