@@ -18,7 +18,7 @@ from app.gemini.prompts._common import constraint_sentences
 from app.gemini.schemas import DiagnosisDraftV1, to_public_diagnosis
 from app.images.types import NormalizedImage
 from app.knowledge.provider import GuidebookKnowledgeProvider, get_knowledge_provider
-from app.services.deadline import with_deadline
+from app.services.deadline import budget_spec, with_deadline
 from app.services.repair import run_with_repair
 
 log = logging.getLogger("sosu.diagnosis")
@@ -105,12 +105,14 @@ class DiagnosisService:
         # Deliberately survey-free: the observation prompt takes no survey argument.
         system, user = visual_prompt.build_visual_observation_prompt(locale=locale)
         result = await self._gateway.generate_structured(
-            spec=GenerationSpec(
-                model=s.gemini_model_observe,
-                thinking=s.gemini_thinking_observe,
-                max_output_tokens=s.gemini_max_output_observe,
-                prompt_version=visual_prompt.PROMPT_VERSION,
-                timeout_seconds=s.gemini_timeout_observe,
+            spec=budget_spec(
+                GenerationSpec(
+                    model=s.gemini_model_observe,
+                    thinking=s.gemini_thinking_observe,
+                    max_output_tokens=s.gemini_max_output_observe,
+                    prompt_version=visual_prompt.PROMPT_VERSION,
+                    timeout_seconds=s.gemini_timeout_observe,
+                )
             ),
             system_instruction=system,
             user_text=user,
@@ -131,12 +133,14 @@ class DiagnosisService:
             len(selection.rules),
         )
         result = await self._gateway.generate_structured(
-            spec=GenerationSpec(
-                model=s.gemini_model_diagnosis,
-                thinking=s.gemini_thinking_synthesis,
-                max_output_tokens=s.gemini_max_output_diagnosis,
-                prompt_version=diagnosis_prompt.PROMPT_VERSION,
-                timeout_seconds=s.gemini_timeout_synthesis,
+            spec=budget_spec(
+                GenerationSpec(
+                    model=s.gemini_model_diagnosis,
+                    thinking=s.gemini_thinking_synthesis,
+                    max_output_tokens=s.gemini_max_output_diagnosis,
+                    prompt_version=diagnosis_prompt.PROMPT_VERSION,
+                    timeout_seconds=s.gemini_timeout_synthesis,
+                )
             ),
             system_instruction=system,
             user_text=user,

@@ -17,6 +17,7 @@ from __future__ import annotations
 import asyncio
 import io
 import json
+import os
 import sys
 import time
 from datetime import datetime
@@ -416,15 +417,20 @@ async def main() -> int:
         "workflows": [],
     }
 
-    diag = await _workflow(
-        "diagnosis",
-        lambda: diag_svc.run(diag_req, product, request_id="smoke-diag-1"),
-        calls,
-        knowledge,
-    )
-    run["workflows"].append(diag)
-    print(f"diagnosis: {diag['status']} {diag['latency_ms']}ms calls={len(diag['calls'])}")
-    if diag["status"] == "success":
+    # SOSU_SMOKE_ONLY=prescription re-verifies the prescription path alone (same global call cap).
+    only = os.getenv("SOSU_SMOKE_ONLY", "").strip()
+    run["only"] = only or None
+    diag: dict[str, Any] = {"status": "skipped"}
+    if only != "prescription":
+        diag = await _workflow(
+            "diagnosis",
+            lambda: diag_svc.run(diag_req, product, request_id="smoke-diag-1"),
+            calls,
+            knowledge,
+        )
+        run["workflows"].append(diag)
+        print(f"diagnosis: {diag['status']} {diag['latency_ms']}ms calls={len(diag['calls'])}")
+    if diag["status"] in ("success", "skipped"):
         presc = await _workflow(
             "prescription",
             lambda: presc_svc.run(presc_req, insight_images, request_id="smoke-presc-1"),
@@ -444,7 +450,9 @@ async def main() -> int:
     RESULT_PATH.parent.mkdir(parents=True, exist_ok=True)
     RESULT_PATH.write_text(json.dumps(prior, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"provider calls this run={budget.calls} total={prior['total_provider_calls']}")
-    ok = all(w["status"] == "success" for w in run["workflows"]) and len(run["workflows"]) == 2
+    expected = 1 if only == "prescription" else 2
+    statuses = [w["status"] for w in run["workflows"]]
+    ok = all(st == "success" for st in statuses) and len(statuses) == expected
     return 0 if ok else 1
 
 

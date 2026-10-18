@@ -126,12 +126,12 @@ async def test_prescription_pipeline():
     assert observe.schema is InsightObservationV1
     assert observe.image_count == 3
     assert observe.spec.model == "observe-model"
-    assert observe.spec.prompt_version == "insight-observation-v1"
+    assert observe.spec.prompt_version == "insight-observation-v2"
     assert synth.schema is PrescriptionDraftV1
     assert synth.image_count == 0
     assert synth.spec.model == "prescription-model"
     assert synth.spec.max_output_tokens == 4096
-    assert synth.spec.prompt_version == "prescription-v2"
+    assert synth.spec.prompt_version == "prescription-v3"
     assert req.instagram_url in synth.user_text
     assert "미관측" in synth.user_text
     assert "하단 잘림" in synth.user_text  # unreadable regions are forwarded, not filled

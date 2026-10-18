@@ -33,6 +33,17 @@ Deployed by Vercel's FastAPI zero-config from `SOSU_py` main; entrypoint `app/ma
   A missing pack is non-fatal (prompts carry "knowledge_version none"), so **verify after deploy**:
   `GET /api/v1/features` must report `knowledge_version: "gb2-5edea367"` (not `none`).
 - Live smoke latencies (29 s diagnosis, 47 s prescription, 4 calls) fit comfortably in 200 s.
+- **Stage timeouts vs deadline (RD-6, docs/RD6_TIMEOUT.md):** code defaults observe 60 /
+  synthesis 90 / repair 40 s (sum 190) are *upper bounds*; every model call is capped at
+  `remaining request budget − margin(2 s)` and refused with `MODEL_TIMEOUT` when < 3 s is left, so
+  the 180 s deadline always answers first with a structured 504 envelope. Vercel production sets no
+  `GEMINI_TIMEOUT_*` env, so the code defaults apply there. The 180 s clock starts at
+  `service.run` (after multipart parsing + image normalization); cold start, upload and
+  normalization come out of the 20 s margin.
+- **Integrity check 2026-10-18 14:52 KST (GET only):** `GET https://sosu-py.vercel.app/api/v1/features`
+  → `knowledge_version: "gb2-5edea367"`, `build: "f5680aa4f5ea"` (= HEAD f5680aa),
+  `inference.enabled: false (public_inference_disabled)`. `excludeFiles` does not touch
+  `knowledge/**` or `contracts/**`.
 
 ## Python / dependencies
 

@@ -17,14 +17,20 @@ from app.images.types import NormalizedImage
 from app.knowledge.provider import GuidebookKnowledgeProvider, get_knowledge_provider
 from app.research.models import ResearchQuery
 from app.research.provider import ResearchProvider, get_research_provider
-from app.services.deadline import with_deadline
+from app.services.deadline import budget_spec, with_deadline
 from app.services.repair import run_with_repair
 
 log = logging.getLogger("sosu.prescription")
 
 _PRESCRIPTION_CONSTRAINTS = (
     "- 릴스 URL 내용은 관측되지 않았음. 영상 내용을 본 것처럼 쓰지 말 것.\n"
-    "- unreadable로 기록된 지표는 추정하지 말 것."
+    "- 계정명(@handle)·URL은 식별자일 뿐 영상 내용이 아님. 여기서 제품·소재·공정을 유추한 "
+    "표현(예: 계정명의 영단어를 번역한 명사)은 삭제하거나 "
+    "'완성작', '작업 과정' 같은 일반 표현으로 바꿀 것.\n"
+    "- 분석한 릴스의 장면·제품·소재·공정·편집을 사실처럼 쓰지 말 것. 아이디어는 "
+    "'다음 영상에서 시도해 볼 수 있는 예'로만 쓰고 분석한 영상에 귀속시키지 말 것.\n"
+    "- unreadable로 기록된 지표는 추정하지 말고 숫자를 쓰지 말 것.\n"
+    "- 관측된 지표 수치·라벨은 그대로 유지할 것."
 )
 
 
@@ -93,7 +99,9 @@ class PrescriptionService:
             gateway=self._gateway,
             spec_repair=self._spec_repair(),
             draft=draft,
-            validate=validate_prescription,
+            validate=lambda d: validate_prescription(
+                d, observation=observation, instagram_url=request.instagram_url
+            ),
             build_repair_prompt=lambda d, errors: repair_prompt.build_repair_prompt(
                 draft=d, errors=errors, constraints=_PRESCRIPTION_CONSTRAINTS
             ),
@@ -111,12 +119,14 @@ class PrescriptionService:
         s = self.settings
         system, user = insight_prompt.build_insight_observation_prompt(locale=locale)
         result = await self._gateway.generate_structured(
-            spec=GenerationSpec(
-                model=s.gemini_model_observe,
-                thinking=s.gemini_thinking_observe,
-                max_output_tokens=s.gemini_max_output_observe,
-                prompt_version=insight_prompt.PROMPT_VERSION,
-                timeout_seconds=s.gemini_timeout_observe,
+            spec=budget_spec(
+                GenerationSpec(
+                    model=s.gemini_model_observe,
+                    thinking=s.gemini_thinking_observe,
+                    max_output_tokens=s.gemini_max_output_observe,
+                    prompt_version=insight_prompt.PROMPT_VERSION,
+                    timeout_seconds=s.gemini_timeout_observe,
+                )
             ),
             system_instruction=system,
             user_text=user,
@@ -162,12 +172,14 @@ class PrescriptionService:
             research.status,
         )
         result = await self._gateway.generate_structured(
-            spec=GenerationSpec(
-                model=s.gemini_model_prescription,
-                thinking=s.gemini_thinking_synthesis,
-                max_output_tokens=s.gemini_max_output_prescription,
-                prompt_version=prescription_prompt.PROMPT_VERSION,
-                timeout_seconds=s.gemini_timeout_synthesis,
+            spec=budget_spec(
+                GenerationSpec(
+                    model=s.gemini_model_prescription,
+                    thinking=s.gemini_thinking_synthesis,
+                    max_output_tokens=s.gemini_max_output_prescription,
+                    prompt_version=prescription_prompt.PROMPT_VERSION,
+                    timeout_seconds=s.gemini_timeout_synthesis,
+                )
             ),
             system_instruction=system,
             user_text=user,

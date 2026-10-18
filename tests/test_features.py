@@ -23,6 +23,10 @@ def env(monkeypatch: pytest.MonkeyPatch) -> Iterator[pytest.MonkeyPatch]:
         monkeypatch.delenv(name, raising=False)
     for name in ("RESEND_API_KEY", "SOSU_EMAIL_FROM", "SOSU_DELIVERY_SIGNING_SECRET"):
         monkeypatch.setenv(name, "")
+    # Pin the flags: a developer .env/.env.local (e.g. one opening inference) must not leak in.
+    monkeypatch.setenv("SOSU_ENV", "development")
+    monkeypatch.setenv("SOSU_PUBLIC_INFERENCE_ENABLED", "false")
+    monkeypatch.setenv("SOSU_PUBLIC_EMAIL_ENABLED", "false")
     monkeypatch.setenv("GEMINI_API_KEY", "test-key-not-real")
     get_settings.cache_clear()
     yield monkeypatch

@@ -42,6 +42,8 @@ _THINKING: dict[ThinkingLevel, genai_types.ThinkingLevel] = {
 }
 
 _TRANSIENT_HTTP = frozenset({429, 500, 503})
+# A retry is only attempted if at least this much of the stage timeout is left (or 10 % of it).
+_MIN_RETRY_SECONDS = 3.0
 _CONTENT_FINISH_REASONS = frozenset(
     {
         "MAX_TOKENS",
@@ -155,10 +157,28 @@ class GoogleGenAIGateway:
             wait=wait_exponential(multiplier=0.5, min=0.5, max=2.0),
             reraise=False,
         )
+        # The stage timeout (already capped at the remaining request budget by the service layer)
+        # bounds ALL attempts together: the single retry only gets what is left of it, and is
+        # skipped with MODEL_TIMEOUT when that is less than _MIN_RETRY_SECONDS.
+        started = time.monotonic()
         try:
             async for attempt in retrying:
                 with attempt:
-                    return await self._call_once(spec, contents, config)
+                    left = spec.timeout_seconds - (time.monotonic() - started)
+                    if attempt.retry_state.attempt_number > 1 and left < min(
+                        _MIN_RETRY_SECONDS, spec.timeout_seconds * 0.1
+                    ):
+                        log.warning(
+                            "gemini retry skipped: stage budget exhausted prompt=%s left=%.3fs",
+                            spec.prompt_version,
+                            left,
+                        )
+                        raise SosuError(
+                            ErrorCode.MODEL_TIMEOUT,
+                            "Model request timed out.",
+                            details=[{"stage_budget_exhausted": True}],
+                        )
+                    return await self._call_once(spec, contents, config, timeout=left)
         except RetryError as exc:
             last = exc.last_attempt.exception()
             code = last.code if isinstance(last, _Transient) else None
@@ -173,14 +193,23 @@ class GoogleGenAIGateway:
         raise SosuError(ErrorCode.INTERNAL_ERROR, "Unreachable retry state.")  # pragma: no cover
 
     async def _call_once(
-        self, spec: GenerationSpec, contents: list[Any], config: genai_types.GenerateContentConfig
+        self,
+        spec: GenerationSpec,
+        contents: list[Any],
+        config: genai_types.GenerateContentConfig,
+        *,
+        timeout: float,
     ) -> genai_types.GenerateContentResponse:
+        if timeout < spec.timeout_seconds - 0.01:  # only a retry gets a reduced budget
+            config = config.model_copy(
+                update={"http_options": genai_types.HttpOptions(timeout=int(timeout * 1000))}
+            )
         try:
             response = await asyncio.wait_for(
                 self._client.aio.models.generate_content(
                     model=spec.model, contents=contents, config=config
                 ),
-                timeout=spec.timeout_seconds,
+                timeout=timeout,
             )
         except (TimeoutError, httpx.TimeoutException):
             log.warning("gemini timeout prompt=%s model=%s", spec.prompt_version, spec.model)

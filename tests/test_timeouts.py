@@ -1,9 +1,11 @@
-"""Timeout hierarchy: observe 45s / synthesis 90s / repair 40s inside an overall 180s deadline."""
+"""Timeout hierarchy: observe 60 / synth 90 / repair 40 s, capped by the 180 s request deadline."""
 
 from __future__ import annotations
 
 import asyncio
+import json
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -44,21 +46,41 @@ def _settings(**overrides: Any) -> Settings:
 # ------------------------------------------------------------------ defaults / hierarchy
 
 
-def test_default_timeout_hierarchy_matches_owner_decision() -> None:
-    s = Settings()
-    assert s.gemini_timeout_observe == 45.0
+_TIMEOUT_ENV = (
+    "GEMINI_TIMEOUT_OBSERVE",
+    "GEMINI_TIMEOUT_SYNTHESIS",
+    "GEMINI_TIMEOUT_REPAIR",
+    "SOSU_REQUEST_DEADLINE_SECONDS",
+)
+
+
+def _code_defaults(monkeypatch: pytest.MonkeyPatch) -> Settings:
+    # Code defaults only: ignore the owner's .env/.env.local (which may still pin observe=45).
+    for name in _TIMEOUT_ENV:
+        monkeypatch.delenv(name, raising=False)
+    return Settings(_env_file=None)  # type: ignore[call-arg]
+
+
+def test_default_timeout_hierarchy_matches_owner_decision(monkeypatch: pytest.MonkeyPatch) -> None:
+    s = _code_defaults(monkeypatch)
+    assert s.gemini_timeout_observe == 60.0  # RD-6
     assert s.gemini_timeout_synthesis == 90.0
     assert s.gemini_timeout_repair == 40.0
     assert s.sosu_request_deadline_seconds == 180.0
 
 
-def test_stage_timeouts_fit_inside_overall_deadline() -> None:
-    s = Settings()
-    worst_case = s.gemini_timeout_observe + s.gemini_timeout_synthesis + s.gemini_timeout_repair
-    assert worst_case <= s.sosu_request_deadline_seconds
-    assert max(s.gemini_timeout_observe, s.gemini_timeout_synthesis, s.gemini_timeout_repair) < (
-        s.sosu_request_deadline_seconds
-    )
+def test_each_stage_fits_inside_deadline_and_deadline_inside_vercel(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # The SUM (190) may exceed the deadline: stages are capped at the remaining budget
+    # (tests/test_deadline_budget.py). Each single stage must still fit, and the deadline must
+    # fire well before the Vercel function is killed.
+    s = _code_defaults(monkeypatch)
+    for stage in (s.gemini_timeout_observe, s.gemini_timeout_synthesis, s.gemini_timeout_repair):
+        assert stage < s.sosu_request_deadline_seconds - 2.0
+    vercel = json.loads((Path(__file__).resolve().parents[1] / "vercel.json").read_text())
+    max_duration = vercel["functions"]["app/main.py"]["maxDuration"]
+    assert max_duration >= s.sosu_request_deadline_seconds + 10
 
 
 def test_env_overrides_are_honoured(monkeypatch: pytest.MonkeyPatch) -> None:

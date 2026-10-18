@@ -11,6 +11,7 @@ from app.contracts.envelope import ErrorCode
 from app.domain.errors import SosuError
 from app.domain.validator import ValidationOutcome, ValidationReport
 from app.gemini.gateway import GeminiGateway, GenerationSpec
+from app.services.deadline import budget_spec
 
 log = logging.getLogger("sosu.repair")
 
@@ -44,9 +45,11 @@ async def run_with_repair[T: BaseModel](
         request_id,
         len(report.errors),
     )
+    # Cap at the remaining request budget; raises MODEL_TIMEOUT (repair never starts) if exhausted.
+    spec = budget_spec(spec_repair)
     system, user = build_repair_prompt(draft, report.errors)
     repaired = await gateway.generate_structured(
-        spec=spec_repair,
+        spec=spec,
         system_instruction=system,
         user_text=user,
         images=[],

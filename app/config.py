@@ -37,8 +37,11 @@ class Settings(BaseSettings):
     gemini_max_output_prescription: int = 4096
     gemini_max_output_repair: int = 4096
 
-    # Timeout hierarchy (seconds). Stages must fit inside the overall request deadline.
-    gemini_timeout_observe: float = 45.0
+    # Timeout hierarchy (seconds). Stage timeouts are UPPER BOUNDS: each call is capped at the
+    # remaining request budget (app/services/deadline.py budget_spec), so their sum (190) may
+    # exceed the deadline; the deadline (180) is always enforced and stays < vercel.json
+    # maxDuration (200). RD-6 (docs/RD6_TIMEOUT.md): observe 45 → 60.
+    gemini_timeout_observe: float = 60.0
     gemini_timeout_synthesis: float = 90.0
     gemini_timeout_repair: float = 40.0
     sosu_request_deadline_seconds: float = 180.0
