@@ -36,6 +36,7 @@ def test_openapi_paths_and_multipart_fields() -> None:
         "/api/v1/prescription",
         "/api/v1/features",
         "/api/v1/report-email",
+        "/api/v1/guidebook",
     }
     assert "get" in paths["/api/v1/health"]
 

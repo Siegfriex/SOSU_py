@@ -8,7 +8,8 @@
 | [RD5_GROUNDING.md](RD5_GROUNDING.md) | prescription grounding: root cause, evidence boundary, validator checks, residual risks |
 | [KNOWLEDGE.md](KNOWLEDGE.md) | guidebook KnowledgePack: format, injection, versioning |
 | [RESEARCH_BOUNDARY.md](RESEARCH_BOUNDARY.md) | external research interface (disabled) |
-| [EMAIL.md](EMAIL.md) | report email delivery (implemented, disabled) |
+| [EMAIL.md](EMAIL.md) | report email delivery and guidebook e-book link (implemented, off until configured) |
+| [EMAIL_SETUP_GUIDE.md](EMAIL_SETUP_GUIDE.md) | 이메일 켜기: 처음 하는 사람용 단계별 가이드 (Resend · Blob · env · WAF) |
 | [IMAGE_STORAGE.md](IMAGE_STORAGE.md) | consent-based image retention design (not implemented) |
 | [LIVE_SMOKE.md](LIVE_SMOKE.md) | capped live Gemini smoke runs and their quality notes |
 | [AUDIT_2026-09-13.md](AUDIT_2026-09-13.md) | historical audit before integration |

@@ -5,7 +5,7 @@ Two structured-generation workflows behind one versioned HTTP contract:
 
 | Workflow | Input | Output |
 |---|---|---|
-| **진단 Diagnosis** | 20-question survey + optional product photo | 9-section Reels diagnosis (positioning, strengths, target, tone, fonts, priorities, reel types, 30-second structure, final guidance) |
+| **진단 Diagnosis** | 20-question survey + up to 3 optional product photos | 9-section Reels diagnosis (positioning, strengths, target, tone, fonts, priorities, reel types, 30-second structure, final guidance) |
 | **처방 Prescription** | Reel URL + exactly 3 Instagram Insight screenshots | Metric-grounded diagnosis of one reel + 4 next actions + tone |
 
 Live: API `https://sosu-py.vercel.app` (`/api/v1/health`, `/api/v1/features`) · frontend `https://sosu-rosy.vercel.app`
@@ -52,7 +52,7 @@ The service runs on a public URL, and every generation is a paid model call. Def
 | Shared rate limit: 3 generation requests / 60 s / IP, diagnosis and prescription combined | Vercel Firewall rule; plain-text edge 429 is handled by the frontend |
 | 4 MB request body cap, per-instance token bucket (defence in depth) | `app/security/*` |
 | Monthly provider spend cap | Google AI Studio project setting |
-| Email delivery, image retention, external research | **disabled**: implemented or designed, but switched off (`/api/v1/features`) |
+| Email delivery (+ guidebook e-book link), image retention, external research | **off until configured**: implemented or designed, switched by env (`/api/v1/features`); setup guide `docs/EMAIL_SETUP_GUIDE.md` |
 | No secrets in logs: only `request_id`, path, error code, token counts | `app/gemini/client.py`, `app/api/*` |
 
 ## Endpoints (contract `1.0`)
@@ -61,9 +61,10 @@ The service runs on a public URL, and every generation is a paid model call. Def
 |---|---|---|
 | GET | `/api/v1/health` | `gemini_configured` flag, contract version |
 | GET | `/api/v1/features` | runtime flags (inference / email / image storage / research), knowledge version, build SHA |
-| POST | `/api/v1/diagnosis` | multipart: `payload` (`SurveyDiagnosisRequestV1`), `product_image` 0..1 |
+| POST | `/api/v1/diagnosis` | multipart: `payload` (`SurveyDiagnosisRequestV1`), `product_image` repeated 0..3 |
 | POST | `/api/v1/prescription` | multipart: `payload` (`PrescriptionRequestV1`), `insight_images` ×3 |
 | POST | `/api/v1/report-email` | HMAC `delivery_token` bound to the generated report. Answers 503 while email is disabled |
+| GET | `/api/v1/guidebook?t=…` | signed, expiring e-book link from report e-mails → 302 to the PDF (storage URL stays secret) |
 
 Typed error codes (`INSUFFICIENT_INPUT`, `INVALID_IMAGE_COUNT`, `IMAGE_TOO_LARGE`, `MODEL_TIMEOUT`, `REPAIR_FAILED`,
 `RATE_LIMITED`, `SERVICE_UNAVAILABLE`, …) each carry `retryable`; the frontend maps them to distinct screens.
@@ -114,7 +115,7 @@ network call.
 ## Quality gates
 
 ```bash
-uv run pytest                      # 401 passed, 1 skipped (live test opt-in)
+uv run pytest                      # 414 passed, 1 skipped (live test opt-in)
 uv run ruff check && uv run ruff format --check
 uv run mypy
 uv run python scripts/check_openapi.py                    # committed contract == runtime

@@ -75,6 +75,7 @@ class FeaturesResponse(BaseModel):
     email: FeatureFlag
     image_storage: FeatureFlag
     research: FeatureFlag
+    guidebook: FeatureFlag = FeatureFlag(enabled=False, reason="guidebook_url_not_configured")
     knowledge_version: str
     build: str | None = None
 

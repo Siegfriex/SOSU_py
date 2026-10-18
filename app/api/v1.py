@@ -23,6 +23,7 @@ from app.images.types import (
     INSIGHT_IMAGE_COUNT,
     INSIGHT_IMAGE_MAX_BYTES,
     PRODUCT_IMAGE_MAX_BYTES,
+    PRODUCT_IMAGE_MAX_COUNT,
     NormalizedImage,
 )
 from app.security.tokens import sign_report
@@ -122,7 +123,9 @@ async def health(settings: Annotated[Settings, Depends(get_settings_dep)]) -> He
     openapi_extra={
         "x-multipart-fields": {
             "payload": "SurveyDiagnosisRequestV1 (JSON string)",
-            "product_image": "optional file, 0..1, image/jpeg|png|webp, <= 1.25 MB",
+            "product_image": (
+                "optional file field, repeatable 0..3, image/jpeg|png|webp, each <= 1.25 MB"
+            ),
         }
     },
 )
@@ -133,28 +136,35 @@ async def diagnosis(
     ],
     service: Annotated[DiagnosisService, Depends(get_diagnosis_service)],
     product_image: Annotated[
-        UploadFile | None,
-        File(description="Optional product photo (0..1). image/jpeg, image/png, image/webp."),
+        list[UploadFile] | None,
+        File(
+            description="Optional product photos (repeat the field, 0..3). "
+            "image/jpeg, image/png, image/webp."
+        ),
     ] = None,
 ) -> SuccessEnvelope[DiagnosisReportV1]:
     request_id = _request_id(request)
     req = _parse_payload(payload, SurveyDiagnosisRequestV1)
     declared = normalize_survey(req.answers)
 
-    has_image = not _is_absent(product_image)
-    ensure_sufficient_input(declared, has_image=has_image)
+    uploads = [f for f in (product_image or []) if not _is_absent(f)]
+    if len(uploads) > PRODUCT_IMAGE_MAX_COUNT:
+        raise SosuError(
+            ErrorCode.INVALID_IMAGE_COUNT,
+            f"제품 이미지는 최대 {PRODUCT_IMAGE_MAX_COUNT}장까지 올릴 수 있습니다.",
+            details=[{"max": PRODUCT_IMAGE_MAX_COUNT, "actual": len(uploads)}],
+        )
+    ensure_sufficient_input(declared, has_image=bool(uploads))
 
-    normalized: NormalizedImage | None = None
-    if has_image and product_image is not None:
+    normalized: list[NormalizedImage] = []
+    for upload in uploads:
         image_normalize.validate_upload(
-            product_image.content_type,
-            product_image.size or 0,
+            upload.content_type,
+            upload.size or 0,
             max_bytes=PRODUCT_IMAGE_MAX_BYTES,
         )
-        raw = await _read_capped(
-            product_image, max_bytes=PRODUCT_IMAGE_MAX_BYTES, label="product_image"
-        )
-        normalized = image_normalize.normalize_product_image(raw)
+        raw = await _read_capped(upload, max_bytes=PRODUCT_IMAGE_MAX_BYTES, label="product_image")
+        normalized.append(image_normalize.normalize_product_image(raw))
 
     report = await service.run(req, normalized, request_id=request_id)
     token = sign_report(get_settings(), "diagnosis", request_id, report.model_dump(mode="json"))

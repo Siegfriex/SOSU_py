@@ -50,10 +50,17 @@ def _sections_prescription(r: PrescriptionReportV1) -> list[tuple[str, list[str]
     ]
 
 
+GUIDEBOOK_TITLE = "SOSU 릴스 가이드북 (전자책 PDF)"
+GUIDEBOOK_NOTE = "아래 링크에서 가이드북 PDF를 내려받을 수 있어요. 링크는 {days}일 동안 유효합니다."
+
+
 def render_report_email(
     report: DiagnosisReportV1 | PrescriptionReportV1,
+    *,
+    guidebook_link: str | None = None,
+    guidebook_link_days: int = 7,
 ) -> tuple[str, str, str]:
-    """Return (subject, text, html)."""
+    """Return (subject, text, html). `guidebook_link` adds the e-book download block."""
     if isinstance(report, DiagnosisReportV1):
         subject = "[SOSU] 릴스 진단서"
         sections = _sections_diagnosis(report)
@@ -70,6 +77,16 @@ def render_report_email(
         html_parts.append(f"<h2>{escape(title)}</h2><ul>")
         html_parts.extend(f"<li>{escape(line)}</li>" for line in lines)
         html_parts.append("</ul>")
+    if guidebook_link:
+        note = GUIDEBOOK_NOTE.format(days=guidebook_link_days)
+        text_parts += [f"■ {GUIDEBOOK_TITLE}", note, guidebook_link, ""]
+        html_parts.append(
+            f"<h2>{escape(GUIDEBOOK_TITLE)}</h2><p>{escape(note)}</p>"
+            f'<p><a href="{escape(guidebook_link, quote=True)}" '
+            'style="display:inline-block;padding:12px 20px;border-radius:999px;'
+            'background:#c9bd94;color:#1b1f20;text-decoration:none;font-weight:600">'
+            "가이드북 PDF 받기</a></p>"
+        )
     text_parts.append(FOOTER)
     html_parts.append(f'<p style="color:#888">{escape(FOOTER)}</p>')
     return subject, "\n".join(text_parts), "\n".join(html_parts)

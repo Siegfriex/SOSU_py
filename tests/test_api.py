@@ -18,6 +18,7 @@ from app.images.types import (
     INSIGHT_IMAGE_MAX_BYTES,
     INSIGHT_IMAGES_MAX_TOTAL_BYTES,
     PRODUCT_IMAGE_MAX_BYTES,
+    PRODUCT_IMAGE_MAX_COUNT,
     NormalizedImage,
 )
 from app.main import create_app
@@ -161,7 +162,7 @@ def test_diagnosis_success_envelope(client: TestClient, services: dict[str, Any]
     assert body["data"]["schema_version"] == "diagnosis.v1"
     assert len(body["data"]["priorities"]) == 3
     call = services["diag"].calls[0]
-    assert call["product_image"] is None
+    assert call["product_image"] == []
     assert call["request_id"] == "req-abc-123"
     assert call["request"].answers.q1_brand_name == "모노유리"
 
@@ -175,8 +176,38 @@ def test_diagnosis_with_image_passes_normalized_image(
         files={"product_image": _img()},
     )
     assert r.status_code == 200, r.text
-    img = services["diag"].calls[0]["product_image"]
-    assert isinstance(img, NormalizedImage)
+    imgs = services["diag"].calls[0]["product_image"]
+    assert len(imgs) == 1 and isinstance(imgs[0], NormalizedImage)
+
+
+def test_diagnosis_accepts_three_product_images(
+    client: TestClient, services: dict[str, Any]
+) -> None:
+    r = client.post(
+        "/api/v1/diagnosis",
+        data=_payload(diagnosis_request_dict()),
+        files=[("product_image", _img(f"p{i}.jpg")) for i in range(PRODUCT_IMAGE_MAX_COUNT)],
+    )
+    assert r.status_code == 200, r.text
+    imgs = services["diag"].calls[0]["product_image"]
+    assert len(imgs) == PRODUCT_IMAGE_MAX_COUNT
+    assert all(isinstance(i, NormalizedImage) for i in imgs)
+
+
+def test_diagnosis_rejects_more_than_three_product_images(
+    client: TestClient, services: dict[str, Any]
+) -> None:
+    body = _assert_error(
+        client.post(
+            "/api/v1/diagnosis",
+            data=_payload(diagnosis_request_dict()),
+            files=[("product_image", _img(f"p{i}.jpg")) for i in range(4)],
+        ),
+        422,
+        ErrorCode.INVALID_IMAGE_COUNT,
+    )
+    assert body["error"]["details"] == [{"max": 3, "actual": 4}]
+    assert services["diag"].calls == []
 
 
 def test_diagnosis_q19_rejected(client: TestClient) -> None:
@@ -226,7 +257,7 @@ def test_diagnosis_image_alone_is_sufficient(client: TestClient, services: dict[
         files={"product_image": _img()},
     )
     assert r.status_code == 200, r.text
-    assert services["diag"].calls[0]["product_image"] is not None
+    assert len(services["diag"].calls[0]["product_image"]) == 1
 
 
 def test_diagnosis_bad_mime(client: TestClient) -> None:

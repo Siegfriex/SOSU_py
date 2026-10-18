@@ -45,6 +45,15 @@ def delivery_signing_configured(settings: Settings) -> bool:
     return bool(settings.sosu_delivery_signing_secret.get_secret_value().strip())
 
 
+def guidebook_status(settings: Settings) -> tuple[bool, str | None]:
+    """The e-book link needs a storage URL and the signing secret (links are HMAC-signed)."""
+    if not settings.sosu_guidebook_url.get_secret_value().strip():
+        return False, "guidebook_url_not_configured"
+    if not delivery_signing_configured(settings):
+        return False, "signing_secret_not_configured"
+    return True, None
+
+
 def email_status(settings: Settings) -> tuple[bool, str | None]:
     if not settings.resend_api_key.get_secret_value().strip():
         return False, "resend_not_configured"

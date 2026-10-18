@@ -47,6 +47,7 @@ def test_shape_local(env: pytest.MonkeyPatch) -> None:
         "email",
         "image_storage",
         "research",
+        "guidebook",
         "knowledge_version",
         "build",
     }

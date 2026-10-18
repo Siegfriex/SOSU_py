@@ -66,7 +66,7 @@ async def test_diagnosis_with_image_makes_two_calls_and_isolates_observation():
     assert observe.spec.model == "observe-model"
     assert observe.spec.thinking == "low"
     assert observe.spec.max_output_tokens == 2048
-    assert observe.spec.prompt_version == "visual-observation-v1"
+    assert observe.spec.prompt_version == "visual-observation-v2"
     for forbidden in (BRAND, DISTINCT_TEXT, "유리 키링", "face_only", "rarity"):
         assert forbidden not in observe.text
 
@@ -83,6 +83,21 @@ async def test_diagnosis_with_image_makes_two_calls_and_isolates_observation():
 
     assert report.schema_version == "diagnosis.v1"
     assert [p.rank for p in report.priorities] == [1, 2, 3]
+
+
+async def test_diagnosis_with_three_images_observes_them_in_one_call():
+    gw = FakeGateway([sample_visual(), sample_diagnosis_draft()])
+    await DiagnosisService(gw, settings=SETTINGS).run(
+        _request(), [fake_image(i) for i in range(3)], request_id="r3"
+    )
+    assert len(gw.calls) == 2
+    observe = gw.calls[0]
+    assert observe.schema is VisualObservationV1
+    assert observe.image_count == 3
+    assert "제품 사진 3장" in observe.user_text
+    assert "공통으로 보이는 특징" in observe.user_text
+    for forbidden in (BRAND, DISTINCT_TEXT):
+        assert forbidden not in observe.text
 
 
 async def test_diagnosis_without_image_skips_observation():

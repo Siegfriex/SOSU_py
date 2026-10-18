@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Sequence
 
 from app.config import Settings, get_settings
 from app.contracts.diagnosis import DiagnosisReportV1, SurveyDiagnosisRequestV1
@@ -51,12 +52,19 @@ class DiagnosisService:
     async def run(
         self,
         request: SurveyDiagnosisRequestV1,
-        product_image: NormalizedImage | None,
+        product_images: NormalizedImage | Sequence[NormalizedImage] | None,
         *,
         request_id: str,
     ) -> DiagnosisReportV1:
+        """`product_images`: 0..3 photos (a single image or None is accepted as shorthand)."""
+        if product_images is None:
+            images: list[NormalizedImage] = []
+        elif isinstance(product_images, NormalizedImage):
+            images = [product_images]
+        else:
+            images = list(product_images)
         return await with_deadline(
-            self._run(request, product_image, request_id=request_id),
+            self._run(request, images, request_id=request_id),
             seconds=self.settings.sosu_request_deadline_seconds,
             request_id=request_id,
         )
@@ -64,17 +72,16 @@ class DiagnosisService:
     async def _run(
         self,
         request: SurveyDiagnosisRequestV1,
-        product_image: NormalizedImage | None,
+        images: list[NormalizedImage],
         *,
         request_id: str,
     ) -> DiagnosisReportV1:
         declared = normalize_survey(request.answers)
 
         visual: VisualObservationV1 | None = None
-        if product_image is not None:
-            visual = await self._observe(
-                product_image, locale=request.locale, request_id=request_id
-            )
+        if images:
+            # One observation call over all photos: a single product seen from several angles.
+            visual = await self._observe(images, locale=request.locale, request_id=request_id)
 
         pack = build_evidence_pack(declared, visual, locale=request.locale)
         draft = await self._synthesize(pack, request_id=request_id)
@@ -93,17 +100,19 @@ class DiagnosisService:
             schema=DiagnosisDraftV1,
             request_id=request_id,
         )
-        log.info("diagnosis request_id=%s done image=%s", request_id, product_image is not None)
+        log.info("diagnosis request_id=%s done images=%d", request_id, len(images))
         return to_public_diagnosis(final)
 
     # ------------------------------------------------------------------ calls
 
     async def _observe(
-        self, image: NormalizedImage, *, locale: str, request_id: str
+        self, images: list[NormalizedImage], *, locale: str, request_id: str
     ) -> VisualObservationV1:
         s = self.settings
         # Deliberately survey-free: the observation prompt takes no survey argument.
-        system, user = visual_prompt.build_visual_observation_prompt(locale=locale)
+        system, user = visual_prompt.build_visual_observation_prompt(
+            locale=locale, image_count=len(images)
+        )
         result = await self._gateway.generate_structured(
             spec=budget_spec(
                 GenerationSpec(
@@ -116,7 +125,7 @@ class DiagnosisService:
             ),
             system_instruction=system,
             user_text=user,
-            images=[ImagePart(data=image.data, mime_type=image.mime_type)],
+            images=[ImagePart(data=image.data, mime_type=image.mime_type) for image in images],
             schema=VisualObservationV1,
         )
         log.info("diagnosis request_id=%s prompt=%s ok", request_id, visual_prompt.PROMPT_VERSION)

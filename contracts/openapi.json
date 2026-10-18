@@ -38,14 +38,17 @@
           "product_image": {
             "anyOf": [
               {
-                "contentMediaType": "application/octet-stream",
-                "type": "string"
+                "items": {
+                  "contentMediaType": "application/octet-stream",
+                  "type": "string"
+                },
+                "type": "array"
               },
               {
                 "type": "null"
               }
             ],
-            "description": "Optional product photo (0..1). image/jpeg, image/png, image/webp.",
+            "description": "Optional product photos (repeat the field, 0..3). image/jpeg, image/png, image/webp.",
             "title": "Product Image"
           }
         },
@@ -344,6 +347,13 @@
           "email": {
             "$ref": "#/components/schemas/FeatureFlag"
           },
+          "guidebook": {
+            "$ref": "#/components/schemas/FeatureFlag",
+            "default": {
+              "enabled": false,
+              "reason": "guidebook_url_not_configured"
+            }
+          },
           "image_storage": {
             "$ref": "#/components/schemas/FeatureFlag"
           },
@@ -392,6 +402,19 @@
           "reason"
         ],
         "title": "FontSection",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
         "type": "object"
       },
       "HealthResponse": {
@@ -1209,6 +1232,46 @@
         ],
         "title": "ToneSection",
         "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
       }
     }
   },
@@ -1330,7 +1393,7 @@
         ],
         "x-multipart-fields": {
           "payload": "SurveyDiagnosisRequestV1 (JSON string)",
-          "product_image": "optional file, 0..1, image/jpeg|png|webp, <= 1.25 MB"
+          "product_image": "optional file field, repeatable 0..3, image/jpeg|png|webp, each <= 1.25 MB"
         }
       }
     },
@@ -1352,6 +1415,49 @@
         "summary": "Features",
         "tags": [
           "system"
+        ]
+      }
+    },
+    "/api/v1/guidebook": {
+      "get": {
+        "description": "302 to the e-book only for a valid, unexpired link from a report e-mail.\nThe storage URL itself is never shown in pages, logs or the API contract.",
+        "operationId": "guidebook_api_v1_guidebook_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "t",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 128,
+              "title": "T",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "이메일의 서명된 링크 → 가이드북 PDF로 이동",
+        "tags": [
+          "delivery"
         ]
       }
     },

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from app.gemini.prompts._common import output_language
 
-PROMPT_VERSION = "visual-observation-v1"
+PROMPT_VERSION = "visual-observation-v2"
 
 _SYSTEM = """당신은 수공예 제품 사진을 관찰하는 시각 관측 보조자입니다.
 역할은 '보이는 사실'을 구조화해 기록하는 것이며, 전략·마케팅·타깃·포지셔닝 판단은 하지 않습니다.
@@ -18,7 +18,8 @@ _SYSTEM = """당신은 수공예 제품 사진을 관찰하는 시각 관측 보
 5. possible_reel_assets에는 '이 사진에서 관찰 가능한 요소 중 영상 소재가 될 수 있는 것'만 적습니다(예: 빛 반사, 질감 클로즈업). 연출 전략은 적지 않습니다.
 6. 출력은 주어진 JSON 스키마만 따릅니다. 다른 텍스트를 덧붙이지 않습니다."""
 
-_USER = """첨부된 제품 사진 1장을 관찰하고 JSON으로 기록하세요.
+_USER = """첨부된 제품 사진 {count}장을 관찰하고 JSON으로 기록하세요.
+{multi}
 
 - visible_product_type: 보이는 제품 유형(불확실하면 null)
 - dominant_visual_traits: 색, 형태, 질감, 구성 등 관찰 가능한 특징
@@ -30,6 +31,18 @@ _USER = """첨부된 제품 사진 1장을 관찰하고 JSON으로 기록하세�
 출력 언어: {language}."""
 
 
-def build_visual_observation_prompt(*, locale: str = "ko-KR") -> tuple[str, str]:
+_MULTI = (
+    "여러 장은 같은 브랜드의 제품을 다른 각도·구성으로 찍은 사진입니다. 사진 사이에서 공통으로 보이는 특징을 "
+    "우선하고, 특정 사진에만 보이는 특징은 '일부 사진에서' 보인다고 구분해 적으세요. 결과는 사진별이 아니라 "
+    "하나의 관찰 기록으로 합칩니다.\n"
+)
+
+
+def build_visual_observation_prompt(
+    *, locale: str = "ko-KR", image_count: int = 1
+) -> tuple[str, str]:
     """Returns (system_instruction, user_text). Deliberately has no survey parameter."""
-    return _SYSTEM, _USER.format(language=output_language(locale))
+    count = max(1, image_count)
+    return _SYSTEM, _USER.format(
+        count=count, multi=_MULTI if count > 1 else "", language=output_language(locale)
+    )

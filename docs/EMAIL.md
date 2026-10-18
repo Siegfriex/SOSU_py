@@ -24,8 +24,19 @@
 Per-instance limit `SOSU_RATELIMIT_EMAIL_PER_MINUTE` is a backstop only — put the e-mail route in
 the Vercel WAF rate-limit rule as well.
 
+## Guidebook e-book link
+When `SOSU_GUIDEBOOK_URL` (secret; the PDF lives outside the repo, e.g. Vercel Blob) and the signing
+secret are set, every report e-mail gets a "가이드북 PDF 받기" block linking to
+`{SOSU_PUBLIC_API_BASE_URL}/api/v1/guidebook?t=<expires_at>.<hmac>`. Valid → 302 to the storage URL
+(`no-store`, `no-referrer`); expired/invalid → 410 page; unconfigured → 404 page. The storage URL is
+never in the e-mail, the features probe or a page. Validity `SOSU_GUIDEBOOK_LINK_MAX_AGE_SECONDS`
+(default 7 days). `/api/v1/features` reports `guidebook.enabled`. Owner walkthrough:
+`docs/EMAIL_SETUP_GUIDE.md`; status: `python3 scripts/check_email_setup.py`.
+
 ## Residual risks
 - A holder of a valid token can send the report to any address for 24h (the report is the user's
   own content; no free text). Shorten max age if needed.
 - Rotating the signing secret invalidates all outstanding tokens (acceptable).
 - Tests use a fake provider; no real e-mail has been sent from this codebase.
+- The guidebook redirect reveals the storage URL to the recipient's browser; storage URLs are
+  unguessable but not access-controlled.

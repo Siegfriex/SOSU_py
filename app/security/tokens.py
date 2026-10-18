@@ -72,3 +72,37 @@ def verify_report(
     if not hmac.compare_digest(expected, mac.lower()):
         return "signature_mismatch"
     return None
+
+
+# ---- Guidebook e-book links: `<expires_at_unix>.<hex HMAC-SHA256("guidebook|<expires_at>")>` ----
+
+
+def _guidebook_mac(secret: str, expires_at: int) -> str:
+    return hmac.new(
+        secret.encode("utf-8"), f"guidebook|{expires_at}".encode(), hashlib.sha256
+    ).hexdigest()
+
+
+def sign_guidebook_link(settings: Settings, *, now: int | None = None) -> str | None:
+    secret = settings.sosu_delivery_signing_secret.get_secret_value().strip()
+    if not secret:
+        return None
+    expires_at = int(now if now is not None else time.time())
+    expires_at += settings.sosu_guidebook_link_max_age_seconds
+    return f"{expires_at}.{_guidebook_mac(secret, expires_at)}"
+
+
+def verify_guidebook_link(settings: Settings, token: str, *, now: int | None = None) -> str | None:
+    """Return None when valid, else a short machine reason."""
+    secret = settings.sosu_delivery_signing_secret.get_secret_value().strip()
+    if not secret:
+        return "signing_secret_not_configured"
+    expires_raw, sep, mac = token.partition(".")
+    if not sep or not expires_raw.isdigit() or len(mac) != 64:
+        return "malformed_token"
+    expires_at = int(expires_raw)
+    if int(now if now is not None else time.time()) > expires_at:
+        return "token_expired"
+    if not hmac.compare_digest(_guidebook_mac(secret, expires_at), mac.lower()):
+        return "signature_mismatch"
+    return None

@@ -6,7 +6,8 @@ from dataclasses import dataclass
 
 ACCEPTED_IMAGE_TYPES: frozenset[str] = frozenset({"image/jpeg", "image/png", "image/webp"})
 
-PRODUCT_IMAGE_MAX_BYTES = 1_250_000  # 1.25 MB ingress
+PRODUCT_IMAGE_MAX_BYTES = 1_250_000  # 1.25 MB ingress, each
+PRODUCT_IMAGE_MAX_COUNT = 3  # 3 × 1.25 MB stays under the 4 MB request body cap
 PRODUCT_LONG_EDGE = 1600
 PRODUCT_JPEG_QUALITY = 85
 PRODUCT_TARGET_BYTES = 700_000

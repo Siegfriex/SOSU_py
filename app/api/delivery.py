@@ -9,7 +9,8 @@ import threading
 import time
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Query, Request
+from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from pydantic import ValidationError
 
 from app.api.deps import get_settings_dep
@@ -29,8 +30,8 @@ from app.contracts.prescription import PrescriptionReportV1
 from app.domain.errors import SosuError
 from app.email.provider import EmailDeliveryError, EmailMessage, EmailProvider, get_email_provider
 from app.email.render import render_report_email
-from app.security.runtime import build_sha, email_status, inference_status
-from app.security.tokens import verify_report
+from app.security.runtime import build_sha, email_status, guidebook_status, inference_status
+from app.security.tokens import sign_guidebook_link, verify_guidebook_link, verify_report
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +87,7 @@ async def features(settings: Annotated[Settings, Depends(get_settings_dep)]) -> 
 
     inf_enabled, inf_reason = inference_status(settings)
     em_enabled, em_reason = email_status(settings)
+    gb_enabled, gb_reason = guidebook_status(settings)
     try:
         knowledge_version = str(get_knowledge_provider().version)
     except Exception:  # read-only use of the knowledge layer; never fail the probe
@@ -98,6 +100,7 @@ async def features(settings: Annotated[Settings, Depends(get_settings_dep)]) -> 
             enabled=False,
             reason=None if settings.sosu_research_enabled else "research_disabled",
         ),
+        guidebook=FeatureFlag(enabled=gb_enabled, reason=gb_reason),
         knowledge_version=knowledge_version,
         build=build_sha(),
     )
@@ -169,7 +172,12 @@ async def report_email(
             request_id=request_id, data=ReportEmailResultV1(status="duplicate")
         )
 
-    subject, text, html = render_report_email(report)
+    guidebook_link = _guidebook_link(settings)
+    subject, text, html = render_report_email(
+        report,
+        guidebook_link=guidebook_link,
+        guidebook_link_days=max(1, settings.sosu_guidebook_link_max_age_seconds // 86_400),
+    )
     try:
         await provider.send(
             EmailMessage(to=email, subject=subject, text=text, html=html, idempotency_key=key)
@@ -179,7 +187,66 @@ async def report_email(
         raise SosuError(ErrorCode.EMAIL_DELIVERY_FAILED, DELIVERY_FAILED_MESSAGE) from exc
 
     idempotency_cache.add(key)
-    logger.info("request_id=%s report_email sent kind=%s", request_id, body.kind)
+    logger.info(
+        "request_id=%s report_email sent kind=%s guidebook=%s",
+        request_id,
+        body.kind,
+        guidebook_link is not None,
+    )
     return SuccessEnvelope[ReportEmailResultV1](
         request_id=request_id, data=ReportEmailResultV1(status="sent")
+    )
+
+
+# ------------------------------------------------------------------ guidebook e-book
+
+_NO_STORE = {
+    "Cache-Control": "no-store",
+    "Referrer-Policy": "no-referrer",
+    "X-Robots-Tag": "noindex, nofollow",
+}
+_GUIDEBOOK_GONE_HTML = """<!doctype html><html lang="ko"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOSU 가이드북</title>
+<body style="font-family:sans-serif;background:#1b1f20;color:#f4f2ec;display:grid;
+place-items:center;min-height:100vh;margin:0;text-align:center;padding:24px">
+<div><h1 style="font-size:20px">{title}</h1><p style="opacity:.8">{body}</p></div></body></html>"""
+
+
+def _guidebook_link(settings: Settings) -> str | None:
+    if not guidebook_status(settings)[0]:
+        return None
+    token = sign_guidebook_link(settings)
+    if token is None:
+        return None
+    base = settings.sosu_public_api_base_url.rstrip("/")
+    return f"{base}/api/v1/guidebook?t={token}"
+
+
+def _guidebook_page(status: int, title: str, body: str) -> HTMLResponse:
+    return HTMLResponse(
+        _GUIDEBOOK_GONE_HTML.format(title=title, body=body), status_code=status, headers=_NO_STORE
+    )
+
+
+@router.get("/guidebook", tags=["delivery"], summary="이메일의 서명된 링크 → 가이드북 PDF로 이동")
+async def guidebook(
+    settings: Annotated[Settings, Depends(get_settings_dep)],
+    t: Annotated[str, Query(max_length=128)] = "",
+) -> Response:
+    """302 to the e-book only for a valid, unexpired link from a report e-mail.
+    The storage URL itself is never shown in pages, logs or the API contract."""
+    enabled, _ = guidebook_status(settings)
+    if not enabled:
+        return _guidebook_page(404, "가이드북을 준비 중이에요", "잠시 후 다시 시도해 주세요.")
+    failure = verify_guidebook_link(settings, t)
+    if failure is not None:
+        logger.info("guidebook link rejected=%s", failure)
+        return _guidebook_page(
+            410,
+            "링크가 만료되었어요",
+            "진단서나 처방전을 다시 받으면 새 가이드북 링크가 함께 발송돼요.",
+        )
+    return RedirectResponse(
+        settings.sosu_guidebook_url.get_secret_value().strip(), status_code=302, headers=_NO_STORE
     )

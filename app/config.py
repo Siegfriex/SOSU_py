@@ -74,6 +74,13 @@ class Settings(BaseSettings):
     sosu_delivery_signing_secret: SecretStr = Field(default=SecretStr(""))
     sosu_public_email_enabled: bool = False
     sosu_delivery_token_max_age_seconds: int = 86_400
+    # Guidebook e-book (docs/EMAIL.md). The PDF lives OUTSIDE the repo (Vercel Blob or similar);
+    # this URL is a secret. Report e-mails carry a signed, expiring link to /api/v1/guidebook,
+    # which redirects to it. Empty → no guidebook link in e-mails.
+    sosu_guidebook_url: SecretStr = Field(default=SecretStr(""))
+    sosu_guidebook_link_max_age_seconds: int = 7 * 86_400
+    # Public origin of this API, used to build links in e-mails.
+    sosu_public_api_base_url: str = "https://sosu-py.vercel.app"
 
     # Image storage is intentionally NOT implemented (docs/IMAGE_STORAGE.md).
     sosu_image_retention_days: int = 0
