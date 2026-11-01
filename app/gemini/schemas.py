@@ -28,12 +28,28 @@ from app.contracts.prescription import (
     PrescriptionReportV1,
     PrescriptionToneSection,
 )
+from app.domain.reel_types import ReelTypeCode, reel_type_name
 
 
 class PriorityDraft(BaseModel):
     rank: int = Field(ge=1, le=3, description="우선순위 순번 1~3. 중복 금지.")
     title: str = Field(description="우선순위 항목 제목.")
     description: str = Field(description="왜 지금 이것부터인지와 실행 방법.")
+
+
+class ReelTypeDraft(BaseModel):
+    code: ReelTypeCode = Field(
+        description=(
+            "가이드북 릴스 유형 코드. 순서 축 A(제작 과정을 순서대로)/B(완성된 제품을 먼저), "
+            "사운드 축 C(사운드가 강할 경우)/D(사운드가 약할 경우), "
+            "자막·나레이션 축 E(없는 경우)/F(있는 경우). 세 축에서 하나씩."
+        )
+    )
+    reason: str = Field(
+        description=(
+            "이 브랜드에 이 유형이 맞는 이유. 문진 답변 근거를 인용하고 제작자 노출 제약을 준수."
+        )
+    )
 
 
 class DiagnosisDraftV1(BaseModel):
@@ -50,8 +66,12 @@ class DiagnosisDraftV1(BaseModel):
     priorities: list[PriorityDraft] = Field(
         min_length=3, max_length=3, description="먼저 보여줄 것 정확히 3개, rank 1,2,3."
     )
-    reel_types: list[ReelTypeItem] = Field(
-        min_length=3, max_length=3, description="추천 릴스 유형 정확히 3개."
+    reel_types: list[ReelTypeDraft] = Field(
+        min_length=3,
+        max_length=3,
+        description=(
+            "가이드북 유형 조합: 순서(A/B)·사운드(C/D)·자막(E/F) 축에서 하나씩, 이 순서로 3개."
+        ),
     )
     structure: StructureSection
     final_guidance: list[str] = Field(min_length=1, description="최종 가이드 문장 3~6개.")
@@ -75,7 +95,7 @@ class PrescriptionDraftV1(BaseModel):
     tone: PrescriptionToneSection
 
 
-def to_public_diagnosis(draft: DiagnosisDraftV1) -> DiagnosisReportV1:
+def to_public_diagnosis(draft: DiagnosisDraftV1, *, voice_allowed: bool) -> DiagnosisReportV1:
     return DiagnosisReportV1(
         brand=draft.brand,
         positioning=draft.positioning,
@@ -87,7 +107,10 @@ def to_public_diagnosis(draft: DiagnosisDraftV1) -> DiagnosisReportV1:
             PriorityItem.model_validate(p.model_dump())
             for p in sorted(draft.priorities, key=lambda p: p.rank)
         ],
-        reel_types=draft.reel_types,
+        reel_types=[
+            ReelTypeItem(name=reel_type_name(r.code, voice_allowed=voice_allowed), reason=r.reason)
+            for r in sorted(draft.reel_types, key=lambda r: r.code)
+        ],
         structure=draft.structure,
         final_guidance=draft.final_guidance,
     )

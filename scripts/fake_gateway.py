@@ -280,16 +280,16 @@ def diagnosis_draft_dict(brand: str = "모노유리") -> dict[str, Any]:
         ],
         "reel_types": [
             {
-                "name": "제작 디테일형",
-                "reason": "현재 완성품 위주 콘텐츠에서 보이지 않던 제작 차별점을 보완합니다. 손과 재료만으로 구성해 촬영 부담이 적습니다.",
+                "code": "B",
+                "reason": "완성품 위주로 올리고 있어(q17) 완성 키링을 5초 안에 먼저 보여준 뒤 비즈를 고르는 과정으로 넘어가면 전후 대비가 커집니다.",
             },
             {
-                "name": "빛 변화 무드형",
-                "reason": "빛에 따른 색 변화라는 핵심 메시지를 자막과 잔잔한 음악만으로 전달할 수 있습니다.",
+                "code": "D",
+                "reason": "비즈를 꿰는 작업은 현장음이 약한 편으로 보여(q4, q15) 원본 소리를 끄고 BGM을 깔도록 제안합니다.",
             },
             {
-                "name": "비포·애프터 조합형",
-                "reason": "낱개 비즈에서 완성 키링까지의 변화를 보여줘 아이디어 고갈 문제를 매주 반복 가능한 포맷으로 해결합니다.",
+                "code": "F",
+                "reason": "구매 전환이 고민이므로(q16) 첫 자막 훅과 마지막 구매 안내 자막을 넣습니다.",
             },
         ],
         "structure": {
@@ -367,7 +367,7 @@ def _fatal_diagnosis() -> DiagnosisDraftV1:
             "tone": {"keywords": [p], "description": p},
             "fonts": {"title": p, "subtitle": p, "reason": p},
             "priorities": [{"rank": i, "title": p, "description": p} for i in (1, 2, 3)],
-            "reel_types": [{"name": p, "reason": p} for _ in range(3)],
+            "reel_types": [{"code": c, "reason": p} for c in ("B", "D", "F")],
             "structure": {
                 k: p for k in ("hook_0_3", "body_3_10", "body_10_20", "close_20_27", "cta_27_30")
             },

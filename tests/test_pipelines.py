@@ -75,7 +75,7 @@ async def test_diagnosis_with_image_makes_two_calls_and_isolates_observation():
     assert synth.spec.model == "diagnosis-model"
     assert synth.spec.thinking == "medium"
     assert synth.spec.max_output_tokens == 8192
-    assert synth.spec.prompt_version == "diagnosis-v2"
+    assert synth.spec.prompt_version == "diagnosis-v3"
     assert BRAND in synth.user_text
     assert DISTINCT_TEXT in synth.user_text  # verbatim, never summarized
     assert "빛 반사" in synth.user_text  # visual observation was injected
@@ -114,11 +114,22 @@ async def test_diagnosis_repair_path_uses_repair_spec():
     bad["structure"]["body_3_10"] = "제작자가 목소리로 소재를 설명"
     gw = FakeGateway([sample_diagnosis_draft(**bad), sample_diagnosis_draft()])
     await DiagnosisService(gw, settings=SETTINGS).run(_request(), None, request_id="r3")
-    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v2", "repair-v1"]
+    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v3", "repair-v1"]
     repair = gw.calls[1].spec
     assert repair.model == "diagnosis-model"
     assert repair.thinking == "low"
     assert repair.max_output_tokens == 4096
+
+
+async def test_reel_axis_violation_is_repaired_once_with_fixed_names():
+    bad = diagnosis_draft_dict()
+    for item, code in zip(bad["reel_types"], ("A", "B", "F"), strict=True):
+        item["code"] = code
+    gw = FakeGateway([sample_diagnosis_draft(**bad), sample_diagnosis_draft()])
+    report = await DiagnosisService(gw, settings=SETTINGS).run(_request(), None, request_id="r5")
+    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v3", "repair-v1"]
+    assert "reel_types:" in gw.calls[1].user_text and "reason도" in gw.calls[1].user_text
+    assert [r.name.split(" · ")[0] for r in report.reel_types] == ["유형 B", "유형 D", "유형 F"]
 
 
 async def test_gateway_error_propagates_unchanged():

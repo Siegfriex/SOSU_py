@@ -132,7 +132,7 @@ def test_all_placeholder_draft_is_fatal():
                 d[key][k] = "..."
     for item in d["strengths"] + d["priorities"] + d["reel_types"]:
         for k, v in item.items():
-            if isinstance(v, str):
+            if isinstance(v, str) and k != "code":
                 item[k] = "N/A"
     d["final_guidance"] = ["..."]
     report = validate_diagnosis(sample_diagnosis_draft(**d), _c(None))

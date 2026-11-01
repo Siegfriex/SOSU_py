@@ -8,6 +8,7 @@ from enum import StrEnum
 from urllib.parse import urlparse
 
 from app.domain.evidence import CreatorConstraint, InsightObservationV1
+from app.domain.reel_types import axis_errors
 from app.gemini.schemas import DiagnosisDraftV1, PrescriptionDraftV1
 
 
@@ -215,10 +216,12 @@ def validate_diagnosis(draft: DiagnosisDraftV1, constraint: CreatorConstraint) -
         _check_text(errors, f"priorities[{i}].description", p.description)
         constraint_texts.append((f"priorities[{i}]", f"{p.title} {p.description}"))
 
+    # Names are fixed guidebook labels set by the service (to_public_diagnosis), so only the
+    # model-written reason is checked — the F label itself mentions 나레이션 by design.
+    errors.extend(axis_errors([r.code for r in draft.reel_types]))
     for i, r in enumerate(draft.reel_types):
-        _check_text(errors, f"reel_types[{i}].name", r.name)
         _check_text(errors, f"reel_types[{i}].reason", r.reason)
-        constraint_texts.append((f"reel_types[{i}]", f"{r.name} {r.reason}"))
+        constraint_texts.append((f"reel_types[{i}]", r.reason))
 
     for slot in ("hook_0_3", "body_3_10", "body_10_20", "close_20_27", "cta_27_30"):
         value = getattr(draft.structure, slot)

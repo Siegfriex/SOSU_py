@@ -20,7 +20,7 @@
 - Rendering: `## GUIDEBOOK KNOWLEDGE (version …; cite rule_id and pages)` … one line per rule with
   `[rule_id] (category; p.N; evidence_type)`, recommended action and cautions, then
   `### EDITORIAL STYLE`, ending with `## END GUIDEBOOK KNOWLEDGE`.
-- Wiring: diagnosis synthesis (`app/gemini/prompts/diagnosis.py`, `diagnosis-v2`) and prescription
+- Wiring: diagnosis synthesis (`app/gemini/prompts/diagnosis.py`, `diagnosis-v3`) and prescription
   synthesis (`prescription.py`, `prescription-v2`). Observation prompts and the repair prompt stay
   knowledge-free (evidence purity). The block is separate from the EvidencePack/insight JSON and
   instructs the model not to present guidebook principles as externally verified platform facts.

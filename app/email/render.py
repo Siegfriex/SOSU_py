@@ -6,8 +6,17 @@ from html import escape
 
 from app.contracts.diagnosis import DiagnosisReportV1
 from app.contracts.prescription import PrescriptionReportV1
+from app.domain.reel_types import code_of_name, combination
 
 FOOTER = "본 메일은 SOSU에서 요청하신 리포트 사본입니다. 본인이 요청하지 않았다면 무시해 주세요."
+
+
+def _reel_type_lines(r: DiagnosisReportV1) -> list[str]:
+    lines = [f"{t.name}: {t.reason}" for t in r.reel_types]
+    codes = [code_of_name(t.name) for t in r.reel_types]
+    if all(codes):
+        lines.insert(0, f"추천 조합: {combination([c for c in codes if c])}")
+    return lines
 
 
 def _sections_diagnosis(r: DiagnosisReportV1) -> list[tuple[str, list[str]]]:
@@ -26,7 +35,7 @@ def _sections_diagnosis(r: DiagnosisReportV1) -> list[tuple[str, list[str]]]:
         ("톤앤매너", ["키워드: " + ", ".join(r.tone.keywords), r.tone.description]),
         ("서체", [f"제목: {r.fonts.title}", f"본문: {r.fonts.subtitle}", r.fonts.reason]),
         ("우선순위", [f"{p.rank}. {p.title}: {p.description}" for p in r.priorities]),
-        ("추천 릴스 유형", [f"{t.name}: {t.reason}" for t in r.reel_types]),
+        ("추천 릴스 유형", _reel_type_lines(r)),
         (
             "30초 구성",
             [

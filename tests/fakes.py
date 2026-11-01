@@ -147,9 +147,9 @@ def diagnosis_draft_dict(**overrides: Any) -> dict[str, Any]:
             {"rank": 3, "title": "포장 전 확인 장면", "description": "햇빛에 비춰보는 장면."},
         ],
         "reel_types": [
-            {"name": "제작 디테일형", "reason": "완성품 위주 콘텐츠의 gap을 보완합니다."},
-            {"name": "빛 반사 무드형", "reason": "가장 강한 시각 자산을 활용합니다."},
-            {"name": "자막 설명형", "reason": "목소리 없이 자막으로 차별점을 전달합니다."},
+            {"code": "B", "reason": "완성품 위주 콘텐츠의 gap을 보완합니다."},
+            {"code": "D", "reason": "작업 소리가 약해 BGM으로 빛 반사 무드를 살립니다."},
+            {"code": "F", "reason": "목소리 없이 자막으로 차별점을 전달합니다."},
         ],
         "structure": {
             "hook_0_3": "햇빛에 제품을 움직여 색 변화 노출",

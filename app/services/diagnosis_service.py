@@ -101,7 +101,7 @@ class DiagnosisService:
             request_id=request_id,
         )
         log.info("diagnosis request_id=%s done images=%d", request_id, len(images))
-        return to_public_diagnosis(final)
+        return to_public_diagnosis(final, voice_allowed=constraint.voice_allowed)
 
     # ------------------------------------------------------------------ calls
 
