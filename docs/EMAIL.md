@@ -1,4 +1,6 @@
-# Report e-mail (Resend) — fail-closed
+# Report e-mail (Gmail SMTP or Resend) — fail-closed
+
+> 2026-11-01: provider is `SmtpProvider` (Gmail + App Password) when `SOSU_SMTP_USERNAME`/`SOSU_SMTP_PASSWORD` are set, else `ResendProvider`. Resend rejects free subdomains, so Gmail is the no-domain path. Setup: `docs/EMAIL_SETUP_GUIDE.md`. SMTP has no provider-side idempotency; only the per-instance cache dedupes.
 
 ## Flow
 1. `POST /api/v1/diagnosis|prescription` success envelope carries `delivery_token`

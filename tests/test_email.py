@@ -225,3 +225,94 @@ def test_render_escapes_html() -> None:
     assert "<script>" not in html
     assert "&lt;script&gt;" in html
     assert "<script>x</script>" in text
+
+
+# ------------------------------------------------------------------ Gmail SMTP provider
+
+
+class _FakeSMTP:
+    instances: list[_FakeSMTP] = []
+    fail_login = False
+
+    def __init__(self, host: str, port: int, timeout: float = 0, context: Any = None) -> None:
+        self.host, self.port = host, port
+        self.logged_in: tuple[str, str] | None = None
+        self.sent: list[Any] = []
+        _FakeSMTP.instances.append(self)
+
+    def __enter__(self) -> _FakeSMTP:
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        return None
+
+    def login(self, user: str, password: str) -> None:
+        if _FakeSMTP.fail_login:
+            import smtplib
+
+            raise smtplib.SMTPAuthenticationError(535, b"bad credentials")
+        self.logged_in = (user, password)
+
+    def send_message(self, msg: Any) -> None:
+        self.sent.append(msg)
+
+
+@pytest.fixture
+def smtp_env(env: pytest.MonkeyPatch) -> Iterator[pytest.MonkeyPatch]:
+    import smtplib
+
+    env.setenv("SOSU_SMTP_USERNAME", "sosu.report@gmail.com")
+    env.setenv("SOSU_SMTP_PASSWORD", "abcd efgh ijkl mnop")
+    env.setenv("SOSU_EMAIL_FROM", "SOSU <sosu.report@gmail.com>")
+    env.setattr(smtplib, "SMTP_SSL", _FakeSMTP)
+    _FakeSMTP.instances.clear()
+    _FakeSMTP.fail_login = False
+    get_settings.cache_clear()
+    yield env
+
+
+def test_smtp_takes_precedence_and_enables_without_resend(smtp_env: pytest.MonkeyPatch) -> None:
+    from app.email.provider import SmtpProvider
+    from app.security.runtime import email_status
+
+    assert isinstance(build_provider(get_settings()), SmtpProvider)
+    smtp_env.setenv("RESEND_API_KEY", "")
+    get_settings.cache_clear()
+    assert isinstance(build_provider(get_settings()), SmtpProvider)
+    assert email_status(get_settings()) == (True, None)
+
+
+async def test_smtp_sends_multipart_with_app_password(smtp_env: pytest.MonkeyPatch) -> None:
+    provider = build_provider(get_settings())
+    await provider.send(
+        EmailMessage(
+            to="a@b.com",
+            subject="[SOSU] 릴스 진단서",
+            text="t",
+            html="<p>h</p>",
+            idempotency_key="f" * 64,
+        )
+    )
+    (smtp,) = _FakeSMTP.instances
+    assert (smtp.host, smtp.port) == ("smtp.gmail.com", 465)
+    assert smtp.logged_in == ("sosu.report@gmail.com", "abcdefghijklmnop")
+    (msg,) = smtp.sent
+    assert msg["To"] == "a@b.com" and "sosu.report@gmail.com" in msg["From"]
+    assert msg["Subject"] == "[SOSU] 릴스 진단서"
+    assert [p.get_content_type() for p in msg.iter_parts()] == ["text/plain", "text/html"]
+
+
+async def test_smtp_auth_failure_is_delivery_error(smtp_env: pytest.MonkeyPatch) -> None:
+    _FakeSMTP.fail_login = True
+    with pytest.raises(EmailDeliveryError):
+        await build_provider(get_settings()).send(
+            EmailMessage(to="a@b.com", subject="s", text="t", html="h", idempotency_key="k")
+        )
+
+
+def test_no_provider_reason(env: pytest.MonkeyPatch) -> None:
+    from app.security.runtime import email_status
+
+    env.setenv("RESEND_API_KEY", "")
+    get_settings.cache_clear()
+    assert email_status(get_settings()) == (False, "email_provider_not_configured")

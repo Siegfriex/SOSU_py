@@ -1,8 +1,14 @@
-"""E-mail provider abstraction. Real sends only through ResendProvider; tests use fakes."""
+"""E-mail provider abstraction. Real sends go through SmtpProvider (Gmail) or ResendProvider;
+tests use fakes."""
 
 from __future__ import annotations
 
+import asyncio
+import smtplib
+import ssl
 from dataclasses import dataclass
+from email.message import EmailMessage as MimeMessage
+from email.utils import formataddr, make_msgid, parseaddr
 from typing import Protocol
 
 import httpx
@@ -64,10 +70,80 @@ class ResendProvider:
             raise EmailDeliveryError(f"resend status {resp.status_code}")
 
 
+class SmtpProvider:
+    """Gmail SMTP (implicit TLS, port 465) with an App Password. No domain needed; Gmail caps a
+    personal account at roughly 500 recipients/day. The From address must be the Gmail account
+    (Gmail rewrites any other From). There is no provider-side idempotency key, so duplicate
+    protection is the per-instance cache in app/api/delivery.py only."""
+
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        username: str,
+        password: str,
+        sender: str,
+        *,
+        timeout: float = 15.0,
+    ) -> None:
+        self._host = host
+        self._port = port
+        self._username = username
+        self._password = password
+        self._sender = sender
+        self._timeout = timeout
+
+    def _build(self, message: EmailMessage) -> MimeMessage:
+        name, addr = parseaddr(self._sender)
+        mime = MimeMessage()
+        mime["From"] = formataddr((name, addr or self._username))
+        mime["To"] = message.to
+        mime["Subject"] = message.subject
+        domain = (addr or self._username).rpartition("@")[2] or None
+        mime["Message-ID"] = make_msgid(idstring=message.idempotency_key[:16], domain=domain)
+        mime.set_content(message.text)
+        mime.add_alternative(message.html, subtype="html")
+        return mime
+
+    def _send_sync(self, mime: MimeMessage) -> None:
+        context = ssl.create_default_context()
+        if self._port == 465:
+            with smtplib.SMTP_SSL(
+                self._host, self._port, timeout=self._timeout, context=context
+            ) as smtp:
+                smtp.login(self._username, self._password)
+                smtp.send_message(mime)
+        else:
+            with smtplib.SMTP(self._host, self._port, timeout=self._timeout) as smtp:
+                smtp.starttls(context=context)
+                smtp.login(self._username, self._password)
+                smtp.send_message(mime)
+
+    async def send(self, message: EmailMessage) -> None:
+        mime = self._build(message)
+        try:
+            await asyncio.to_thread(self._send_sync, mime)
+        except smtplib.SMTPAuthenticationError as exc:
+            raise EmailDeliveryError(f"smtp auth failed: {exc.smtp_code}") from exc
+        except (smtplib.SMTPException, OSError) as exc:
+            raise EmailDeliveryError(f"smtp error: {type(exc).__name__}") from exc
+
+
 def build_provider(settings: Settings) -> EmailProvider:
-    key = settings.resend_api_key.get_secret_value().strip()
     sender = settings.sosu_email_from.strip()
-    if key and sender:
+    if not sender:
+        return NullProvider()
+    if settings.smtp_configured:
+        return SmtpProvider(
+            settings.sosu_smtp_host.strip(),
+            settings.sosu_smtp_port,
+            settings.sosu_smtp_username.strip(),
+            # Google shows App Passwords as "abcd efgh ijkl mnop"; spaces are not part of it.
+            settings.sosu_smtp_password.get_secret_value().replace(" ", "").strip(),
+            sender,
+        )
+    key = settings.resend_api_key.get_secret_value().strip()
+    if key:
         return ResendProvider(key, sender)
     return NullProvider()
 

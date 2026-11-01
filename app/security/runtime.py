@@ -55,8 +55,8 @@ def guidebook_status(settings: Settings) -> tuple[bool, str | None]:
 
 
 def email_status(settings: Settings) -> tuple[bool, str | None]:
-    if not settings.resend_api_key.get_secret_value().strip():
-        return False, "resend_not_configured"
+    if not (settings.smtp_configured or settings.resend_api_key.get_secret_value().strip()):
+        return False, "email_provider_not_configured"
     if not settings.sosu_email_from.strip():
         return False, "sender_not_configured"
     if not delivery_signing_configured(settings):

@@ -20,16 +20,17 @@ DEFAULT_API = "https://sosu-py.vercel.app"
 # reason code from /features → (단계 이름, 해야 할 일). Order = order of the guide.
 EMAIL_STEPS: list[tuple[str, str, str]] = [
     (
-        "resend_not_configured",
-        "① Resend API 키",
-        "가이드 2~3단계: Resend에서 도메인을 인증하고 API 키를 만든 뒤, Vercel sosu-py → "
-        "Settings → Environment Variables에 RESEND_API_KEY(Production, Sensitive)를 추가하세요.",
+        "email_provider_not_configured",
+        "① Gmail 앱 비밀번호",
+        "EMAIL_SETUP_GUIDE 1~2단계: 발신용 Gmail에서 2단계 인증을 켜고 앱 비밀번호를 만든 뒤, "
+        "Vercel sosu-py → Settings → Environment Variables에 SOSU_SMTP_USERNAME(Gmail 주소)과 "
+        "SOSU_SMTP_PASSWORD(앱 비밀번호, Sensitive)를 추가하세요.",
     ),
     (
         "sender_not_configured",
         "② 발신 주소",
-        "가이드 5단계: SOSU_EMAIL_FROM = 'SOSU <report@인증한도메인>' 을 추가하세요. "
-        "도메인은 Resend에서 Verified 상태여야 합니다.",
+        "SOSU_EMAIL_FROM = 'SOSU <발신용Gmail주소>' 를 추가하세요. "
+        "@ 앞뒤가 SOSU_SMTP_USERNAME과 같은 Gmail 주소여야 합니다.",
     ),
     (
         "signing_secret_not_configured",

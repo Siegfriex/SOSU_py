@@ -67,9 +67,16 @@ class Settings(BaseSettings):
     sosu_ratelimit_email_per_minute: int = 3
     sosu_max_request_bytes: int = 4_000_000
 
-    # Report e-mail (Resend). Enabled only when all three are set (and, on Vercel/production,
+    # Report e-mail (SMTP or Resend). Enabled only when a provider, sender and secret are set
+    # (and, on Vercel/production,
     # SOSU_PUBLIC_EMAIL_ENABLED=true).
     resend_api_key: SecretStr = Field(default=SecretStr(""))
+    # Gmail (or any SMTP) sender — used instead of Resend when username + password are set.
+    # Gmail: 2-step verification + an App Password; SOSU_EMAIL_FROM must be that Gmail address.
+    sosu_smtp_host: str = "smtp.gmail.com"
+    sosu_smtp_port: int = 465
+    sosu_smtp_username: str = ""
+    sosu_smtp_password: SecretStr = Field(default=SecretStr(""))
     sosu_email_from: str = ""
     sosu_delivery_signing_secret: SecretStr = Field(default=SecretStr(""))
     sosu_public_email_enabled: bool = False
@@ -91,6 +98,12 @@ class Settings(BaseSettings):
     def gemini_configured(self) -> bool:
         key = self.gemini_api_key.get_secret_value().strip()
         return bool(key) and key != API_KEY_PLACEHOLDER
+
+    @property
+    def smtp_configured(self) -> bool:
+        return bool(
+            self.sosu_smtp_username.strip() and self.sosu_smtp_password.get_secret_value().strip()
+        )
 
     @property
     def cors_origins_list(self) -> list[str]:

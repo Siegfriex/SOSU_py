@@ -54,7 +54,7 @@ def test_shape_local(env: pytest.MonkeyPatch) -> None:
     assert body["contract_version"] == "1.0"
     assert body["inference"] == {"enabled": True, "reason": None}
     assert body["email"]["enabled"] is False
-    assert body["email"]["reason"] == "resend_not_configured"
+    assert body["email"]["reason"] == "email_provider_not_configured"
     assert body["image_storage"]["enabled"] is False
     assert body["image_storage"]["reason"]
     assert body["research"]["enabled"] is False
