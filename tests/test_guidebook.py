@@ -134,7 +134,10 @@ def test_email_layout_puts_guidebook_first_with_reading_guide() -> None:
     assert positions == sorted(positions), positions
     assert html.index("가이드북 PDF 받기") < html.index("한눈에 보기") < html.index("포지셔닝</h2>")
     assert "2장 실전 릴스 유형" in text and "6장 캡션" in text
-    assert "가이드북 PDF를 내려받아 2장" in text
+    steps = text[text.index("■ 다음 할 일") :]
+    assert "1. 진단서의 30초 구성대로" in steps
+    assert "2. 올린 지 3일 뒤에 인사이트 캡처 3장으로" in steps
+    assert "3. 가이드북 PDF를 내려받아 읽어 보세요." in steps and "2장 '실전" not in steps
     assert SPAM_NOTE in text and escape(SPAM_NOTE) in html
 
 

@@ -188,10 +188,10 @@ def _next_steps(report: DiagnosisReportV1 | PrescriptionReportV1, has_guidebook:
     if isinstance(report, DiagnosisReportV1):
         steps = [
             "진단서의 30초 구성대로 첫 릴스 1편을 찍어 올려 보세요.",
-            f"올린 뒤 인사이트 캡처 3장으로 SOSU 처방전을 받아 보세요. {SITE_URL}",
+            f"올린 지 3일 뒤에 인사이트 캡처 3장으로 SOSU 처방전을 받아 보세요. {SITE_URL}",
         ]
         if has_guidebook:
-            steps.insert(0, "가이드북 PDF를 내려받아 2장 '실전 릴스 유형'부터 읽어 보세요.")
+            steps.append("가이드북 PDF를 내려받아 읽어 보세요.")
         return steps
     steps = [
         "다음 액션 1번부터 다음 릴스에 하나씩 적용해 보세요.",
