@@ -79,3 +79,18 @@ def test_email_shows_combination_line():
     _, text, html = render_report_email(report)
     assert "추천 조합: B+D+F" in text and "추천 조합: B+D+F" in html
     assert "유형 B · 완성된 제품을 먼저" in text
+
+
+def test_email_moves_question_refs_to_footnote_and_adds_guidebook_note():
+    from app.email.render import render_report_email, strip_refs
+
+    assert strip_refs("BGM을 깝니다(q4, q15).") == ("BGM을 깝니다.", [4, 15])
+    assert strip_refs("q17 답변처럼 (q99)") == ("17번 문항 답변처럼 (q99)", [17])
+    d = diagnosis_draft_dict()
+    d["reel_types"][1]["reason"] = "작업 소리가 약해 보여 BGM을 깝니다(q4, q15)."
+    report = to_public_diagnosis(sample_diagnosis_draft(**d), voice_allowed=True)
+    _, text, html = render_report_email(report)
+    assert "(q4, q15)" not in text and "q15" not in html
+    assert "근거 질문" in text and "15. 사람들이 보면 신기해할 만한 제작 과정이 있나요?" in text
+    assert "4. 주로 어떤 소재를 사용하나요?" in html
+    assert "*릴스 유형은 가이드북 2장 '실전 릴스 유형' 참고" in text

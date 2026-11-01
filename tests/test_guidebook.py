@@ -102,7 +102,10 @@ def test_report_email_without_guidebook_has_no_block(env: pytest.MonkeyPatch) ->
     get_settings.cache_clear()
     provider = FakeProvider()
     assert _client(provider).post("/api/v1/report-email", json=_body()).status_code == 200
-    assert "가이드북" not in provider.sent[0].text
+    sent = provider.sent[0]
+    assert "/api/v1/guidebook" not in sent.text and "가이드북 PDF 받기" not in sent.html
+    # No e-book block; the reel-type note may still cite the book.
+    assert "전자책 PDF" not in sent.text
 
 
 def test_render_escapes_link() -> None:
