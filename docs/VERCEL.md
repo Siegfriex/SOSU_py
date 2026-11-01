@@ -31,7 +31,7 @@ Deployed by Vercel's FastAPI zero-config from `SOSU_py` main; entrypoint `app/ma
   relative to the deployed source tree — no cwd dependency. Never add `knowledge/**` or
   `contracts/**` to `excludeFiles`. `SOSU_KNOWLEDGE_PATH` can override it.
   A missing pack is non-fatal (prompts carry "knowledge_version none"), so **verify after deploy**:
-  `GET /api/v1/features` must report `knowledge_version: "gb2-5edea367"` (not `none`).
+  `GET /api/v1/features` must report `knowledge_version: "gb2-957e8dc0"` (2026-11-02 latest edition; was `gb2-5edea367`) (not `none`).
 - Live smoke latencies (29 s diagnosis, 47 s prescription, 4 calls) fit comfortably in 200 s.
 - **Stage timeouts vs deadline (RD-6, docs/RD6_TIMEOUT.md):** code defaults observe 60 /
   synthesis 90 / repair 40 s (sum 190) are *upper bounds*; every model call is capped at

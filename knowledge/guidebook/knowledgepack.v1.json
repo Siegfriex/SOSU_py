@@ -1,10 +1,10 @@
 {
  "schema_version": "1.0",
  "pack_id": "sosu-guidebook",
- "version": "gb2-5edea367",
+ "version": "gb2-957e8dc0",
  "source": {
-  "filename": "가이드북 2차.pdf",
-  "sha256": "5edea367d6d782d43b2fd4ad9c3eee491b44983a3fdf91cca21479071be6cb81",
+  "filename": "전자본_소수.pdf",
+  "sha256": "957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3",
   "pages": 45
  },
  "style": {
@@ -25,7 +25,7 @@
   ],
   "dont": [
    "조회수·팔로워·매출 증가를 보장하거나 수치로 약속하지 않는다",
-   "작가 수치(29만 팔로워, 1.7천만 조회수 등)를 플랫폼 사실이나 기대치로 인용하지 않는다",
+   "작가 수치(29만 팔로워, 1,700만 조회수 등)를 플랫폼 사실이나 기대치로 인용하지 않는다",
    "알고리즘 작동 방식을 단정하지 않는다(작가 주장으로만 표현)",
    "스크린샷 지표를 원인의 증거로 단정하지 않는다(가설로 제시)",
    "없는 지표를 추정·생성하지 않는다",
@@ -48,7 +48,7 @@
    "rule_id": "GB-FUND-001",
    "category": "reels_fundamentals",
    "source_pages": [
-    7
+    6
    ],
    "source_section": "1-1 수공예 계정에서 릴스의 중요성",
    "principle": "수공예는 재료·손의 움직임·완성품까지 제작 과정 전체가 콘텐츠 소재이며, 릴스는 이를 가장 직관적으로 보여주는 형식이다.",
@@ -77,7 +77,7 @@
    "rule_id": "GB-FUND-002",
    "category": "reels_fundamentals",
    "source_pages": [
-    8
+    7
    ],
    "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안나오는 릴스의 차이",
    "principle": "반응이 좋은 릴스는 궁금함·감탄·필요를 느끼게 만드는 이유가 있고, 단순히 예쁘기만 한 영상은 소비되지 않는다.",
@@ -101,7 +101,7 @@
    "rule_id": "GB-FUND-003",
    "category": "reels_fundamentals",
    "source_pages": [
-    8
+    7
    ],
    "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안나오는 릴스의 차이",
    "principle": "가이드의 대비 예시: 완성품을 먼저 보여주고 제작 과정을 궁금하게 만든 영상은 끝까지 시청되고, 감도 높은 그래픽만 있고 전략이 없는 영상은 반응이 낮다.",
@@ -126,10 +126,10 @@
    "rule_id": "GB-FUND-004",
    "category": "reels_fundamentals",
    "source_pages": [
-    3
+    45
    ],
-   "source_section": "표지/소개",
-   "principle": "작가는 8개월간 팔로워 29만 증가, 일일 최고 조회수 1.7천만을 달성했다고 소개한다.",
+   "source_section": "뒤표지/소개",
+   "principle": "작가는 8개월간 팔로워 29만 증가, 일일 최고 조회수 1,700만을 달성했다고 소개한다.",
    "applicability": [
     "diagnosis",
     "prescription"
@@ -147,9 +147,9 @@
    "rule_id": "GB-FUND-005",
    "category": "reels_fundamentals",
    "source_pages": [
-    3
+    45
    ],
-   "source_section": "표지/소개",
+   "source_section": "뒤표지/소개",
    "principle": "지금의 인스타그램은 예쁜 작품만으로는 통하지 않으며, 짧은 순간 시선을 붙잡는 '구조'를 가진 영상이 살아남는다는 관점을 제시한다.",
    "applicability": [
     "diagnosis",
@@ -170,7 +170,7 @@
    "rule_id": "GB-TYPE-001",
    "category": "reel_types",
    "source_pages": [
-    11
+    10
    ],
    "source_section": "2-1 순서에 따른 유형 (유형 A)",
    "principle": "유형 A는 '재료→제작과정→완성' 순서의 가장 기본 유형으로 과정에 집중시키지만 특별한 요소가 없으면 밋밋하다.",
@@ -196,7 +196,7 @@
    "rule_id": "GB-TYPE-002",
    "category": "reel_types",
    "source_pages": [
-    11
+    10
    ],
    "source_section": "2-1 순서에 따른 유형 (유형 A 예시)",
    "principle": "유형 A 예시: 도자기를 깨서 그 조각으로 제품 만들기, 병뚜껑을 녹인 플라스틱으로 제품 만들기.",
@@ -218,7 +218,7 @@
    "rule_id": "GB-TYPE-003",
    "category": "reel_types",
    "source_pages": [
-    11
+    10
    ],
    "source_section": "2-1 순서에 따른 유형 (유형 B)",
    "principle": "유형 B는 '완성→재료→제작과정→완성' 순서로 전후 대비를 가장 강하게 보여주며, '이 재료로 어떻게 만들었지?' 하는 궁금증으로 끝까지 보게 한다.",
@@ -246,7 +246,7 @@
    "rule_id": "GB-TYPE-004",
    "category": "reel_types",
    "source_pages": [
-    12
+    11
    ],
    "source_section": "2-2 사운드 여부에 따른 유형 (유형 C)",
    "principle": "유형 C: 제작 중 찢기·깨기·부수기 등 현장 사운드가 강렬하면 BGM은 필수가 아니며, 시청자는 ASMR처럼 끝까지 보고 듣는다.",
@@ -272,7 +272,7 @@
    "rule_id": "GB-TYPE-005",
    "category": "reel_types",
    "source_pages": [
-    12
+    11
    ],
    "source_section": "2-2 사운드 여부에 따른 유형 (유형 D)",
    "principle": "유형 D: 현장 사운드가 약하면 현장음을 제거하고 BGM을 깔아야 한다.",
@@ -294,7 +294,7 @@
    "rule_id": "GB-TYPE-006",
    "category": "reel_types",
    "source_pages": [
-    13
+    12
    ],
    "source_section": "2-3 자막이나 나레이션 여부에 따른 유형 (유형 E)",
    "principle": "유형 E: 자막·나레이션 없이 만들면 제작 난이도와 시간이 줄고 조회수·팔로워 확보는 가능하지만 상품 전환은 상대적으로 어렵다.",
@@ -324,7 +324,7 @@
    "rule_id": "GB-TYPE-007",
    "category": "reel_types",
    "source_pages": [
-    13
+    12
    ],
    "source_section": "2-3 자막이나 나레이션 여부에 따른 유형 (유형 F)",
    "principle": "유형 F: 자막·나레이션을 넣으면 제작 시간이 늘지만 후킹·구매 유도 문구를 넣을 수 있어 상품 전환·팔로워·조회수에 더 유리하다.",
@@ -355,7 +355,7 @@
    "rule_id": "GB-TYPE-008",
    "category": "reel_types",
    "source_pages": [
-    13
+    12
    ],
    "source_section": "2-3 자막이나 나레이션 여부에 따른 유형",
    "principle": "자막과 나레이션은 필수가 아니며 사운드가 강하거나 시선을 끄는 요소가 있으면 생략할 수 있다; 국내는 활용이 많고 해외는 적다고 관찰한다.",
@@ -375,7 +375,7 @@
    "rule_id": "GB-TYPE-009",
    "category": "reel_types",
    "source_pages": [
-    11
+    10
    ],
    "source_section": "2-1 순서에 따른 유형",
    "principle": "제작 과정을 어떤 순서로 보여주느냐에 따라 몰입도가 달라지며, 기본 순서 외에 완성품을 앞에 두는 순서도 효과적이다.",
@@ -401,7 +401,7 @@
    "rule_id": "GB-COMBO-001",
    "category": "combination",
    "source_pages": [
-    14
+    13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기",
    "principle": "한 가지 유형만으로는 높은 조회수를 기대하기 어렵고, 순서(A/B)·사운드(C/D)·자막(E/F)을 자신의 상황과 환경에 맞게 조합해야 한다.",
@@ -427,7 +427,7 @@
    "rule_id": "GB-COMBO-002",
    "category": "combination",
    "source_pages": [
-    14
+    13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 1)",
    "principle": "조합 1 '가장 빠르게 제작 가능': 시각·사운드적으로 강한 요소가 있으면 가장 짧은 시간에 제작해 효과를 볼 수 있으나 공수가 적은 만큼 상품 전환은 떨어진다.",
@@ -452,7 +452,7 @@
    "rule_id": "GB-COMBO-003",
    "category": "combination",
    "source_pages": [
-    14
+    13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 2 A+C+F)",
    "principle": "조합 2 A+C+F '약한 전환구조를 보완': A+C+E는 빠르게 노출을 얻지만 문자·언어가 없어 전환에 약하므로, 자막이나 나레이션을 더해 전환을 보완한다.",
@@ -478,7 +478,7 @@
    "rule_id": "GB-COMBO-004",
    "category": "combination",
    "source_pages": [
-    14
+    13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 3 B+C+F)",
    "principle": "조합 3 B+C+F '오래 유지되는 시청지속시간': 완성품을 먼저 보여 궁금증을 만들고 빠른 컷 전환으로 과정의 처음과 끝을 보여 시청 지속시간을 늘린다.",
@@ -504,7 +504,7 @@
    "rule_id": "GB-COMBO-005",
    "category": "combination",
    "source_pages": [
-    14
+    13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 4 B+D+F)",
    "principle": "조합 4 B+D+F '지루하지 않은 영상': 전후 대비를 살리면서 작업 소리가 약한 단점을 BGM으로 보완해 지루함과 허전함을 채운다.",
@@ -528,7 +528,7 @@
    "rule_id": "GB-COMBO-006",
    "category": "combination",
    "source_pages": [
-    14
+    13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기",
    "principle": "작가는 현재 국내에서 가장 많이 사용되는 조합이 B+D+F라고 말한다.",
@@ -551,7 +551,7 @@
    "rule_id": "GB-COMBO-007",
    "category": "combination",
    "source_pages": [
-    14
+    13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기",
    "principle": "어떤 조합이든 자신의 상황(제작 여력, 작업 소리, 노출 가능 범위)과 환경에 맞는 조합을 찾는 것이 가장 중요하다.",
@@ -580,7 +580,7 @@
    "rule_id": "GB-IDEA-001",
    "category": "ideation",
    "source_pages": [
-    17
+    16
    ],
    "source_section": "3-1 소재 발굴 방법",
    "principle": "소재는 일상, 즉 제품을 만드는 과정과 그로 인해 일어나는 일에서 뽑는다.",
@@ -604,7 +604,7 @@
    "rule_id": "GB-IDEA-002",
    "category": "ideation",
    "source_pages": [
-    17
+    16
    ],
    "source_section": "3-1 소재 발굴 방법 (쉽게 구할 수 있는 재료)",
    "principle": "다이소처럼 싸고 쉽게 구할 수 있는 재료로 제품을 만드는 과정을 보여주면 댓글 참여와 반응을 높일 수 있다.",
@@ -629,7 +629,7 @@
    "rule_id": "GB-IDEA-003",
    "category": "ideation",
    "source_pages": [
-    17
+    16
    ],
    "source_section": "3-1 소재 발굴 방법 (실수와 실패 공유)",
    "principle": "실수와 실패를 있는 그대로 보여주면 시청자는 비웃기보다 응원하거나 더 깊이 몰입한다.",
@@ -654,7 +654,7 @@
    "rule_id": "GB-IDEA-004",
    "category": "ideation",
    "source_pages": [
-    17
+    16
    ],
    "source_section": "3-1 소재 발굴 방법 (친숙한 요소)",
    "principle": "계란 후라이·토마토처럼 대중에게 친숙한 요소를 가져와 만들면 진입 장벽이 낮아진다.",
@@ -680,7 +680,7 @@
    "rule_id": "GB-IDEA-005",
    "category": "ideation",
    "source_pages": [
-    17
+    16
    ],
    "source_section": "3-1 소재 발굴 방법 (제작 과정 알려주기)",
    "principle": "만들고 보여주는 데서 그치지 않고 필요한 재료와 과정 디테일을 알려주면 호기심이 생겨 저장과 노출이 늘어난다.",
@@ -707,7 +707,7 @@
    "rule_id": "GB-STORY-001",
    "category": "storyboard",
    "source_pages": [
-    18
+    17
    ],
    "source_section": "3-2 스토리보드 짜는 법",
    "principle": "스토리보드는 '재료·제작·제품' 세 요소만 기억하면 되며, 촬영 때 세 요소는 반드시 찍어야 한다.",
@@ -732,7 +732,7 @@
    "rule_id": "GB-STORY-002",
    "category": "storyboard",
    "source_pages": [
-    18
+    17
    ],
    "source_section": "3-2 스토리보드 짜는 법",
    "principle": "편집에서는 세 요소를 '재료→제작→제품' 또는 '제품→재료→제작→제품' 두 순서 중 하나로만 배치하면 된다.",
@@ -755,7 +755,7 @@
    "rule_id": "GB-EQUIP-001",
    "category": "equipment",
    "source_pages": [
-    21
+    20
    ],
    "source_section": "4-1 35,000원 안에 끝내는 촬영 장비 리스트",
    "principle": "촬영 장비는 카메라·삼각대·조명 세 가지면 충분하며, 저예산으로 갖출 수 있다.",
@@ -780,7 +780,7 @@
    "rule_id": "GB-EQUIP-002",
    "category": "equipment",
    "source_pages": [
-    21
+    20
    ],
    "source_section": "4-1 35,000원 안에 끝내는 촬영 장비 리스트",
    "principle": "작가 추천 예시: 카메라는 쓰던 휴대폰 기본 카메라, 삼각대는 약 3만원대 소형 제품, 조명은 약 5천원 링 라이트.",
@@ -802,7 +802,7 @@
    "rule_id": "GB-EQUIP-003",
    "category": "equipment",
    "source_pages": [
-    22
+    21
    ],
    "source_section": "4-2 스마트폰 기본 카메라 세팅 (아이폰 기준)",
    "principle": "스마트폰 기본 카메라도 세팅만 잘하면 충분하다: 4K 30fps, 높은 호환성 포맷, 격자·수준기 켜기, 안정화 향상, 화이트 밸런스 잠금, HDR 비디오 끄기.",
@@ -826,7 +826,7 @@
    "rule_id": "GB-EQUIP-004",
    "category": "equipment",
    "source_pages": [
-    22
+    21
    ],
    "source_section": "4-2 스마트폰 기본 카메라 세팅 (아이폰 기준)",
    "principle": "디테일을 보여주기 위해 접사 촬영 제어를 활성화하는 세팅을 권한다.",
@@ -850,7 +850,7 @@
    "rule_id": "GB-LIGHT-001",
    "category": "lighting",
    "source_pages": [
-    23
+    22
    ],
    "source_section": "4-3 빛 활용법",
    "principle": "자연광을 쓰기 어려우면 조명을 써야 하며, 특히 제품을 보여주는 장면에서는 시선이 제품에만 집중되므로 빛을 잘 써야 한다.",
@@ -875,7 +875,7 @@
    "rule_id": "GB-LIGHT-002",
    "category": "lighting",
    "source_pages": [
-    23
+    22
    ],
    "source_section": "4-3 빛 활용법 (절대 하면 안되는 세팅)",
    "principle": "카메라와 같은 각도·시점에서 정면으로 조명을 쏘면 양감·질감·디테일이 날아가므로 피해야 한다.",
@@ -900,7 +900,7 @@
    "rule_id": "GB-LIGHT-003",
    "category": "lighting",
    "source_pages": [
-    23
+    22
    ],
    "source_section": "4-3 빛 활용법 (평범한 조명 세팅)",
    "principle": "제품 기준 측면 약 45도에서 조명을 쏘면 양감과 질감이 무난하고 효과적으로 잡힌다.",
@@ -927,7 +927,7 @@
    "rule_id": "GB-LIGHT-004",
    "category": "lighting",
    "source_pages": [
-    23
+    22
    ],
    "source_section": "4-3 빛 활용법 (시네마틱 조명 세팅)",
    "principle": "제품의 거의 측면(약 80도)에서 쏘면 명암 대비가 극대화되어 양감과 질감이 더 강조된다.",
@@ -953,7 +953,7 @@
    "rule_id": "GB-COMP-001",
    "category": "composition",
    "source_pages": [
-    24
+    23
    ],
    "source_section": "4-4 구도 잡는 법",
    "principle": "가장 잘 보여야 하는 대상(제품)을 9분할 격자의 가운데에 두면 된다.",
@@ -976,7 +976,7 @@
    "rule_id": "GB-COMP-002",
    "category": "composition",
    "source_pages": [
-    29
+    28
    ],
    "source_section": "5-3 인스타 릴스 데드라인 가이드",
    "principle": "릴스는 1080x1920(9:16)으로 작업하되 피드 그리드 뷰는 1080x1440(3:4)로 잘려 보이므로, 핵심 요소와 텍스트를 그 안에 둔다.",
@@ -985,7 +985,7 @@
     "prescription"
    ],
    "recommended_action": "제품과 제목을 화면 중앙 3:4 영역 안에 두고 최상단·최하단 띠에는 텍스트를 넣지 않는다.",
-   "exceptions_or_cautions": "5-7(p33)에는 9:16 해상도가 1080x1950으로 표기되어 불일치. 1080x1920이 표준 9:16.",
+   "exceptions_or_cautions": "5-7(p32)에는 9:16 해상도가 1080x1950으로 표기되어 불일치. 1080x1920이 표준 9:16.",
    "evidence_type": "guidebook_principle",
    "tags": [
     "composition",
@@ -999,7 +999,7 @@
    "rule_id": "GB-COMP-003",
    "category": "composition",
    "source_pages": [
-    34
+    33
    ],
    "source_section": "5-7 편집 과정 (글자 배치)",
    "principle": "편집 시 제목(카피)과 자막은 지정된 위치(그리드 뷰 안쪽 상단/하단)에 배치하고, 본인이 고른 폰트를 적용한다.",
@@ -1007,7 +1007,7 @@
     "diagnosis"
    ],
    "recommended_action": "제목은 3:4 영역 상단, 자막은 3:4 영역 하단에 두고 브랜드 톤에 맞는 서체 하나를 일관되게 쓴다.",
-   "exceptions_or_cautions": "원문은 '5-2 참고'라 하나 위치 안내는 5-3(p29)에 있음. 서체 종류 추천은 가이드에 없음.",
+   "exceptions_or_cautions": "원문은 '5-2 참고'라 하나 위치 안내는 5-3(p28)에 있음. 서체 종류 추천은 가이드에 없음.",
    "evidence_type": "guidebook_principle",
    "tags": [
     "composition",
@@ -1021,7 +1021,7 @@
    "rule_id": "GB-ANGLE-001",
    "category": "camera_angle",
    "source_pages": [
-    25
+    24
    ],
    "source_section": "4-5 촬영 각도 종류 (사이드뷰)",
    "principle": "카메라 높이 각도는 정면 수평 또는 30~45도 기울임이 기본: 제품을 손에 들어 공중에 있으면 정면, 테이블·바닥에 있으면 30~45도.",
@@ -1045,7 +1045,7 @@
    "rule_id": "GB-ANGLE-002",
    "category": "camera_angle",
    "source_pages": [
-    25
+    24
    ],
    "source_section": "4-5 촬영 각도 종류 (탑뷰)",
    "principle": "수평 방향으로는 제품 정면, 45도 반측면, 90도 완전 측면 중 선택하며, 높이 각도와 조합하면 10가지 이상의 앵글이 나온다.",
@@ -1066,7 +1066,7 @@
    "rule_id": "GB-EDIT-001",
    "category": "editing_pacing",
    "source_pages": [
-    28
+    27
    ],
    "source_section": "5-1 컷 편집 핵심",
    "principle": "컷 편집의 핵심은 리듬감과 속도감이며, 릴스는 짧고 빠르게 소비되므로 한 컷은 5초 이하로 자른다.",
@@ -1092,7 +1092,7 @@
    "rule_id": "GB-EDIT-002",
    "category": "editing_pacing",
    "source_pages": [
-    28
+    27
    ],
    "source_section": "5-1 컷 편집 핵심",
    "principle": "촬영은 길게 해 두고 편집에서 필요한 부분만 잘라 쓰는 것이 가장 효과적이다.",
@@ -1114,7 +1114,7 @@
    "rule_id": "GB-EDIT-003",
    "category": "editing_pacing",
    "source_pages": [
-    28
+    27
    ],
    "source_section": "5-1 컷 편집 핵심",
    "principle": "촬영본의 움직임이 느리면 1.2~1.5배속으로 올리면 자연스럽게 빨라진다.",
@@ -1137,7 +1137,7 @@
    "rule_id": "GB-EDIT-004",
    "category": "editing_pacing",
    "source_pages": [
-    28
+    27
    ],
    "source_section": "5-1 컷 편집 핵심 (반드시 지녀야 할 마인드)",
    "principle": "창작자는 과정에 애착이 있어도 시청자는 지루한 구간을 기다려 주지 않으므로 컷을 과감히 줄여야 한다.",
@@ -1159,7 +1159,7 @@
    "rule_id": "GB-EDIT-005",
    "category": "editing_pacing",
    "source_pages": [
-    28
+    27
    ],
    "source_section": "5-1 컷 편집 핵심 (예시)",
    "principle": "예시 대비: 2~3초 컷으로 템포가 빠른 영상은 변화가 있어 지루하지 않고, 같은 구도로 6초 이상 이어지는 영상은 처져서 끝까지 보지 않는다.",
@@ -1180,7 +1180,7 @@
    "rule_id": "GB-EDIT-006",
    "category": "editing_pacing",
    "source_pages": [
-    33
+    32
    ],
    "source_section": "5-7 편집 과정",
    "principle": "편집에서 가장 중요한 것은 나레이션과 영상이 쉬는 구간 없이 빠른 템포로 흘러 건너뛰기를 막는 것이다.",
@@ -1202,7 +1202,7 @@
    "rule_id": "GB-EDIT-007",
    "category": "editing_pacing",
    "source_pages": [
-    32
+    31
    ],
    "source_section": "5-6 무료 편집 툴 추천",
    "principle": "화려한 효과 없이 무료 툴로 기본 컷 편집과 자막 작업만 해도 충분하다.",
@@ -1228,12 +1228,12 @@
    "rule_id": "GB-EDIT-008",
    "category": "editing_pacing",
    "source_pages": [
+    32,
     33,
     34,
     35,
     36,
-    37,
-    38
+    37
    ],
    "source_section": "5-7 편집 과정 (VLLO·타입캐스트 단계)",
    "principle": "작가의 단계 예시: 9:16 프로젝트 생성 → 영상 넣기 → 제목/자막 배치 → TTS 나레이션 생성·삽입 → 분할로 불필요 구간 삭제 → 효과음 → 추출·업로드.",
@@ -1241,7 +1241,7 @@
     "diagnosis"
    ],
    "recommended_action": "편집이 어렵다는 응답에는 '프로젝트 9:16 → 컷 분할 → 자막 → 나레이션 → 효과음 → 내보내기' 6단계로 요약해 안내한다.",
-   "exceptions_or_cautions": "앱 UI·메뉴명은 버전에 따라 다를 수 있음. p33의 1080x1950 표기는 오기로 보임.",
+   "exceptions_or_cautions": "앱 UI·메뉴명은 버전에 따라 다를 수 있음. p32의 1080x1950 표기는 오기로 보임.",
    "evidence_type": "guidebook_example",
    "tags": [
     "editing",
@@ -1257,7 +1257,7 @@
    "rule_id": "GB-EDIT-009",
    "category": "editing_pacing",
    "source_pages": [
-    37
+    36
    ],
    "source_section": "5-7 편집 과정",
    "principle": "인트로나 중간 중간 필요한 곳에 효과음을 넣어 리듬을 보강한다.",
@@ -1277,7 +1277,7 @@
    "rule_id": "GB-LEN-001",
    "category": "video_length",
    "source_pages": [
-    29
+    28
    ],
    "source_section": "5-2 가장 효과적인 릴스 길이",
    "principle": "릴스의 가장 효과적인 길이는 30~60초 사이다.",
@@ -1298,7 +1298,7 @@
    "rule_id": "GB-LEN-002",
    "category": "video_length",
    "source_pages": [
-    29
+    28
    ],
    "source_section": "5-2 가장 효과적인 릴스 길이",
    "principle": "30초 이하는 끝까지 보는 비율이 높지만 제작 과정을 보여주기에는 짧을 수 있다.",
@@ -1320,7 +1320,7 @@
    "rule_id": "GB-LEN-003",
    "category": "video_length",
    "source_pages": [
-    29
+    28
    ],
    "source_section": "5-2 가장 효과적인 릴스 길이",
    "principle": "60초를 넘겨 너무 많은 내용을 넣으면 완주율과 반복 시청이 줄어 효과가 떨어진다.",
@@ -1344,7 +1344,7 @@
    "rule_id": "GB-MUSIC-001",
    "category": "music_sound",
    "source_pages": [
-    30
+    29
    ],
    "source_section": "5-4 음악 선택 기준",
    "principle": "작가는 인스타그램 내 음악, 특히 인기 상승 음악을 쓰면 알고리즘에 도움이 되어 조회수가 오른다고 말한다.",
@@ -1368,7 +1368,7 @@
    "rule_id": "GB-MUSIC-002",
    "category": "music_sound",
    "source_pages": [
-    30
+    29
    ],
    "source_section": "5-4 음악 선택 기준",
    "principle": "음악은 본인의 브랜드 무드에 맞춰 선택하면 된다.",
@@ -1396,7 +1396,7 @@
    "rule_id": "GB-MUSIC-003",
    "category": "music_sound",
    "source_pages": [
-    38
+    37
    ],
    "source_section": "5-7 편집 과정",
    "principle": "외부 편집 앱으로 만든 영상이라도 인스타그램 업로드 단계에서 앱 내 인기 음악을 꼭 삽입하라고 강조한다.",
@@ -1404,7 +1404,7 @@
     "diagnosis"
    ],
    "recommended_action": "편집 앱 BGM 대신 업로드 시 인스타그램 내 음악을 붙이는 순서를 안내한다.",
-   "exceptions_or_cautions": "알고리즘 이점은 작가 주장(p30과 동일 근거).",
+   "exceptions_or_cautions": "알고리즘 이점은 작가 주장(p29과 동일 근거).",
    "evidence_type": "guidebook_principle",
    "tags": [
     "music",
@@ -1417,7 +1417,7 @@
    "rule_id": "GB-MUSIC-004",
    "category": "music_sound",
    "source_pages": [
-    12
+    11
    ],
    "source_section": "2-2 사운드 여부에 따른 유형",
    "principle": "작업 소리의 강약이 BGM 필요 여부를 결정한다: 강하면 현장음, 약하면 현장음 제거 후 BGM.",
@@ -1442,12 +1442,12 @@
    "rule_id": "GB-MUSIC-005",
    "category": "music_sound",
    "source_pages": [
-    32,
-    35,
-    36
+    31,
+    34,
+    35
    ],
    "source_section": "5-6 무료 편집 툴 추천 / 5-7 편집 과정 (TTS)",
-   "principle": "본인 목소리로 녹음하지 않아도 TTS(AI 나레이션)로 나레이션을 만들 수 있으며, 속도는 1.2~1.5배가 적당하다(1배속은 느려 건너뛸 확률이 오른다).",
+   "principle": "본인 목소리로 녹음하지 않아도 TTS(AI 나레이션)로 나레이션을 만들 수 있으며, 속도는 1.2~1.5배로 설정한다.",
    "applicability": [
     "diagnosis",
     "prescription"
@@ -1472,7 +1472,7 @@
    "rule_id": "GB-HOOK-001",
    "category": "hook",
    "source_pages": [
-    31
+    30
    ],
    "source_section": "5-5 후킹 설계",
    "principle": "후킹은 영상 시작에 쓰는 나레이션과 제목(카피)이며, 후킹이 있으면 시청 지속 시간이 늘어 더 높은 조회수를 얻을 수 있다.",
@@ -1496,7 +1496,7 @@
    "rule_id": "GB-HOOK-002",
    "category": "hook",
    "source_pages": [
-    31
+    30
    ],
    "source_section": "5-5 후킹 설계 (과정/제작 공개형)",
    "principle": "과정/제작 공개형 훅은 출발 재료(조각·덩어리·버려질 재료 등)와 완성 결과물을 한 문장에서 대비시키는 방식이다.",
@@ -1523,7 +1523,7 @@
    "rule_id": "GB-HOOK-003",
    "category": "hook",
    "source_pages": [
-    31
+    30
    ],
    "source_section": "5-5 후킹 설계 (과정/제작 공개형 – 숫자)",
    "principle": "제작 공개형 훅의 또 다른 형태로 재료비·구입처 가격·제작 시간·기간 같은 숫자를 넣어 대비를 만든다.",
@@ -1549,7 +1549,7 @@
    "rule_id": "GB-HOOK-004",
    "category": "hook",
    "source_pages": [
-    31
+    30
    ],
    "source_section": "5-5 후킹 설계 (비밀/궁금증 유발형)",
    "principle": "비밀/궁금증 유발형 훅은 숨은 재료·나만의 제작 비법·'어떻게 만들었을까'를 질문 형태로 던져 궁금증을 만든다.",
@@ -1577,7 +1577,7 @@
    "rule_id": "GB-HOOK-005",
    "category": "hook",
    "source_pages": [
-    41
+    40
    ],
    "source_section": "6-1 캡션의 구조 (카피의 중요성)",
    "principle": "인스타그램 UI상 캡션 첫 줄은 릴스와 함께 보이므로, 궁금증을 만들거나 끝까지 보게 하는 후킹 문장이어야 한다.",
@@ -1598,7 +1598,7 @@
    "rule_id": "GB-CAP-001",
    "category": "caption",
    "source_pages": [
-    41
+    40
    ],
    "source_section": "6-1 캡션의 구조",
    "principle": "영상이 시선을 잡는다면 캡션은 시청자의 다음 행동을 만든다; 길게 쓰기보다 읽기 쉽고 필요한 정보가 빨리 전달되게 구성한다.",
@@ -1619,7 +1619,7 @@
    "rule_id": "GB-CAP-002",
    "category": "caption",
    "source_pages": [
-    41
+    40
    ],
    "source_section": "6-1 캡션의 구조",
    "principle": "캡션 구조는 '카피(후킹) → 본문 → CTA' 3단이다.",
@@ -1641,7 +1641,7 @@
    "rule_id": "GB-CAP-003",
    "category": "caption",
    "source_pages": [
-    41
+    40
    ],
    "source_section": "6-1 캡션의 구조 (예시)",
    "principle": "예시 캡션은 궁금증 훅 한 줄, 짧은 상황 본문, '풀버전은 프로필 링크'라는 CTA로 구성된다.",
@@ -1661,7 +1661,7 @@
    "rule_id": "GB-CAP-004",
    "category": "caption",
    "source_pages": [
-    44
+    43
    ],
    "source_section": "6-3 캡션과 영상의 상관관계",
    "principle": "캡션은 영상과 따로 노는 글이 아니라 하나의 콘텐츠이며, 영상 내용을 그대로 반복하면 캡션을 읽을 이유가 없다.",
@@ -1684,7 +1684,7 @@
    "rule_id": "GB-CAP-005",
    "category": "caption",
    "source_pages": [
-    44
+    43
    ],
    "source_section": "6-3 캡션과 영상의 상관관계 (예시)",
    "principle": "좋은 예: 영상은 제작 과정만, 캡션은 작품에 담긴 의미를 설명. 나쁜 예: 영상 속 대사와 캡션이 동일.",
@@ -1707,7 +1707,7 @@
    "rule_id": "GB-CAP-006",
    "category": "caption",
    "source_pages": [
-    42
+    41
    ],
    "source_section": "6-2 CTA (행동 유도) (X 예시)",
    "principle": "영상 내용을 텍스트로 다시 풀어쓰기만 하고 CTA가 없는 캡션은 나쁜 예로 제시된다.",
@@ -1729,7 +1729,7 @@
    "rule_id": "GB-CTA-001",
    "category": "cta",
    "source_pages": [
-    42
+    41
    ],
    "source_section": "6-2 CTA (행동 유도)",
    "principle": "CTA는 시청자에게 다음에 무엇을 할지 알려주는 문장이며, 막연하게 끝내기보다 구체적인 행동을 요청해야 한다.",
@@ -1752,7 +1752,7 @@
    "rule_id": "GB-CTA-002",
    "category": "cta",
    "source_pages": [
-    42
+    41
    ],
    "source_section": "6-2 CTA (행동 유도)",
    "principle": "좋은 CTA는 대답하기 쉽고 방금 본 영상과 관련된 다음 행동을 던지며, 영상과 무관한 질문은 피한다.",
@@ -1774,7 +1774,7 @@
    "rule_id": "GB-CTA-003",
    "category": "cta",
    "source_pages": [
-    42
+    41
    ],
    "source_section": "6-2 CTA (행동 유도) (O 예시)",
    "principle": "좋은 예는 주문 제작 가능 안내·문의 유도·프로필 하단 링크 클릭 등 직접적인 CTA를 마지막 문단에 둔다.",
@@ -1799,7 +1799,7 @@
    "rule_id": "GB-CTA-004",
    "category": "cta",
    "source_pages": [
-    42
+    41
    ],
    "source_section": "6-2 CTA (행동 유도) (댓글 CTA 활용법)",
    "principle": "고정 댓글 기능으로 본인이 쓴 CTA 댓글을 최상단에 유지하면 더 효과적이다.",
@@ -1822,7 +1822,7 @@
    "rule_id": "GB-CTA-005",
    "category": "cta",
    "source_pages": [
-    43
+    42
    ],
    "source_section": "6-2 CTA (행동 유도)",
    "principle": "CTA는 영상 목적에 따라 다르게 쓴다: 구매는 구매 전환형, 다음 콘텐츠 연결은 시리즈형, 댓글 참여·계정 활성화는 참여형.",
@@ -1831,7 +1831,7 @@
     "prescription"
    ],
    "recommended_action": "이번 영상의 목적(구매/시리즈/참여)을 먼저 정하고 그에 맞는 CTA 유형 하나만 쓴다.",
-   "exceptions_or_cautions": "p43 상단 머리글이 '편집'으로 인쇄되어 있으나 내용은 캡션 장(6-2).",
+   "exceptions_or_cautions": "p42 상단 머리글이 '편집'으로 인쇄되어 있으나 내용은 캡션 장(6-2).",
    "evidence_type": "guidebook_principle",
    "tags": [
     "cta",
@@ -1847,7 +1847,7 @@
    "rule_id": "GB-CTA-006",
    "category": "cta",
    "source_pages": [
-    43
+    42
    ],
    "source_section": "6-2 CTA (행동 유도) (구매 전환형)",
    "principle": "구매 전환형 CTA는 DM 문의·주문 제작 안내, 프로필 링크 클릭, 댓글로 구매 의사 남기기처럼 구매 경로를 직접 지시한다.",
@@ -1871,7 +1871,7 @@
    "rule_id": "GB-CTA-007",
    "category": "cta",
    "source_pages": [
-    43
+    42
    ],
    "source_section": "6-2 CTA (행동 유도) (시리즈형)",
    "principle": "시리즈형 CTA는 다음 제작 대상이나 보고 싶은 과정을 시청자에게 물어 다음 편으로 이어지게 한다.",
@@ -1899,7 +1899,7 @@
    "rule_id": "GB-CTA-008",
    "category": "cta",
    "source_pages": [
-    43
+    42
    ],
    "source_section": "6-2 CTA (행동 유도) (참여형)",
    "principle": "참여형 CTA는 이름 짓기·지인 태그·다음 제품 추천·댓글 추첨처럼 대답하기 쉬운 참여를 요청한다.",
@@ -1927,8 +1927,8 @@
    "rule_id": "GB-CTA-009",
    "category": "cta",
    "source_pages": [
-    41,
-    44
+    40,
+    43
    ],
    "source_section": "6-1 캡션의 구조 / 6-3 캡션과 영상의 상관관계 (예시)",
    "principle": "예시 캡션들은 '풀버전은 프로필 링크에 있어요'처럼 짧은 영상을 보고 더 보고 싶은 시청자를 프로필로 보내는 CTA를 쓴다.",
@@ -1950,7 +1950,7 @@
    "rule_id": "GB-CTA-010",
    "category": "cta",
    "source_pages": [
-    42
+    41
    ],
    "source_section": "6-2 CTA (행동 유도) (고정 댓글 예시)",
    "principle": "고정 댓글 예시는 계정을 계속 따라오면 얻을 수 있는 것(따라 하기 쉬운 튜토리얼·작품 소개)을 약속하는 형태다.",
@@ -1974,7 +1974,7 @@
    "rule_id": "GB-PERF-001",
    "category": "performance_interpretation",
    "source_pages": [
-    8
+    7
    ],
    "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안나오는 릴스의 차이",
    "principle": "조회수가 낮은 릴스는 궁금함·감탄·필요를 유발하는 장치 없이 예쁘기만 한 경우가 많다고 본다.",
@@ -1996,8 +1996,8 @@
    "rule_id": "GB-PERF-002",
    "category": "performance_interpretation",
    "source_pages": [
-    13,
-    14
+    12,
+    13
    ],
    "source_section": "2-3 자막이나 나레이션 여부에 따른 유형 / 2-4 조합",
    "principle": "자막·나레이션 없는 구조는 노출·팔로워에는 도움이 되지만 상품 전환이 약하다는 관점을 제시한다.",
@@ -2021,7 +2021,7 @@
    "rule_id": "GB-PERF-003",
    "category": "performance_interpretation",
    "source_pages": [
-    28
+    27
    ],
    "source_section": "5-1 컷 편집 핵심",
    "principle": "같은 구도의 긴 컷은 지루함을 만들어 끝까지 시청하지 않게 한다는 관점.",
@@ -2042,7 +2042,7 @@
    "rule_id": "GB-PERF-004",
    "category": "performance_interpretation",
    "source_pages": [
-    29
+    28
    ],
    "source_section": "5-2 가장 효과적인 릴스 길이",
    "principle": "영상 길이는 완주율·반복 시청과 연결되며 60초를 넘기면 효과가 떨어진다고 본다.",
@@ -2063,7 +2063,7 @@
    "rule_id": "GB-PERF-005",
    "category": "performance_interpretation",
    "source_pages": [
-    31
+    30
    ],
    "source_section": "5-5 후킹 설계",
    "principle": "후킹은 시청 지속 시간을 늘리는 장치이므로 초반 이탈은 훅 부재/약함과 연결해 해석할 수 있다.",
@@ -2086,10 +2086,10 @@
    "rule_id": "GB-PERF-006",
    "category": "performance_interpretation",
    "source_pages": [
-    36
+    35
    ],
    "source_section": "5-7 편집 과정 (TTS 속도)",
-   "principle": "1배속 나레이션은 느려서 건너뛸 확률을 높인다고 본다.",
+   "principle": "편집 과정 예시에서 나레이션 속도를 1.2~1.5배로 설정한다.",
    "applicability": [
     "prescription"
    ],
@@ -2107,8 +2107,8 @@
    "rule_id": "GB-PERF-007",
    "category": "performance_interpretation",
    "source_pages": [
-    42,
-    43
+    41,
+    42
    ],
    "source_section": "6-2 CTA (행동 유도)",
    "principle": "댓글·문의·구매 같은 행동은 CTA 유무와 구체성에 영향을 받는다는 관점.",
@@ -2133,7 +2133,7 @@
    "rule_id": "GB-PERF-008",
    "category": "performance_interpretation",
    "source_pages": [
-    45
+    44
    ],
    "source_section": "EP.7 출발",
    "principle": "가이드는 결과에 조급해하기보다 꾸준히 올리는 것을 방법으로 제시한다.",
@@ -2156,8 +2156,8 @@
    "rule_id": "GB-BRAND-001",
    "category": "brand_strategy",
    "source_pages": [
-    3,
-    4
+    2,
+    45
    ],
    "source_section": "표지/작가의 말",
    "principle": "가이드의 목적은 혼자 브랜드를 키우는 수공예 사업자가 지치지 않고 꾸준히 작업을 보여주도록 돕는 것이다.",
@@ -2181,9 +2181,9 @@
    "rule_id": "GB-BRAND-002",
    "category": "brand_strategy",
    "source_pages": [
-    17,
-    31,
-    44
+    16,
+    30,
+    43
    ],
    "source_section": "3-1 소재 발굴 / 5-5 후킹 / 6-3 캡션",
    "principle": "소재·과정·실수·고객 이야기 등 브랜드 고유의 이야기가 훅과 캡션의 재료가 된다.",
@@ -2207,7 +2207,7 @@
    "rule_id": "GB-BRAND-003",
    "category": "brand_strategy",
    "source_pages": [
-    44
+    43
    ],
    "source_section": "6-3 캡션과 영상의 상관관계 (예시)",
    "principle": "O 예시 캡션은 소재에 대한 편견을 깨는 색감·작품 이름·작업 소리 포인트 등 영상에 없는 의미를 전하고, 고객 에피소드라도 영상 대사를 반복하면 X 예시가 된다.",
@@ -2215,7 +2215,7 @@
     "diagnosis"
    ],
    "recommended_action": "소재의 의미·작품 이름·편견을 깨는 포인트를 캡션 본문 소재로 제안하고, 영상 속 대사를 그대로 옮기지 않게 한다.",
-   "exceptions_or_cautions": "이미지 검토(p44)로 정정: 고객 에피소드 캡션은 X(나쁜) 예시였음. rule_id 유지, 내용만 정정.",
+   "exceptions_or_cautions": "이미지 검토(p43)로 정정: 고객 에피소드 캡션은 X(나쁜) 예시였음. rule_id 유지, 내용만 정정.",
    "evidence_type": "guidebook_example",
    "tags": [
     "brand_strategy",
@@ -2235,8 +2235,8 @@
    "rule_id": "GB-BRAND-004",
    "category": "brand_strategy",
    "source_pages": [
-    21,
-    32
+    20,
+    31
    ],
    "source_section": "4-1 장비 / 5-6 무료 편집 툴",
    "principle": "저예산 장비와 무료 툴만으로 시작 가능하다는 것이 가이드 전반의 전제다.",
@@ -2263,9 +2263,9 @@
    "rule_id": "GB-BRAND-005",
    "category": "brand_strategy",
    "source_pages": [
-    13,
-    32,
-    35
+    12,
+    31,
+    34
    ],
    "source_section": "2-3 유형 E/F / 5-6·5-7 TTS",
    "principle": "얼굴이나 목소리를 드러내지 않아도 손 작업 영상, 자막, TTS 나레이션으로 F 유형을 구현할 수 있다.",
@@ -2293,7 +2293,7 @@
    "rule_id": "GB-BRAND-006",
    "category": "brand_strategy",
    "source_pages": [
-    17
+    16
    ],
    "source_section": "3-1 소재 발굴 방법",
    "principle": "실수·작업 일상을 공유하는 콘텐츠는 응원과 몰입을 만들어 사람(작가)에 대한 친밀감을 키운다.",

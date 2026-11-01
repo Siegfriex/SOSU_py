@@ -17,7 +17,7 @@ Live: API `https://sosu-py.vercel.app` (`/api/v1/health`, `/api/v1/features`) ·
 multipart (payload JSON + images)
   → request validation · image normalisation (type sniffing, size caps, re-encode)
   → [observe]   visual-observation-v1 / insight-observation-v2   (only when images are present)
-  → [synthesise] diagnosis-v3 / prescription-v3  + guidebook KnowledgePack block (gb2-5edea367, 93 rules)
+  → [synthesise] diagnosis-v3 / prescription-v3  + guidebook KnowledgePack block (gb2-957e8dc0, 93 rules)
   → domain validator (placeholders, Q18 face/voice constraint, evidence grounding)
        PASS → response · REPAIRABLE → repair-v1 once → re-validate · FATAL → typed error
   → envelope {ok, request_id, contract_version, data | error}

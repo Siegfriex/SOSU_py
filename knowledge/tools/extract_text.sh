@@ -2,10 +2,10 @@
 # Reproducible per-page text extraction of the owner's guidebook PDF.
 # Raw text goes to a SCRATCH dir (never into the repo: it is proprietary content).
 # Only per-page character counts (metadata) are written into the repo.
-# Usage: extract_text.sh <path-to-가이드북 2차.pdf> <scratch_out_dir> [render_pages...]
+# Usage: extract_text.sh <path-to-전자본_소수.pdf> <scratch_out_dir> [render_pages...]
 set -euo pipefail
 PDF="$1"; OUT="$2"; shift 2
-EXPECTED=5edea367d6d782d43b2fd4ad9c3eee491b44983a3fdf91cca21479071be6cb81
+EXPECTED=957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3  # 전자본_소수.pdf (2026-11-02)
 HERE="$(cd "$(dirname "$0")" && pwd)"
 actual=$(sha256sum "$PDF" | cut -d' ' -f1)
 [ "$actual" = "$EXPECTED" ] || { echo "sha256 mismatch: $actual" >&2; exit 1; }
