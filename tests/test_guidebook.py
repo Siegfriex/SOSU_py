@@ -152,3 +152,31 @@ def test_prescription_email_layout() -> None:
     assert subject == "[SOSU] 릴스 처방전"
     assert text.index("SOSU 릴스 가이드북") < text.index("한눈에 보기") < text.index("■ 처방 요약")
     assert "1장 릴스의 이해" in text and "다음 릴스에서 먼저 할 것" in text
+
+
+def test_subject_brand_is_single_line_and_bounded() -> None:
+    data = diagnosis_report_dict()
+    data["brand"]["name"] = "모노\n유리\r\nBcc: x@evil.test " + "가" * 80
+    subject, _, _ = render_report_email(DiagnosisReportV1.model_validate(data))
+    assert "\n" not in subject and "\r" not in subject
+    assert subject.startswith("[SOSU] 모노 유리 Bcc: x@evil.test")
+    assert len(subject) <= len("[SOSU]  릴스 진단서") + 40
+
+
+def test_fallback_link_wraps_on_mobile() -> None:
+    report = DiagnosisReportV1.model_validate(diagnosis_report_dict())
+    _, _, html = render_report_email(report, guidebook_link="https://x.test/g?t=" + "a" * 90)
+    fallback = html[html.index("버튼이 열리지 않으면") - 120 : html.index("버튼이 열리지 않으면")]
+    assert "word-break:break-all" in fallback
+
+
+def test_email_never_contains_survey_answers() -> None:
+    """Footnotes list questions only; the e-mail is rendered from the report, never the answers."""
+    from tests.helpers import sample_answers_dict
+
+    report = DiagnosisReportV1.model_validate(diagnosis_report_dict())
+    _, text, html = render_report_email(report, guidebook_link="https://x.test/g?t=1")
+    assert "내 답" not in text and "내 답" not in html
+    for value in sample_answers_dict().values():
+        if isinstance(value, str) and len(value) >= 12 and value not in str(report.model_dump()):
+            assert value not in text, value
