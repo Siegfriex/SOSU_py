@@ -2,7 +2,7 @@
 
 ## 1. Version / source
 - Pack: `pack_id=sosu-guidebook`, `version=gb2-957e8dc0`, `schema_version=1.0`
-- Source: `전자본_소수.pdf` (owner's latest edition, 2026-11-02) — 45 pages, sha256 `957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3`
+- Source: `수공예 브랜드가 커지는 릴스 가이드.pdf` (owner's final edition, 2026-11-02; byte-identical to the interim `전자본_소수.pdf`) — 45 pages, sha256 `957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3`
 - 2026-11-02 re-source: rules were authored against `가이드북 2차.pdf` (`gb2-5edea367`). The latest edition adds a table of contents (p3), moves the cover copy to the back cover (p45) and shifts body pages by -1; every `source_pages`, page note and image-review mark was remapped by per-page text matching (similarity ≥ 0.68, body pages 0.99+). Wording the edition changed: '1.7천만' → '1,700만'; the '1배속은 느려 건너뛸 확률이 오른다' sentence was removed, so GB-MUSIC-005 and the narration-speed rule now only state the 1.2~1.5x setting. Rule IDs and count (93) unchanged.
 - The PDF is the owner's proprietary asset. It is **not** copied into the repo, and neither is its raw text. Only the hash, per-page character counts (`knowledge/tools/page_chars.json`) and paraphrased rules are stored.
 - READY marker: `knowledge/guidebook/READY` was written at `2026-10-18T13:38:49+09:00` with 90 rules. Three rules were appended after that point (GB-COMP-003, GB-CTA-009, GB-CTA-010), so the current total is **93**. IDs are frozen and append-only: no ID was renumbered or deleted, and GB-BRAND-003 kept its ID when its content was corrected.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build SOSU guidebook KnowledgePack (knowledgepack.v1.json) + coverage.json.
 
-Source: "전자본_소수.pdf" (owner's latest edition, 2026-11-02; proprietary, NOT stored in repo).
+Source: "수공예 브랜드가 커지는 릴스 가이드.pdf" (owner's final edition, 2026-11-02; proprietary, NOT stored in repo).
 Rules were authored against "가이드북 2차.pdf"; source_pages were remapped to this edition
 (added table of contents on p3, cover copy moved to the back cover p45, body pages shifted by -1).
 Rules below are paraphrased by hand from per-page text extraction
@@ -22,7 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1] / "guidebook"
 
 SOURCE = {
-    "filename": "전자본_소수.pdf",
+    "filename": "수공예 브랜드가 커지는 릴스 가이드.pdf",
     "sha256": "957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3",
     "pages": 45,
 }

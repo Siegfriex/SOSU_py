@@ -131,7 +131,7 @@ def _sections_prescription(r: PrescriptionReportV1) -> list[tuple[str, list[str]
 GUIDEBOOK_TITLE = "SOSU 릴스 가이드북 (전자책 PDF)"
 GUIDEBOOK_NOTE = "아래 링크에서 가이드북 PDF를 내려받을 수 있어요. 링크는 {days}일 동안 유효합니다."
 GUIDEBOOK_BUTTON = "가이드북 PDF 받기"
-# Quoted from the guidebook's own back-cover copy (전자본_소수.pdf p.45), not a claim of ours.
+# Quoted from the guidebook back cover (수공예 브랜드가 커지는 릴스 가이드.pdf p.45), not our claim.
 GUIDEBOOK_TAGLINE = (
     "8개월 간 인스타그램 팔로워 29만 증가, 일일 최고점 조회수 1,700만을 달성한 "
     "콘텐츠 PD의 수공예 특화 릴스 가이드"
