@@ -5,16 +5,18 @@ from __future__ import annotations
 
 import time
 from collections.abc import Iterator
+from html import escape
 
 import pytest
 from app.api.delivery import idempotency_cache
 from app.config import get_settings
 from app.contracts.diagnosis import DiagnosisReportV1
+from app.contracts.prescription import PrescriptionReportV1
 from app.email.render import render_report_email
 from app.security.runtime import PUBLIC_RUNTIME_ENV_MARKERS
 from app.security.tokens import sign_guidebook_link, verify_guidebook_link
 
-from tests.api_samples import diagnosis_report_dict
+from tests.api_samples import diagnosis_report_dict, prescription_report_dict
 from tests.test_email import FakeProvider, _body, _client
 
 STORAGE_URL = "https://example-blob.invalid/guidebook-Xy12.pdf"
@@ -66,7 +68,7 @@ def test_invalid_or_expired_link_is_410_page_without_url(env: pytest.MonkeyPatch
 
 
 def test_unconfigured_is_404(env: pytest.MonkeyPatch) -> None:
-    env.delenv("SOSU_GUIDEBOOK_URL")
+    env.setenv("SOSU_GUIDEBOOK_URL", "")
     get_settings.cache_clear()
     r = _client(FakeProvider()).get("/api/v1/guidebook?t=x", follow_redirects=False)
     assert r.status_code == 404
@@ -77,7 +79,7 @@ def test_features_reports_guidebook_without_leaking_url(env: pytest.MonkeyPatch)
     body = c.get("/api/v1/features").json()
     assert body["guidebook"] == {"enabled": True, "reason": None}
     assert STORAGE_URL not in c.get("/api/v1/features").text
-    env.delenv("SOSU_GUIDEBOOK_URL")
+    env.setenv("SOSU_GUIDEBOOK_URL", "")
     get_settings.cache_clear()
     assert c.get("/api/v1/features").json()["guidebook"] == {
         "enabled": False,
@@ -98,7 +100,7 @@ def test_report_email_carries_signed_link_not_storage_url(env: pytest.MonkeyPatc
 
 
 def test_report_email_without_guidebook_has_no_block(env: pytest.MonkeyPatch) -> None:
-    env.delenv("SOSU_GUIDEBOOK_URL")
+    env.setenv("SOSU_GUIDEBOOK_URL", "")
     get_settings.cache_clear()
     provider = FakeProvider()
     assert _client(provider).post("/api/v1/report-email", json=_body()).status_code == 200
@@ -113,3 +115,40 @@ def test_render_escapes_link() -> None:
     _, text, html = render_report_email(report, guidebook_link='https://x.test/?t=1"><b>')
     assert '"><b>' not in html
     assert "7일 동안 유효" in text
+
+
+def test_email_layout_puts_guidebook_first_with_reading_guide() -> None:
+    from app.email.render import GUIDEBOOK_TITLE, SPAM_NOTE
+
+    report = DiagnosisReportV1.model_validate(diagnosis_report_dict())
+    subject, text, html = render_report_email(report, guidebook_link="https://x.test/g?t=1")
+    assert subject == f"[SOSU] {report.brand.name} 릴스 진단서"
+    order = [
+        GUIDEBOOK_TITLE,
+        "이 진단 내용과 함께 보면 좋은 장",
+        "한눈에 보기",
+        "■ 브랜드",
+        "다음 할 일",
+    ]
+    positions = [text.index(marker) for marker in order]
+    assert positions == sorted(positions), positions
+    assert html.index("가이드북 PDF 받기") < html.index("한눈에 보기") < html.index("포지셔닝</h2>")
+    assert "2장 실전 릴스 유형" in text and "6장 캡션" in text
+    assert "가이드북 PDF를 내려받아 2장" in text
+    assert SPAM_NOTE in text and escape(SPAM_NOTE) in html
+
+
+def test_email_without_guidebook_has_no_reading_guide() -> None:
+    report = DiagnosisReportV1.model_validate(diagnosis_report_dict())
+    _, text, html = render_report_email(report)
+    assert "함께 보면 좋은 장" not in text and "가이드북 PDF 받기" not in html
+    assert text.index("한눈에 보기") < text.index("■ 브랜드")
+    assert "가이드북 PDF를 내려받아" not in text
+
+
+def test_prescription_email_layout() -> None:
+    report = PrescriptionReportV1.model_validate(prescription_report_dict())
+    subject, text, _ = render_report_email(report, guidebook_link="https://x.test/g?t=1")
+    assert subject == "[SOSU] 릴스 처방전"
+    assert text.index("SOSU 릴스 가이드북") < text.index("한눈에 보기") < text.index("■ 처방 요약")
+    assert "1장 릴스의 이해" in text and "다음 릴스에서 먼저 할 것" in text

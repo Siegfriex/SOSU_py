@@ -39,9 +39,9 @@ def env(monkeypatch: pytest.MonkeyPatch) -> Iterator[pytest.MonkeyPatch]:
         "SOSU_ENV",
         "SOSU_PUBLIC_INFERENCE_ENABLED",
         "VERCEL_GIT_COMMIT_SHA",
-        "SOSU_DELIVERY_SIGNING_SECRET",
     ):
         monkeypatch.delenv(name, raising=False)
+    monkeypatch.setenv("SOSU_DELIVERY_SIGNING_SECRET", "")  # empty beats a developer .env.local
     # Pin the flags: a developer .env/.env.local (e.g. one opening inference) must not leak in.
     monkeypatch.setenv("SOSU_ENV", "development")
     monkeypatch.setenv("SOSU_PUBLIC_INFERENCE_ENABLED", "false")
