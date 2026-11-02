@@ -418,3 +418,11 @@ def test_request_id_sanitized(client: TestClient) -> None:
     rid = r.headers["X-Request-ID"]
     assert len(rid) <= 64
     assert all(c.isalnum() or c in "._-" for c in rid)
+
+
+def test_diagnosis_q18_only_is_insufficient(client: TestClient) -> None:
+    d = empty_diagnosis_request_dict()
+    d["answers"]["q18_disclosure"] = "no"
+    _assert_error(
+        client.post("/api/v1/diagnosis", data=_payload(d)), 422, ErrorCode.INSUFFICIENT_INPUT
+    )

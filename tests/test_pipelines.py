@@ -75,7 +75,7 @@ async def test_diagnosis_with_image_makes_two_calls_and_isolates_observation():
     assert synth.spec.model == "diagnosis-model"
     assert synth.spec.thinking == "medium"
     assert synth.spec.max_output_tokens == 8192
-    assert synth.spec.prompt_version == "diagnosis-v3"
+    assert synth.spec.prompt_version == "diagnosis-v4"
     assert BRAND in synth.user_text
     assert DISTINCT_TEXT in synth.user_text  # verbatim, never summarized
     assert "빛 반사" in synth.user_text  # visual observation was injected
@@ -114,7 +114,7 @@ async def test_diagnosis_repair_path_uses_repair_spec():
     bad["structure"]["body_3_10"] = "제작자가 목소리로 소재를 설명"
     gw = FakeGateway([sample_diagnosis_draft(**bad), sample_diagnosis_draft()])
     await DiagnosisService(gw, settings=SETTINGS).run(_request(), None, request_id="r3")
-    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v3", "repair-v1"]
+    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v4", "repair-v1"]
     repair = gw.calls[1].spec
     assert repair.model == "diagnosis-model"
     assert repair.thinking == "low"
@@ -127,7 +127,7 @@ async def test_reel_axis_violation_is_repaired_once_with_fixed_names():
         item["code"] = code
     gw = FakeGateway([sample_diagnosis_draft(**bad), sample_diagnosis_draft()])
     report = await DiagnosisService(gw, settings=SETTINGS).run(_request(), None, request_id="r5")
-    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v3", "repair-v1"]
+    assert [c.spec.prompt_version for c in gw.calls] == ["diagnosis-v4", "repair-v1"]
     assert "reel_types:" in gw.calls[1].user_text and "reason도" in gw.calls[1].user_text
     assert [r.name.split(" · ")[0] for r in report.reel_types] == ["유형 B", "유형 D", "유형 F"]
 
@@ -156,10 +156,24 @@ async def test_prescription_pipeline():
     assert synth.schema is PrescriptionDraftV1
     assert synth.image_count == 0
     assert synth.spec.model == "prescription-model"
-    assert synth.spec.max_output_tokens == 4096
-    assert synth.spec.prompt_version == "prescription-v3"
+    assert synth.spec.max_output_tokens == 8192
+    assert synth.spec.prompt_version == "prescription-v4"
     assert req.instagram_url in synth.user_text
     assert "미관측" in synth.user_text
     assert "하단 잘림" in synth.user_text  # unreadable regions are forwarded, not filled
     assert report.schema_version == "prescription.v1"
     assert [a.order for a in report.next_actions] == [1, 2, 3, 4]
+
+
+async def test_prescription_without_readable_metrics_stops_before_synthesis():
+    blank = InsightObservationV1.model_validate(
+        {"screenshots": [{"source_index": i, "visible_metrics": []} for i in range(3)]}
+    )
+    gw = FakeGateway([blank, sample_prescription_draft()])
+    req = PrescriptionRequestV1(instagram_url="https://www.instagram.com/reel/Cabc123_-/")
+    with pytest.raises(SosuError) as exc:
+        await PrescriptionService(gw, settings=SETTINGS).run(
+            req, [fake_image(1), fake_image(2), fake_image(3)], request_id="p-blank"
+        )
+    assert exc.value.code == ErrorCode.INSUFFICIENT_INPUT
+    assert len(gw.calls) == 1  # observation only, no synthesis

@@ -34,7 +34,7 @@ class Settings(BaseSettings):
 
     gemini_max_output_observe: int = 2048
     gemini_max_output_diagnosis: int = 8192
-    gemini_max_output_prescription: int = 4096
+    gemini_max_output_prescription: int = 8192
     gemini_max_output_repair: int = 4096
 
     # Timeout hierarchy (seconds). Stage timeouts are UPPER BOUNDS: each call is capped at the

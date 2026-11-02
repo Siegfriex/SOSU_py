@@ -11,7 +11,7 @@ from app.knowledge.provider import NO_KNOWLEDGE_VERSION, render_knowledge_block
 from app.research.models import ResearchResult
 from app.research.provider import render_research_block
 
-PROMPT_VERSION = "prescription-v3"
+PROMPT_VERSION = "prescription-v4"
 
 _SYSTEM = """당신은 소규모 수공예 브랜드의 Instagram Reels 성과를 진단하고 다음 행동을 처방하는 전문가입니다.
 사실 근거는 오직 제공된 Insight 관측 결과(OBSERVED INSIGHTS)입니다.
@@ -43,7 +43,12 @@ GUIDEBOOK KNOWLEDGE는 지표를 해석하고 행동 우선순위를 정하는 �
 - 분석한 릴스의 보이지 않은 장면·제품·소재·공정·편집 기법을 사실처럼 서술하는 것("이 영상에서 보여준 …", "영상 속 …", "촬영하신 …").
 - 제품명·소재·공정·판매 일정 등 관측되지 않은 구체 정보를 예시 카피나 CTA 문구 안에 끼워 넣는 것. 예시 문구는 제품을 특정하지 않는 일반 표현('완성작', '작업 과정', '이 작품')으로 씁니다.
 - 릴스 URL을 방문했거나 영상을 시청한 것처럼 말하는 것.
-- 지표 사이의 상관을 인과로 단정하는 것("~때문에 이탈했다" 대신 "~했을 가능성이 있습니다")."""
+- 지표 사이의 상관을 인과로 단정하는 것("~때문에 이탈했다", "~덕분에 확산됐다" 대신 "~했을 가능성이 있습니다", "~와 함께 나타났습니다").
+
+# 지표에 맞춘 처방
+- next_actions 1번은 가장 약한 지표를 고치는 행동입니다. 3초 유지·평균 시청 시간이 이미 좋으면 훅 교체를 1번에 두지 말고, 약한 지표(도달·비팔로워 비율·저장·공유·팔로우·프로필 방문 등)를 겨냥하세요. 지표가 전반적으로 좋으면 '지금 잘 되는 요소를 유지하면서 한 가지를 실험'하는 처방으로 씁니다.
+- 진단에서 약하다고 짚은 지표는 next_actions 중 하나 이상에서 직접 다룹니다(예: 비팔로워 비율이 낮으면 확산·발견을 위한 행동).
+- 분석한 영상의 오프닝·편집을 '계속 유지하라'처럼 본 것처럼 말하지 않습니다. 영상 내용은 관측되지 않았습니다."""
 
 _USER = """# CONTEXT
 - 릴스 URL(식별자, 내용 미관측. URL 경로의 문자열로 영상 내용을 유추하지 말 것): {url}

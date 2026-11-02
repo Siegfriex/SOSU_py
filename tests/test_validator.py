@@ -149,3 +149,33 @@ def test_prescription_validation():
     d = prescription_draft_dict()
     d["prescription"]["diagnosis"] = "TBD"
     assert not validate_prescription(sample_prescription_draft(**d)).ok
+
+
+def test_strengths_are_checked_for_q18():
+    d = diagnosis_draft_dict()
+    d["strengths"][0]["description"] = "제작자가 카메라 앞에서 얼굴을 보여주며 목소리로 설명합니다."
+    report = validate_diagnosis(sample_diagnosis_draft(**d), _c(CreatorDisclosure.NO))
+    assert report.outcome is ValidationOutcome.REPAIRABLE
+    assert any("strengths[0]" in e for e in report.errors)
+
+
+def test_compliant_framing_is_not_a_violation():
+    for text in (
+        "얼굴이 나오지 않게 손만 클로즈업",
+        "얼굴은 가리고 손 위주로",
+        "얼굴이 보이지 않도록 목 아래만",
+    ):
+        assert find_violations(text, FACE_KEYWORDS) == [], text
+
+
+def test_spoken_guidance_phrases_are_voice():
+    for text in ("자막과 안내 멘트를 배치", "인터뷰 형식으로 말로 설명"):
+        assert find_violations(text, VOICE_KEYWORDS), text
+
+
+def test_prescription_causal_claim_is_caught():
+    d = prescription_draft_dict()
+    d["prescription"]["diagnosis"] = "높은 시청 지속 덕분에 조회수가 크게 늘었습니다."
+    report = validate_prescription(sample_prescription_draft(**d))
+    assert report.outcome is ValidationOutcome.REPAIRABLE
+    assert any("덕분에" in e for e in report.errors)

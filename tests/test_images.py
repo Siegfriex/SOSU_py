@@ -142,7 +142,7 @@ def test_decode_failure_is_invalid_image_type() -> None:
     with pytest.raises(SosuError) as exc_info:
         normalize_product_image(b"definitely not an image")
     assert exc_info.value.code == ErrorCode.INVALID_IMAGE_TYPE
-    assert "decoded" in exc_info.value.message
+    assert "읽을 수 없" in exc_info.value.message
 
 
 def test_gif_bytes_rejected_even_with_valid_declared_mime() -> None:

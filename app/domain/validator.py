@@ -57,6 +57,10 @@ FACE_KEYWORDS: tuple[str, ...] = (
     "제작자가 직접 등장",
     "제작자가 등장",
     "얼굴을 보여",
+    "얼굴 노출",
+    "작가 등장",
+    "본인 등장",
+    "인터뷰",
     "on-camera",
     "on camera",
     "face",
@@ -73,6 +77,9 @@ VOICE_KEYWORDS: tuple[str, ...] = (
     "음성으로 설명",
     "음성 설명",
     "직접 말하",
+    "말로 설명",
+    "안내 멘트",
+    "육성",
     "voice-over",
     "voiceover",
     "voice over",
@@ -95,6 +102,12 @@ _NEGATION_MARKERS: tuple[str, ...] = (
     "제외",
     "없는",
     "없어도",
+    "않게",
+    "않도록",
+    "말고",
+    "빼고",
+    "가리고",
+    "가린",
     "without",
     "instead",
     "no ",
@@ -206,11 +219,15 @@ def validate_diagnosis(draft: DiagnosisDraftV1, constraint: CreatorConstraint) -
         _check_text(errors, f"strengths[{i}].title", s.title)
         _check_text(errors, f"strengths[{i}].description", s.description)
         texts.append((f"strengths[{i}].description", s.description))
+    # strengths describe how to show the strength in a Reel, so they carry filming suggestions
+    # and must honour Q18 like the other shot-level fields.
+    constraint_texts: list[tuple[str, str]] = [
+        (f"strengths[{i}]", f"{s.title} {s.description}") for i, s in enumerate(draft.strengths)
+    ]
 
     ranks = sorted(p.rank for p in draft.priorities)
     if ranks != [1, 2, 3]:
         errors.append(f"priorities: rank는 정확히 1,2,3이어야 합니다 (현재 {ranks}).")
-    constraint_texts: list[tuple[str, str]] = []
     for i, p in enumerate(draft.priorities):
         _check_text(errors, f"priorities[{i}].title", p.title)
         _check_text(errors, f"priorities[{i}].description", p.description)
@@ -258,6 +275,17 @@ def validate_prescription(
 
     _check_list(errors, "tone.keywords", draft.tone.keywords)
     _check_text(errors, "tone.description", draft.tone.description)
+
+    # Metrics only co-occur; "~덕분에" asserts a cause the screenshots cannot show.
+    for path, value in (
+        ("prescription.summary", draft.prescription.summary),
+        ("prescription.diagnosis", draft.prescription.diagnosis),
+    ):
+        if "덕분에" in value:
+            errors.append(
+                f"{path}: 지표 사이의 관계를 '덕분에'로 인과 단정했습니다. "
+                "'~와 함께 나타났습니다', '~했을 가능성이 있습니다'처럼 바꾸세요."
+            )
 
     if observation is not None or instagram_url:
         evidence = build_grounding_evidence(observation, instagram_url)

@@ -129,6 +129,7 @@ def create_app() -> FastAPI:
     @app.exception_handler(RequestValidationError)
     async def validation_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
         rid = _rid(request)
+        logger.info("request_id=%s error_code=%s", rid, ErrorCode.INVALID_REQUEST)
         err = SosuError(
             ErrorCode.INVALID_REQUEST,
             "요청 형식이 계약과 일치하지 않습니다.",

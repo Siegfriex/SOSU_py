@@ -55,13 +55,13 @@ def validate_upload(content_type: str | None, size_bytes: int, *, max_bytes: int
     if mime not in ACCEPTED_IMAGE_TYPES:
         raise SosuError(
             ErrorCode.INVALID_IMAGE_TYPE,
-            "unsupported image type",
+            "jpg, png, webp 이미지만 올릴 수 있습니다.",
             details=[{"content_type": content_type, "accepted": sorted(ACCEPTED_IMAGE_TYPES)}],
         )
     if size_bytes > max_bytes:
         raise SosuError(
             ErrorCode.IMAGE_TOO_LARGE,
-            "image exceeds size limit",
+            "이미지 용량이 허용 한도를 넘습니다.",
             details=[{"limit_bytes": max_bytes, "actual_bytes": size_bytes}],
         )
 
@@ -70,14 +70,14 @@ def validate_insight_batch(sizes: list[int]) -> None:
     if len(sizes) != INSIGHT_IMAGE_COUNT:
         raise SosuError(
             ErrorCode.INVALID_IMAGE_COUNT,
-            f"exactly {INSIGHT_IMAGE_COUNT} insight screenshots are required",
+            f"인사이트 캡처는 정확히 {INSIGHT_IMAGE_COUNT}장이 필요합니다.",
             details=[{"expected": INSIGHT_IMAGE_COUNT, "actual": len(sizes)}],
         )
     for index, size in enumerate(sizes):
         if size > INSIGHT_IMAGE_MAX_BYTES:
             raise SosuError(
                 ErrorCode.IMAGE_TOO_LARGE,
-                "insight screenshot exceeds per-file size limit",
+                "인사이트 캡처 한 장의 용량이 한도를 넘습니다.",
                 details=[
                     {"index": index, "limit_bytes": INSIGHT_IMAGE_MAX_BYTES, "actual_bytes": size}
                 ],
@@ -86,7 +86,7 @@ def validate_insight_batch(sizes: list[int]) -> None:
     if total > INSIGHT_IMAGES_MAX_TOTAL_BYTES:
         raise SosuError(
             ErrorCode.IMAGE_TOO_LARGE,
-            "insight screenshots exceed combined size limit",
+            "인사이트 캡처 3장의 합계 용량이 한도를 넘습니다.",
             details=[{"limit_bytes": INSIGHT_IMAGES_MAX_TOTAL_BYTES, "actual_bytes": total}],
         )
 
@@ -97,11 +97,11 @@ def _decode(raw: bytes) -> Image.Image:
         image_format = image.format
         image.load()
     except (UnidentifiedImageError, OSError, ValueError) as exc:
-        raise SosuError(ErrorCode.INVALID_IMAGE_TYPE, "image could not be decoded") from exc
+        raise SosuError(ErrorCode.INVALID_IMAGE_TYPE, "이미지 파일을 읽을 수 없습니다.") from exc
     if image_format not in _ACCEPTED_PIL_FORMATS:
         raise SosuError(
             ErrorCode.INVALID_IMAGE_TYPE,
-            "unsupported image format",
+            "jpg, png, webp 이미지만 올릴 수 있습니다.",
             details=[{"detected_format": image_format, "accepted": sorted(_ACCEPTED_PIL_FORMATS)}],
         )
     return image

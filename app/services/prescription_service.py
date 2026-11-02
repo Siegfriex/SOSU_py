@@ -5,7 +5,9 @@ from __future__ import annotations
 import logging
 
 from app.config import Settings, get_settings
+from app.contracts.envelope import ErrorCode
 from app.contracts.prescription import PrescriptionReportV1, PrescriptionRequestV1
+from app.domain.errors import SosuError
 from app.domain.evidence import InsightObservationV1
 from app.domain.validator import validate_prescription
 from app.gemini.gateway import GeminiGateway, GenerationSpec, ImagePart
@@ -89,6 +91,16 @@ class PrescriptionService:
         observation = await self._observe(
             insight_images, locale=request.locale, request_id=request_id
         )
+        if not any(shot.visible_metrics for shot in observation.screenshots):
+            # Not Insight screenshots (or unreadable): a prescription would be generic advice
+            # dressed up as a metric diagnosis, so stop before synthesis.
+            log.info("prescription request_id=%s rejected: no readable metrics", request_id)
+            raise SosuError(
+                ErrorCode.INSUFFICIENT_INPUT,
+                "캡처에서 릴스 인사이트 수치를 읽을 수 없습니다. "
+                "조회수·시청 시간 등이 보이는 인사이트 화면을 캡처해 다시 올려 주세요.",
+                details=[{"reason": "no_readable_metrics"}],
+            )
         draft = await self._synthesize(
             observation,
             instagram_url=request.instagram_url,

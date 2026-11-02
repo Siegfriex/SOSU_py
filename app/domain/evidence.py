@@ -69,7 +69,9 @@ class DeclaredEvidenceV1(BaseModel):
 
     @property
     def has_meaningful_answer(self) -> bool:
-        return bool(self.answered_question_ids)
+        # Q18 is a disclosure constraint, not brand content: a Q18-only survey would yield a
+        # diagnosis with nothing to ground it, so it does not count as a meaningful answer.
+        return any(qid != "q18" for qid in self.answered_question_ids)
 
 
 class VisualObservationV1(BaseModel):
