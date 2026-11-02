@@ -128,12 +128,14 @@ def _sections_prescription(r: PrescriptionReportV1) -> list[tuple[str, list[str]
     ]
 
 
-GUIDEBOOK_TITLE = "SOSU 릴스 가이드북 (전자책 PDF)"
+# The book's own title (cover p.1), shown as the e-mail block heading; the label says what it is.
+GUIDEBOOK_TITLE = "수공예 브랜드가 커지는 릴스 가이드"
+GUIDEBOOK_LABEL = "SOSU 가이드북 · 전자책 PDF"
 GUIDEBOOK_NOTE = "아래 링크에서 가이드북 PDF를 내려받을 수 있어요. 링크는 {days}일 동안 유효합니다."
 GUIDEBOOK_BUTTON = "가이드북 PDF 받기"
 # Quoted from the guidebook back cover (수공예 브랜드가 커지는 릴스 가이드.pdf p.45), not our claim.
 GUIDEBOOK_TAGLINE = (
-    "8개월 간 인스타그램 팔로워 29만 증가, 일일 최고점 조회수 1,700만을 달성한 "
+    "8개월간 인스타그램 팔로워 29만 증가, 일일 최고점 조회수 1,700만을 달성한 "
     "콘텐츠 PD의 수공예 특화 릴스 가이드"
 )
 SITE_URL = "https://sosu-rosy.vercel.app"
@@ -145,9 +147,9 @@ SPAM_NOTE = (
 _READING_DIAGNOSIS: list[tuple[str, str]] = [
     ("추천 릴스 유형", "2장 실전 릴스 유형: 순서·사운드·자막 유형과 나에게 맞는 조합"),
     ("30초 구성", "3장 콘텐츠 기획: 소재 발굴, 스토리보드 짜는 법"),
-    ("30초 구성", "5장 편집: 컷 편집, 릴스 길이, 후킹 설계, 음악 선택"),
+    ("30초 구성", "5장 편집: 컷 편집, 릴스 길이, 데드라인 가이드, 후킹 설계, 음악 선택"),
     ("마무리 가이드", "4장 촬영: 3만 5천 원 장비 리스트, 카메라 세팅, 빛·구도·각도"),
-    ("자막·CTA", "6장 캡션: 캡션 구조, CTA, 캡션과 영상의 관계"),
+    ("30초 구성 (27~30초 CTA)", "6장 캡션: 캡션 구조, CTA, 캡션과 영상의 관계"),
 ]
 _READING_PRESCRIPTION: list[tuple[str, str]] = [
     ("진단", "1장 릴스의 이해: 조회수가 잘 나오는 릴스와 안 나오는 릴스의 차이"),
@@ -240,7 +242,8 @@ def render_report_email(
 
     if guidebook_link:
         note = GUIDEBOOK_NOTE.format(days=guidebook_link_days)
-        t += [f"■ {GUIDEBOOK_TITLE}", GUIDEBOOK_TAGLINE, note, guidebook_link, ""]
+        heading = f"■ {GUIDEBOOK_TITLE} ({GUIDEBOOK_LABEL})"
+        t += [heading, GUIDEBOOK_TAGLINE, note, guidebook_link, ""]
         t.append(
             "  이 진단 내용과 함께 보면 좋은 장" if doc == "릴스 진단서" else "  함께 보면 좋은 장"
         )
@@ -249,7 +252,9 @@ def render_report_email(
         link = escape(guidebook_link, quote=True)
         h += [
             '<div style="background:#f6f3ea;border-radius:12px;padding:20px;margin:0 0 24px">',
-            f'<h2 style="font-size:16px;margin:0 0 6px">{escape(GUIDEBOOK_TITLE)}</h2>',
+            '<p style="margin:0 0 4px;font-size:11px;font-weight:700;color:#8a7d55">'
+            f"{escape(GUIDEBOOK_LABEL)}</p>",
+            f'<h2 style="font-size:17px;margin:0 0 6px">{escape(GUIDEBOOK_TITLE)}</h2>',
             '<p style="margin:0 0 8px;font-size:12px;color:#6b6250">'
             f"{escape(GUIDEBOOK_TAGLINE)}</p>",
             f'<p style="margin:0 0 14px">{escape(note)}</p>',

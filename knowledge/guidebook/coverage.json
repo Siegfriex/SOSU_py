@@ -1,7 +1,7 @@
 {
  "source": {
   "filename": "수공예 브랜드가 커지는 릴스 가이드.pdf",
-  "sha256": "957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3",
+  "sha256": "49e0fee4b5f003fc161a8ac65ba3c3ea30fa9e6e052bad763053be3aec54afc4",
   "pages": 45
  },
  "pages": [
@@ -25,11 +25,11 @@
   },
   {
    "page": 3,
-   "text_chars": 355,
+   "text_chars": 372,
    "text_extracted": true,
    "image_reviewed": false,
    "rule_ids": [],
-   "notes": "목차(최신판 신규) – 장·절 제목과 쪽 번호만, 운영 원칙 없음"
+   "notes": "목차 – 장·절 제목과 인쇄 쪽 번호(PDF 쪽 - 1)만, 운영 원칙 없음; 최종판에서 5-3 인스타 릴스 데드라인 가이드 항목 추가"
   },
   {
    "page": 4,
@@ -87,7 +87,7 @@
   },
   {
    "page": 10,
-   "text_chars": 537,
+   "text_chars": 541,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
@@ -112,7 +112,7 @@
   },
   {
    "page": 12,
-   "text_chars": 384,
+   "text_chars": 385,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
@@ -126,7 +126,7 @@
   },
   {
    "page": 13,
-   "text_chars": 587,
+   "text_chars": 588,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
@@ -139,7 +139,7 @@
     "GB-COMBO-007",
     "GB-PERF-002"
    ],
-   "notes": "조합 라벨 불일치(조합1=B+C+F 중복, 조합2 본문 A+C+E) – 이미지 확인"
+   "notes": "조합 1 A+C+E / 2 A+C+F / 3 B+C+F / 4 B+D+F – 이미지 확인(최종판에서 조합 1 라벨 정정)"
   },
   {
    "page": 14,
@@ -159,7 +159,7 @@
   },
   {
    "page": 16,
-   "text_chars": 356,
+   "text_chars": 353,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
@@ -238,7 +238,7 @@
   },
   {
    "page": 23,
-   "text_chars": 60,
+   "text_chars": 62,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
@@ -248,14 +248,14 @@
   },
   {
    "page": 24,
-   "text_chars": 224,
+   "text_chars": 229,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
     "GB-ANGLE-001",
     "GB-ANGLE-002"
    ],
-   "notes": "각도 라벨 30~43도 vs 본문 30~45도 불일치(이미지 확인); 탑뷰 5방향(정면, 좌우 45도, 좌우 90도)"
+   "notes": "사이드뷰 정면 수평/30~45도(최종판에서 그림 라벨 정정, 이미지 확인); 탑뷰 5방향(정면, 좌우 45도, 좌우 90도)"
   },
   {
    "page": 25,
@@ -275,7 +275,7 @@
   },
   {
    "page": 27,
-   "text_chars": 345,
+   "text_chars": 346,
    "text_extracted": true,
    "image_reviewed": false,
    "rule_ids": [
@@ -300,7 +300,7 @@
     "GB-LEN-003",
     "GB-PERF-004"
    ],
-   "notes": "'원주율'은 '완주율' 오기; 80% 완주 수치는 작가 주장"
+   "notes": "5-2 길이 + 5-3 데드라인 가이드; 80% 완주 수치는 작가 주장"
   },
   {
    "page": 29,
@@ -350,7 +350,7 @@
     "GB-EDIT-006",
     "GB-EDIT-008"
    ],
-   "notes": "9:16 해상도 1080x1950 표기(p28의 1080x1920과 불일치)"
+   "notes": "9:16 해상도 1080x1920(최종판에서 p28과 일치하도록 정정)"
   },
   {
    "page": 33,
@@ -361,7 +361,7 @@
     "GB-COMP-003",
     "GB-EDIT-008"
    ],
-   "notes": "'제목과 자막 위치는 5-2 참고'라 되어 있으나 해당 내용은 5-3"
+   "notes": "'제목과 자막 위치는 5-3 참고'(최종판에서 정정)"
   },
   {
    "page": 34,
@@ -389,7 +389,7 @@
   },
   {
    "page": 36,
-   "text_chars": 120,
+   "text_chars": 119,
    "text_extracted": true,
    "image_reviewed": false,
    "rule_ids": [
@@ -429,7 +429,7 @@
    "page": 40,
    "text_chars": 255,
    "text_extracted": true,
-   "image_reviewed": false,
+   "image_reviewed": true,
    "rule_ids": [
     "GB-HOOK-005",
     "GB-CAP-001",
@@ -437,11 +437,11 @@
     "GB-CAP-003",
     "GB-CTA-009"
    ],
-   "notes": "인쇄 쪽번호 25(PDF 쪽과 불일치)"
+   "notes": "캡션의 구조(카피·본문·CTA) – 이미지 확인"
   },
   {
    "page": 41,
-   "text_chars": 622,
+   "text_chars": 623,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
@@ -453,13 +453,13 @@
     "GB-CTA-010",
     "GB-PERF-007"
    ],
-   "notes": "O/X 예시 캡션 + 고정댓글 예시(튜토리얼 소개 약속) – 이미지 확인; 인쇄 쪽번호 25"
+   "notes": "O/X 예시 캡션 + 고정댓글 예시(튜토리얼 소개 약속) – 이미지 확인"
   },
   {
    "page": 42,
    "text_chars": 405,
    "text_extracted": true,
-   "image_reviewed": false,
+   "image_reviewed": true,
    "rule_ids": [
     "GB-CTA-005",
     "GB-CTA-006",
@@ -467,11 +467,11 @@
     "GB-CTA-008",
     "GB-PERF-007"
    ],
-   "notes": "머리글 '편집'으로 인쇄(캡션 장 내용); 인쇄 쪽번호 28"
+   "notes": "CTA 3유형 목록 – 이미지 확인(최종판에서 머리글 '캡션'으로 정정)"
   },
   {
    "page": 43,
-   "text_chars": 402,
+   "text_chars": 401,
    "text_extracted": true,
    "image_reviewed": true,
    "rule_ids": [
@@ -481,7 +481,7 @@
     "GB-BRAND-002",
     "GB-BRAND-003"
    ],
-   "notes": "O=영상 과정+캡션 의미, X=고객 에피소드 대사 반복 – 이미지 확인; 인쇄 쪽번호 25"
+   "notes": "O=영상 과정+캡션 의미, X=고객 에피소드 대사 반복 – 이미지 확인"
   },
   {
    "page": 44,
@@ -507,14 +507,9 @@
   }
  ],
  "issues": [
-  "p13 조합 라벨: 조합 1과 조합 3이 모두 'B+C+F'로 인쇄됨. 조합 1 설명(가장 빠른 제작·전환 약함)과 조합 2 본문('A+C+E 조합은…')을 보면 조합 1은 A+C+E일 가능성이 있음 → GB-COMBO-002/003/004의 caution에 기록, 라벨은 인쇄 그대로.",
+  "최종판(gb2-49e0fee4)에서 정정되어 해소: p13 조합 1 라벨 'B+C+F'(조합 3과 중복) → 'A+C+E'; p24 각도 그림 라벨 '30~43도' → '30~45도'; p28 '원주율' → '완주율'; p32 '1080x1950' → '1080x1920'; p33 '5-2 참고' → '5-3 참고'; p42 머리글 '편집' → '캡션'. 관련 caution(GB-COMBO-002/003/004, GB-ANGLE-001, GB-LEN-003, GB-COMP-002/003, GB-EDIT-008, GB-CTA-005)을 제거·수정함.",
   "p13 'B+D+F가 국내에서 가장 많이 사용' → 통계 근거 없음, author_experience(GB-COMBO-006).",
-  "p24 각도: 그림 라벨 '30~43도' vs 본문 '30~45도' → 본문(30~45도) 채택, caution 기록(GB-ANGLE-001).",
-  "p32 9:16 해상도 '1080x1950' vs p28 '1080x1920' → 1080x1920(표준 9:16) 채택, caution 기록(GB-COMP-002, GB-EDIT-008).",
-  "p33 '제목과 자막 위치는 5-2 참고' → 실제 내용은 5-3(p28) (GB-COMP-003).",
-  "p42 머리글이 '편집'으로 인쇄되었으나 6장 캡션 내용(GB-CTA-005).",
-  "p40~p44 인쇄 쪽번호(25, 28 반복)가 PDF 쪽과 불일치 → 모든 source_pages는 1-based PDF 쪽 번호.",
-  "p28 '원주율' → '완주율' 오기로 해석(GB-LEN-003).",
+  "인쇄 쪽번호는 PDF 쪽 - 1(표지 제외)이며 목차(p3)도 인쇄 쪽번호를 씀 → 모든 source_pages는 1-based PDF 쪽 번호.",
   "p28 '30초 이하 완주 80% 이상', p29/p37 '인앱 인기 음악이 알고리즘에 도움', p45 '29만 팔로워·1,700만 조회수' → 근거 미제시 작가 주장(author_experience 또는 caution 표기).",
   "p30 '과정/제작 공개형' 제목이 두 목록에 중복 사용 → 두 번째(숫자형) 목록은 별도 하위 유형으로 해석(GB-HOOK-003).",
   "p43 O/X 해석: 텍스트 추출만으로는 고객 에피소드 캡션을 O로 오인할 수 있었음 → 이미지 확인 결과 X 예시, GB-BRAND-003 내용 정정(ID 유지).",

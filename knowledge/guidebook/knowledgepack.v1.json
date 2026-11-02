@@ -1,10 +1,10 @@
 {
  "schema_version": "1.0",
  "pack_id": "sosu-guidebook",
- "version": "gb2-957e8dc0",
+ "version": "gb2-49e0fee4",
  "source": {
   "filename": "수공예 브랜드가 커지는 릴스 가이드.pdf",
-  "sha256": "957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3",
+  "sha256": "49e0fee4b5f003fc161a8ac65ba3c3ea30fa9e6e052bad763053be3aec54afc4",
   "pages": 45
  },
  "style": {
@@ -79,7 +79,7 @@
    "source_pages": [
     7
    ],
-   "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안나오는 릴스의 차이",
+   "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안 나오는 릴스의 차이",
    "principle": "반응이 좋은 릴스는 궁금함·감탄·필요를 느끼게 만드는 이유가 있고, 단순히 예쁘기만 한 영상은 소비되지 않는다.",
    "applicability": [
     "diagnosis",
@@ -103,7 +103,7 @@
    "source_pages": [
     7
    ],
-   "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안나오는 릴스의 차이",
+   "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안 나오는 릴스의 차이",
    "principle": "가이드의 대비 예시: 완성품을 먼저 보여주고 제작 과정을 궁금하게 만든 영상은 끝까지 시청되고, 감도 높은 그래픽만 있고 전략이 없는 영상은 반응이 낮다.",
    "applicability": [
     "diagnosis",
@@ -429,18 +429,20 @@
    "source_pages": [
     13
    ],
-   "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 1)",
-   "principle": "조합 1 '가장 빠르게 제작 가능': 시각·사운드적으로 강한 요소가 있으면 가장 짧은 시간에 제작해 효과를 볼 수 있으나 공수가 적은 만큼 상품 전환은 떨어진다.",
+   "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 1 A+C+E)",
+   "principle": "조합 1 A+C+E '가장 빠르게 제작 가능': 시각·사운드적으로 강한 요소가 있으면 가장 짧은 시간에 제작해 효과를 볼 수 있으나 공수가 적은 만큼 상품 전환은 떨어진다.",
    "applicability": [
     "diagnosis"
    ],
-   "recommended_action": "강한 소리·장면을 가진 브랜드가 빠른 노출을 원할 때 '빠른 제작' 조합을 제안하고, 전환이 약하다는 한계를 함께 알린다.",
-   "exceptions_or_cautions": "인쇄된 라벨은 'B+C+F'로 조합 3과 동일하나, 본문 설명(빠름·전환 약함)과 조합 2 본문은 A+C+E를 가리키는 것으로 보임. 해석 미확정.",
+   "recommended_action": "강한 소리·장면을 가진 브랜드가 빠른 노출을 원할 때 '빠른 제작' 조합 A+C+E를 제안하고, 전환이 약하다는 한계를 함께 알린다.",
+   "exceptions_or_cautions": null,
    "evidence_type": "guidebook_principle",
    "tags": [
     "combination",
     "combo_fast",
+    "type_a",
     "type_c",
+    "type_e",
     "consistency_difficulty",
     "q16_consistency_difficulty",
     "low_reach",
@@ -455,13 +457,13 @@
     13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 2 A+C+F)",
-   "principle": "조합 2 A+C+F '약한 전환구조를 보완': A+C+E는 빠르게 노출을 얻지만 문자·언어가 없어 전환에 약하므로, 자막이나 나레이션을 더해 전환을 보완한다.",
+   "principle": "조합 2 A+C+F '약한 전환 구조를 보완': 조합 1 A+C+E는 빠르게 노출을 얻지만 문자·언어가 없어 전환에 약하므로, 자막이나 나레이션을 더해 전환을 보완한다.",
    "applicability": [
     "diagnosis",
     "prescription"
    ],
    "recommended_action": "노출은 되는데 구매로 이어지지 않으면 기존 구조에 자막/나레이션(F)을 추가해 구매 안내를 넣는다.",
-   "exceptions_or_cautions": "본문은 A+C+E를 출발점으로 설명하고 라벨은 A+C+F임. 조합 1 라벨 오기 가능성 있음.",
+   "exceptions_or_cautions": null,
    "evidence_type": "guidebook_principle",
    "tags": [
     "combination",
@@ -481,13 +483,13 @@
     13
    ],
    "source_section": "2-4 자신에게 맞는 조합을 찾기 (조합 3 B+C+F)",
-   "principle": "조합 3 B+C+F '오래 유지되는 시청지속시간': 완성품을 먼저 보여 궁금증을 만들고 빠른 컷 전환으로 과정의 처음과 끝을 보여 시청 지속시간을 늘린다.",
+   "principle": "조합 3 B+C+F '오래 유지되는 시청 지속 시간': 완성품을 먼저 보여 궁금증을 만들고 빠른 컷 전환으로 과정의 처음과 끝을 보여 시청 지속시간을 늘린다.",
    "applicability": [
     "diagnosis",
     "prescription"
    ],
    "recommended_action": "작업 소리가 강하고 시청 지속이 짧은 계정에 B+C+F를 제안: 완성 5초 이내 → 빠른 컷의 과정 → 완성.",
-   "exceptions_or_cautions": "조합 1과 라벨이 중복 인쇄됨.",
+   "exceptions_or_cautions": null,
    "evidence_type": "guidebook_principle",
    "tags": [
     "combination",
@@ -657,7 +659,7 @@
     16
    ],
    "source_section": "3-1 소재 발굴 방법 (친숙한 요소)",
-   "principle": "계란 후라이·토마토처럼 대중에게 친숙한 요소를 가져와 만들면 진입 장벽이 낮아진다.",
+   "principle": "계란·토마토처럼 대중에게 친숙한 요소를 가져와 만들면 진입 장벽이 낮아진다.",
    "applicability": [
     "diagnosis",
     "prescription"
@@ -985,7 +987,7 @@
     "prescription"
    ],
    "recommended_action": "제품과 제목을 화면 중앙 3:4 영역 안에 두고 최상단·최하단 띠에는 텍스트를 넣지 않는다.",
-   "exceptions_or_cautions": "5-7(p32)에는 9:16 해상도가 1080x1950으로 표기되어 불일치. 1080x1920이 표준 9:16.",
+   "exceptions_or_cautions": null,
    "evidence_type": "guidebook_principle",
    "tags": [
     "composition",
@@ -1007,7 +1009,7 @@
     "diagnosis"
    ],
    "recommended_action": "제목은 3:4 영역 상단, 자막은 3:4 영역 하단에 두고 브랜드 톤에 맞는 서체 하나를 일관되게 쓴다.",
-   "exceptions_or_cautions": "원문은 '5-2 참고'라 하나 위치 안내는 5-3(p28)에 있음. 서체 종류 추천은 가이드에 없음.",
+   "exceptions_or_cautions": "위치 안내는 5-3(p28) 참고. 서체 종류 추천은 가이드에 없음.",
    "evidence_type": "guidebook_principle",
    "tags": [
     "composition",
@@ -1030,7 +1032,7 @@
     "prescription"
    ],
    "recommended_action": "손에 든 제품은 정면 수평, 놓인 제품은 30~45도 내려다보는 각도로 찍는다.",
-   "exceptions_or_cautions": "그림 라벨은 '30~43도', 본문은 '30~45도'로 표기 불일치.",
+   "exceptions_or_cautions": null,
    "evidence_type": "guidebook_principle",
    "tags": [
     "camera_angle",
@@ -1241,7 +1243,7 @@
     "diagnosis"
    ],
    "recommended_action": "편집이 어렵다는 응답에는 '프로젝트 9:16 → 컷 분할 → 자막 → 나레이션 → 효과음 → 내보내기' 6단계로 요약해 안내한다.",
-   "exceptions_or_cautions": "앱 UI·메뉴명은 버전에 따라 다를 수 있음. p32의 1080x1950 표기는 오기로 보임.",
+   "exceptions_or_cautions": "앱 UI·메뉴명은 버전에 따라 다를 수 있음.",
    "evidence_type": "guidebook_example",
    "tags": [
     "editing",
@@ -1329,7 +1331,7 @@
     "prescription"
    ],
    "recommended_action": "60초가 넘는 영상은 두 편으로 나누거나 시리즈형 CTA로 다음 편을 예고한다.",
-   "exceptions_or_cautions": "원문 '원주율'은 '완주율' 오기로 해석.",
+   "exceptions_or_cautions": null,
    "evidence_type": "guidebook_principle",
    "tags": [
     "video_length",
@@ -1831,7 +1833,7 @@
     "prescription"
    ],
    "recommended_action": "이번 영상의 목적(구매/시리즈/참여)을 먼저 정하고 그에 맞는 CTA 유형 하나만 쓴다.",
-   "exceptions_or_cautions": "p42 상단 머리글이 '편집'으로 인쇄되어 있으나 내용은 캡션 장(6-2).",
+   "exceptions_or_cautions": null,
    "evidence_type": "guidebook_principle",
    "tags": [
     "cta",
@@ -1976,7 +1978,7 @@
    "source_pages": [
     7
    ],
-   "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안나오는 릴스의 차이",
+   "source_section": "1-2 조회수가 잘 나오는 릴스 VS 안 나오는 릴스의 차이",
    "principle": "조회수가 낮은 릴스는 궁금함·감탄·필요를 유발하는 장치 없이 예쁘기만 한 경우가 많다고 본다.",
    "applicability": [
     "prescription"

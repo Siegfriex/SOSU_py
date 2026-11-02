@@ -153,7 +153,8 @@ def test_prescription_email_layout() -> None:
     report = PrescriptionReportV1.model_validate(prescription_report_dict())
     subject, text, _ = render_report_email(report, guidebook_link="https://x.test/g?t=1")
     assert subject == "[SOSU] 릴스 처방전"
-    assert text.index("SOSU 릴스 가이드북") < text.index("한눈에 보기") < text.index("■ 처방 요약")
+    heading = "■ 수공예 브랜드가 커지는 릴스 가이드 (SOSU 가이드북 · 전자책 PDF)"
+    assert text.index(heading) < text.index("한눈에 보기") < text.index("■ 처방 요약")
     assert "1장 릴스의 이해" in text and "다음 릴스에서 먼저 할 것" in text
 
 

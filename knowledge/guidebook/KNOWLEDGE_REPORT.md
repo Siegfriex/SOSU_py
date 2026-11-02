@@ -1,8 +1,9 @@
 # SOSU Guidebook Knowledge Report (draft → root `SOSU_GUIDEBOOK_KNOWLEDGE_REPORT.md`)
 
 ## 1. Version / source
-- Pack: `pack_id=sosu-guidebook`, `version=gb2-957e8dc0`, `schema_version=1.0`
-- Source: `수공예 브랜드가 커지는 릴스 가이드.pdf` (owner's final edition, 2026-11-02; byte-identical to the interim `전자본_소수.pdf`) — 45 pages, sha256 `957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3`
+- Pack: `pack_id=sosu-guidebook`, `version=gb2-49e0fee4`, `schema_version=1.0`
+- Source: `수공예 브랜드가 커지는 릴스 가이드.pdf` (owner's FINAL edition, 2026-11-03) — 45 pages, 18,680,996 bytes, sha256 `49e0fee4b5f003fc161a8ac65ba3c3ea30fa9e6e052bad763053be3aec54afc4`
+- 2026-11-03 re-source (`gb2-957e8dc0` → `gb2-49e0fee4`): the final edition keeps the 45-page layout (every page matched itself, no `source_pages` moved) and is a proofreading pass (spacing, punctuation, typos on 34 pages). It fixes six printed inconsistencies the pack had recorded: p13 combo 1 label `B+C+F` → `A+C+E`; p24 angle label 30~43도 → 30~45도; p28 '원주율' → '완주율'; p32 1080x1950 → 1080x1920; p33 '5-2 참고' → '5-3 참고'; p42 running header 편집 → 캡션. The matching cautions were removed (GB-COMBO-002/003/004, GB-ANGLE-001, GB-LEN-003, GB-COMP-002/003, GB-EDIT-008, GB-CTA-005); GB-COMBO-002 now names A+C+E and carries the type_a/type_e tags. Wording follows the new text: '안 나오는' (1-2 section title), '약한 전환 구조를 보완', '오래 유지되는 시청 지속 시간', '계란·토마토' (p16 dropped '후라이'). The table of contents (p3) now lists 5-3. The old notes claiming printed page numbers 25/28 on p40–43 were stale (both editions print PDF page − 1) and were corrected. p13, p16, p24, p40–43 were re-checked as images. No rule lost its support; rule IDs and count (93) unchanged.
 - 2026-11-02 re-source: rules were authored against `가이드북 2차.pdf` (`gb2-5edea367`). The latest edition adds a table of contents (p3), moves the cover copy to the back cover (p45) and shifts body pages by -1; every `source_pages`, page note and image-review mark was remapped by per-page text matching (similarity ≥ 0.68, body pages 0.99+). Wording the edition changed: '1.7천만' → '1,700만'; the '1배속은 느려 건너뛸 확률이 오른다' sentence was removed, so GB-MUSIC-005 and the narration-speed rule now only state the 1.2~1.5x setting. Rule IDs and count (93) unchanged.
 - The PDF is the owner's proprietary asset. It is **not** copied into the repo, and neither is its raw text. Only the hash, per-page character counts (`knowledge/tools/page_chars.json`) and paraphrased rules are stored.
 - READY marker: `knowledge/guidebook/READY` was written at `2026-10-18T13:38:49+09:00` with 90 rules. Three rules were appended after that point (GB-COMP-003, GB-CTA-009, GB-CTA-010), so the current total is **93**. IDs are frozen and append-only: no ID was renumbered or deleted, and GB-BRAND-003 kept its ID when its content was corrected.
@@ -90,13 +91,14 @@ The full detail is in `task_mapping.md`. In short:
 
 ## 6. Unresolved ambiguities
 These are recorded as printed and not silently resolved. The full list is in `coverage.md`.
-1. **p14 combo labels.** Combo 1 and combo 3 are both printed as `B+C+F`. Combo 1's description and combo 2's body ("A+C+E 조합은…") suggest combo 1 may be A+C+E. Agent B should not present combo 1's label as authoritative; GB-COMBO-002 carries a caution saying so.
-2. **p25 angle.** The illustration label says 30~43°; the body text says 30~45°. The body value is used.
-3. **p33 resolution.** p33 gives 1080x1950, while p29 gives 1080x1920. 1080x1920 is used.
-4. **p34 cross-reference.** p34 says "5-2 참고", but the matching content is in 5-3.
-5. **p43 header.** The running header reads "편집", but the page belongs to the caption chapter.
-6. **Printed page numbers.** On p41–45 the printed numbers (25/28) do not match the PDF pages. All provenance uses PDF page numbers.
-7. **p29 typo.** "원주율" is read as 완주율.
+Items 1–5 and 7 below were resolved by the final edition (`gb2-49e0fee4`, 2026-11-03); item 6's earlier '25/28' note was stale and is corrected. Current PDF pages are given in brackets (older page numbers in this report follow `가이드북 2차.pdf`).
+1. ~~**p14 combo labels.**~~ Resolved [p13]: combo 1 is now printed `A+C+E`; GB-COMBO-002 names it and its caution was removed.
+2. ~~**p25 angle.**~~ Resolved [p24]: the illustration label now reads 30~45도, matching the body.
+3. ~~**p33 resolution.**~~ Resolved [p32]: now 1080x1920, matching the deadline guide [p28].
+4. ~~**p34 cross-reference.**~~ Resolved [p33]: now "5-3 참고".
+5. ~~**p43 header.**~~ Resolved [p42]: the running header now reads "캡션".
+6. **Printed page numbers.** The printed number is PDF page − 1 (the earlier "25/28" note was stale); the table of contents uses printed numbers. All provenance uses PDF page numbers.
+7. ~~**p29 typo.**~~ Resolved [p28]: now "완주율".
 8. **Algorithm and completion claims** (p29, p30, p38) are unsupported author claims.
 9. **No dedicated insights/metrics chapter** exists in the guide. The performance_interpretation rules are derived interpretations, and their cautions say so.
 10. **No font guidance** exists in the guide. The `fonts` section can rely only on text position (p29) and applying a font (p34).

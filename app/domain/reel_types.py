@@ -1,4 +1,4 @@
-"""Guidebook reel types (가이드북 2차 pp.11-14, rules GB-TYPE-* / GB-COMBO-*).
+"""Guidebook reel types (가이드북 최종판 PDF pp.10-13, 2장; rules GB-TYPE-* / GB-COMBO-*).
 
 A diagnosis recommends one type per axis — order (A/B), sound (C/D), caption (E/F) — and the
 three together form the combination (e.g. B+D+F). The model only picks the letter; the public

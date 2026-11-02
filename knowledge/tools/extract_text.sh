@@ -5,7 +5,7 @@
 # Usage: extract_text.sh <path-to-guidebook.pdf> <scratch_out_dir> [render_pages...]
 set -euo pipefail
 PDF="$1"; OUT="$2"; shift 2
-EXPECTED=957e8dc0b6eb66d2f073b778905f7f14df76958726cb91f8406c8baa8c822cb3  # 수공예 브랜드가 커지는 릴스 가이드.pdf (final, 2026-11-02)
+EXPECTED=49e0fee4b5f003fc161a8ac65ba3c3ea30fa9e6e052bad763053be3aec54afc4  # 수공예 브랜드가 커지는 릴스 가이드.pdf (final edition, 2026-11-03)
 HERE="$(cd "$(dirname "$0")" && pwd)"
 actual=$(sha256sum "$PDF" | cut -d' ' -f1)
 [ "$actual" = "$EXPECTED" ] || { echo "sha256 mismatch: $actual" >&2; exit 1; }
