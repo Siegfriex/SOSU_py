@@ -17,7 +17,7 @@ Live: API `https://sosu-py.vercel.app` (`/api/v1/health`, `/api/v1/features`) ·
 multipart (payload JSON + images)
   → request validation · image normalisation (type sniffing, size caps, re-encode)
   → [observe]   visual-observation-v1 / insight-observation-v2   (only when images are present)
-  → [synthesise] diagnosis-v3 / prescription-v3  + guidebook KnowledgePack block (gb2-49e0fee4, 93 rules)
+  → [synthesise] diagnosis-v4 / prescription-v4  + guidebook KnowledgePack block (gb2-49e0fee4, 93 rules)
   → domain validator (placeholders, Q18 face/voice constraint, evidence grounding)
        PASS → response · REPAIRABLE → repair-v1 once → re-validate · FATAL → typed error
   → envelope {ok, request_id, contract_version, data | error}
@@ -115,7 +115,7 @@ network call.
 ## Quality gates
 
 ```bash
-uv run pytest                      # 414 passed, 1 skipped (live test opt-in)
+uv run pytest                      # 445 passed, 1 skipped (live test opt-in)
 uv run ruff check && uv run ruff format --check
 uv run mypy
 uv run python scripts/check_openapi.py                    # committed contract == runtime
